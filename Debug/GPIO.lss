@@ -1,0 +1,2389 @@
+
+GPIO.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000dec  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000002  00800060  00000dec  00000e80  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  00800062  00800062  00000e82  2**0
+                  ALLOC
+  3 .stab         00001500  00000000  00000000  00000e84  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      000009ad  00000000  00000000  00002384  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec ee       	ldi	r30, 0xEC	; 236
+  68:	fd e0       	ldi	r31, 0x0D	; 13
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	a2 36       	cpi	r26, 0x62	; 98
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+  76:	10 e0       	ldi	r17, 0x00	; 0
+  78:	a2 e6       	ldi	r26, 0x62	; 98
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a3 36       	cpi	r26, 0x63	; 99
+  82:	b1 07       	cpc	r27, r17
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 49 01 	call	0x292	; 0x292 <main>
+  8a:	0c 94 f4 06 	jmp	0xde8	; 0xde8 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <GPIO_REQ7>:
+}En_GpioReq9State_t;
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void GPIO_REQ7(void)
+{
+  92:	df 93       	push	r29
+  94:	cf 93       	push	r28
+  96:	00 d0       	rcall	.+0      	; 0x98 <GPIO_REQ7+0x6>
+  98:	00 d0       	rcall	.+0      	; 0x9a <GPIO_REQ7+0x8>
+  9a:	0f 92       	push	r0
+  9c:	cd b7       	in	r28, 0x3d	; 61
+  9e:	de b7       	in	r29, 0x3e	; 62
+	uint8_t u8_countUpCounter = 0;
+  a0:	1d 82       	std	Y+5, r1	; 0x05
+	uint32_t u32_delayCounter = 0;
+  a2:	19 82       	std	Y+1, r1	; 0x01
+  a4:	1a 82       	std	Y+2, r1	; 0x02
+  a6:	1b 82       	std	Y+3, r1	; 0x03
+  a8:	1c 82       	std	Y+4, r1	; 0x04
+
+	sevenSegInit(SEG_0);
+  aa:	80 e0       	ldi	r24, 0x00	; 0
+  ac:	0e 94 95 05 	call	0xb2a	; 0xb2a <sevenSegInit>
+	sevenSegInit(SEG_1);
+  b0:	81 e0       	ldi	r24, 0x01	; 1
+  b2:	0e 94 95 05 	call	0xb2a	; 0xb2a <sevenSegInit>
+  b6:	52 c0       	rjmp	.+164    	; 0x15c <GPIO_REQ7+0xca>
+
+	while(1)
+	{
+		while(u8_countUpCounter <= 99)
+		{
+			sevenSegEnable(SEG_0);
+  b8:	80 e0       	ldi	r24, 0x00	; 0
+  ba:	0e 94 e0 05 	call	0xbc0	; 0xbc0 <sevenSegEnable>
+			sevenSegWrite(SEG_0, ((u8_countUpCounter / 10) % 10));
+  be:	8d 81       	ldd	r24, Y+5	; 0x05
+  c0:	9a e0       	ldi	r25, 0x0A	; 10
+  c2:	69 2f       	mov	r22, r25
+  c4:	0e 94 c6 06 	call	0xd8c	; 0xd8c <__udivmodqi4>
+  c8:	9a e0       	ldi	r25, 0x0A	; 10
+  ca:	69 2f       	mov	r22, r25
+  cc:	0e 94 c6 06 	call	0xd8c	; 0xd8c <__udivmodqi4>
+  d0:	89 2f       	mov	r24, r25
+  d2:	98 2f       	mov	r25, r24
+  d4:	80 e0       	ldi	r24, 0x00	; 0
+  d6:	69 2f       	mov	r22, r25
+  d8:	0e 94 38 06 	call	0xc70	; 0xc70 <sevenSegWrite>
+			softwareDelayMs(1);
+  dc:	61 e0       	ldi	r22, 0x01	; 1
+  de:	70 e0       	ldi	r23, 0x00	; 0
+  e0:	80 e0       	ldi	r24, 0x00	; 0
+  e2:	90 e0       	ldi	r25, 0x00	; 0
+  e4:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+			sevenSegDisable(SEG_0);
+  e8:	80 e0       	ldi	r24, 0x00	; 0
+  ea:	0e 94 0d 06 	call	0xc1a	; 0xc1a <sevenSegDisable>
+
+			sevenSegEnable(SEG_1);
+  ee:	81 e0       	ldi	r24, 0x01	; 1
+  f0:	0e 94 e0 05 	call	0xbc0	; 0xbc0 <sevenSegEnable>
+			sevenSegWrite(SEG_1, (u8_countUpCounter % 10));
+  f4:	8d 81       	ldd	r24, Y+5	; 0x05
+  f6:	9a e0       	ldi	r25, 0x0A	; 10
+  f8:	69 2f       	mov	r22, r25
+  fa:	0e 94 c6 06 	call	0xd8c	; 0xd8c <__udivmodqi4>
+  fe:	89 2f       	mov	r24, r25
+ 100:	98 2f       	mov	r25, r24
+ 102:	81 e0       	ldi	r24, 0x01	; 1
+ 104:	69 2f       	mov	r22, r25
+ 106:	0e 94 38 06 	call	0xc70	; 0xc70 <sevenSegWrite>
+			softwareDelayMs(1);
+ 10a:	61 e0       	ldi	r22, 0x01	; 1
+ 10c:	70 e0       	ldi	r23, 0x00	; 0
+ 10e:	80 e0       	ldi	r24, 0x00	; 0
+ 110:	90 e0       	ldi	r25, 0x00	; 0
+ 112:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+			sevenSegDisable(SEG_1);
+ 116:	81 e0       	ldi	r24, 0x01	; 1
+ 118:	0e 94 0d 06 	call	0xc1a	; 0xc1a <sevenSegDisable>
+
+			u32_delayCounter++;
+ 11c:	89 81       	ldd	r24, Y+1	; 0x01
+ 11e:	9a 81       	ldd	r25, Y+2	; 0x02
+ 120:	ab 81       	ldd	r26, Y+3	; 0x03
+ 122:	bc 81       	ldd	r27, Y+4	; 0x04
+ 124:	01 96       	adiw	r24, 0x01	; 1
+ 126:	a1 1d       	adc	r26, r1
+ 128:	b1 1d       	adc	r27, r1
+ 12a:	89 83       	std	Y+1, r24	; 0x01
+ 12c:	9a 83       	std	Y+2, r25	; 0x02
+ 12e:	ab 83       	std	Y+3, r26	; 0x03
+ 130:	bc 83       	std	Y+4, r27	; 0x04
+
+			if(u32_delayCounter % 469 == 0)
+ 132:	89 81       	ldd	r24, Y+1	; 0x01
+ 134:	9a 81       	ldd	r25, Y+2	; 0x02
+ 136:	ab 81       	ldd	r26, Y+3	; 0x03
+ 138:	bc 81       	ldd	r27, Y+4	; 0x04
+ 13a:	25 ed       	ldi	r18, 0xD5	; 213
+ 13c:	31 e0       	ldi	r19, 0x01	; 1
+ 13e:	40 e0       	ldi	r20, 0x00	; 0
+ 140:	50 e0       	ldi	r21, 0x00	; 0
+ 142:	bc 01       	movw	r22, r24
+ 144:	cd 01       	movw	r24, r26
+ 146:	0e 94 d2 06 	call	0xda4	; 0xda4 <__udivmodsi4>
+ 14a:	dc 01       	movw	r26, r24
+ 14c:	cb 01       	movw	r24, r22
+ 14e:	00 97       	sbiw	r24, 0x00	; 0
+ 150:	a1 05       	cpc	r26, r1
+ 152:	b1 05       	cpc	r27, r1
+ 154:	19 f4       	brne	.+6      	; 0x15c <GPIO_REQ7+0xca>
+				u8_countUpCounter++;
+ 156:	8d 81       	ldd	r24, Y+5	; 0x05
+ 158:	8f 5f       	subi	r24, 0xFF	; 255
+ 15a:	8d 83       	std	Y+5, r24	; 0x05
+	sevenSegInit(SEG_0);
+	sevenSegInit(SEG_1);
+
+	while(1)
+	{
+		while(u8_countUpCounter <= 99)
+ 15c:	8d 81       	ldd	r24, Y+5	; 0x05
+ 15e:	84 36       	cpi	r24, 0x64	; 100
+ 160:	08 f4       	brcc	.+2      	; 0x164 <GPIO_REQ7+0xd2>
+ 162:	aa cf       	rjmp	.-172    	; 0xb8 <GPIO_REQ7+0x26>
+ 164:	fb cf       	rjmp	.-10     	; 0x15c <GPIO_REQ7+0xca>
+
+00000166 <GPIO_REQ8>:
+		}
+	}
+}
+
+void GPIO_REQ8(void)
+{
+ 166:	df 93       	push	r29
+ 168:	cf 93       	push	r28
+ 16a:	00 d0       	rcall	.+0      	; 0x16c <GPIO_REQ8+0x6>
+ 16c:	cd b7       	in	r28, 0x3d	; 61
+ 16e:	de b7       	in	r29, 0x3e	; 62
+	uint8_t u8_appCounter = 0, u8_delayDivider = 20;
+ 170:	1a 82       	std	Y+2, r1	; 0x02
+ 172:	84 e1       	ldi	r24, 0x14	; 20
+ 174:	89 83       	std	Y+1, r24	; 0x01
+
+	Led_Init(LED_1);
+ 176:	81 e0       	ldi	r24, 0x01	; 1
+ 178:	0e 94 f7 03 	call	0x7ee	; 0x7ee <Led_Init>
+	pushButtonInit(BTN_1);
+ 17c:	81 e0       	ldi	r24, 0x01	; 1
+ 17e:	0e 94 ff 04 	call	0x9fe	; 0x9fe <pushButtonInit>
+
+	while(1)
+	{
+		u8_delayDivider = 20;
+ 182:	84 e1       	ldi	r24, 0x14	; 20
+ 184:	89 83       	std	Y+1, r24	; 0x01
+		if(pushButtonGetStatus(BTN_1) == Pressed)
+ 186:	81 e0       	ldi	r24, 0x01	; 1
+ 188:	0e 94 2d 05 	call	0xa5a	; 0xa5a <pushButtonGetStatus>
+ 18c:	82 30       	cpi	r24, 0x02	; 2
+ 18e:	c9 f7       	brne	.-14     	; 0x182 <GPIO_REQ8+0x1c>
+		{
+			while(pushButtonGetStatus(BTN_1) != Released);
+ 190:	81 e0       	ldi	r24, 0x01	; 1
+ 192:	0e 94 2d 05 	call	0xa5a	; 0xa5a <pushButtonGetStatus>
+ 196:	88 23       	and	r24, r24
+ 198:	d9 f7       	brne	.-10     	; 0x190 <GPIO_REQ8+0x2a>
+			u8_appCounter++;
+ 19a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 19c:	8f 5f       	subi	r24, 0xFF	; 255
+ 19e:	8a 83       	std	Y+2, r24	; 0x02
+ 1a0:	24 c0       	rjmp	.+72     	; 0x1ea <GPIO_REQ8+0x84>
+			while(u8_appCounter > 0)
+			{
+				Led_On(LED_1);
+ 1a2:	81 e0       	ldi	r24, 0x01	; 1
+ 1a4:	0e 94 3a 04 	call	0x874	; 0x874 <Led_On>
+ 1a8:	17 c0       	rjmp	.+46     	; 0x1d8 <GPIO_REQ8+0x72>
+				while(u8_delayDivider > 0)
+				{
+					softwareDelayMs(49);
+ 1aa:	61 e3       	ldi	r22, 0x31	; 49
+ 1ac:	70 e0       	ldi	r23, 0x00	; 0
+ 1ae:	80 e0       	ldi	r24, 0x00	; 0
+ 1b0:	90 e0       	ldi	r25, 0x00	; 0
+ 1b2:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+					if(pushButtonGetStatus(BTN_1) == Pressed)
+ 1b6:	81 e0       	ldi	r24, 0x01	; 1
+ 1b8:	0e 94 2d 05 	call	0xa5a	; 0xa5a <pushButtonGetStatus>
+ 1bc:	82 30       	cpi	r24, 0x02	; 2
+ 1be:	49 f4       	brne	.+18     	; 0x1d2 <GPIO_REQ8+0x6c>
+					{
+						softwareDelayMs(300);
+ 1c0:	6c e2       	ldi	r22, 0x2C	; 44
+ 1c2:	71 e0       	ldi	r23, 0x01	; 1
+ 1c4:	80 e0       	ldi	r24, 0x00	; 0
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+						u8_delayDivider += 14;
+ 1cc:	89 81       	ldd	r24, Y+1	; 0x01
+ 1ce:	82 5f       	subi	r24, 0xF2	; 242
+ 1d0:	89 83       	std	Y+1, r24	; 0x01
+					}
+					u8_delayDivider--;
+ 1d2:	89 81       	ldd	r24, Y+1	; 0x01
+ 1d4:	81 50       	subi	r24, 0x01	; 1
+ 1d6:	89 83       	std	Y+1, r24	; 0x01
+			while(pushButtonGetStatus(BTN_1) != Released);
+			u8_appCounter++;
+			while(u8_appCounter > 0)
+			{
+				Led_On(LED_1);
+				while(u8_delayDivider > 0)
+ 1d8:	89 81       	ldd	r24, Y+1	; 0x01
+ 1da:	88 23       	and	r24, r24
+ 1dc:	31 f7       	brne	.-52     	; 0x1aa <GPIO_REQ8+0x44>
+						softwareDelayMs(300);
+						u8_delayDivider += 14;
+					}
+					u8_delayDivider--;
+				}
+				Led_Off(LED_1);
+ 1de:	81 e0       	ldi	r24, 0x01	; 1
+ 1e0:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+				u8_appCounter--;
+ 1e4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1e6:	81 50       	subi	r24, 0x01	; 1
+ 1e8:	8a 83       	std	Y+2, r24	; 0x02
+		u8_delayDivider = 20;
+		if(pushButtonGetStatus(BTN_1) == Pressed)
+		{
+			while(pushButtonGetStatus(BTN_1) != Released);
+			u8_appCounter++;
+			while(u8_appCounter > 0)
+ 1ea:	8a 81       	ldd	r24, Y+2	; 0x02
+ 1ec:	88 23       	and	r24, r24
+ 1ee:	c9 f6       	brne	.-78     	; 0x1a2 <GPIO_REQ8+0x3c>
+				Led_Off(LED_1);
+				u8_appCounter--;
+			}
+			break;
+		}
+	}
+ 1f0:	0f 90       	pop	r0
+ 1f2:	0f 90       	pop	r0
+ 1f4:	cf 91       	pop	r28
+ 1f6:	df 91       	pop	r29
+ 1f8:	08 95       	ret
+
+000001fa <GPIO_REQ9>:
+}
+
+void GPIO_REQ9(void)
+{
+ 1fa:	df 93       	push	r29
+ 1fc:	cf 93       	push	r28
+ 1fe:	00 d0       	rcall	.+0      	; 0x200 <GPIO_REQ9+0x6>
+ 200:	0f 92       	push	r0
+ 202:	cd b7       	in	r28, 0x3d	; 61
+ 204:	de b7       	in	r29, 0x3e	; 62
+	uint8_t u8_currentState = GO;
+ 206:	19 82       	std	Y+1, r1	; 0x01
+
+	Led_Init(LED_1);
+ 208:	81 e0       	ldi	r24, 0x01	; 1
+ 20a:	0e 94 f7 03 	call	0x7ee	; 0x7ee <Led_Init>
+	Led_Init(LED_2);
+ 20e:	82 e0       	ldi	r24, 0x02	; 2
+ 210:	0e 94 f7 03 	call	0x7ee	; 0x7ee <Led_Init>
+	Led_Init(LED_3);
+ 214:	83 e0       	ldi	r24, 0x03	; 3
+ 216:	0e 94 f7 03 	call	0x7ee	; 0x7ee <Led_Init>
+
+	while(1)
+	{
+		switch(u8_currentState)
+ 21a:	89 81       	ldd	r24, Y+1	; 0x01
+ 21c:	28 2f       	mov	r18, r24
+ 21e:	30 e0       	ldi	r19, 0x00	; 0
+ 220:	3b 83       	std	Y+3, r19	; 0x03
+ 222:	2a 83       	std	Y+2, r18	; 0x02
+ 224:	8a 81       	ldd	r24, Y+2	; 0x02
+ 226:	9b 81       	ldd	r25, Y+3	; 0x03
+ 228:	81 30       	cpi	r24, 0x01	; 1
+ 22a:	91 05       	cpc	r25, r1
+ 22c:	a9 f0       	breq	.+42     	; 0x258 <GPIO_REQ9+0x5e>
+ 22e:	2a 81       	ldd	r18, Y+2	; 0x02
+ 230:	3b 81       	ldd	r19, Y+3	; 0x03
+ 232:	22 30       	cpi	r18, 0x02	; 2
+ 234:	31 05       	cpc	r19, r1
+ 236:	e1 f0       	breq	.+56     	; 0x270 <GPIO_REQ9+0x76>
+ 238:	8a 81       	ldd	r24, Y+2	; 0x02
+ 23a:	9b 81       	ldd	r25, Y+3	; 0x03
+ 23c:	00 97       	sbiw	r24, 0x00	; 0
+ 23e:	11 f5       	brne	.+68     	; 0x284 <GPIO_REQ9+0x8a>
+		{
+		case GO:
+			Led_On(LED_1);
+ 240:	81 e0       	ldi	r24, 0x01	; 1
+ 242:	0e 94 3a 04 	call	0x874	; 0x874 <Led_On>
+			Led_Off(LED_2);
+ 246:	82 e0       	ldi	r24, 0x02	; 2
+ 248:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			Led_Off(LED_3);
+ 24c:	83 e0       	ldi	r24, 0x03	; 3
+ 24e:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			u8_currentState = STOP;
+ 252:	81 e0       	ldi	r24, 0x01	; 1
+ 254:	89 83       	std	Y+1, r24	; 0x01
+ 256:	16 c0       	rjmp	.+44     	; 0x284 <GPIO_REQ9+0x8a>
+			break;
+		case STOP:
+			Led_Off(LED_1);
+ 258:	81 e0       	ldi	r24, 0x01	; 1
+ 25a:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			Led_On(LED_2);
+ 25e:	82 e0       	ldi	r24, 0x02	; 2
+ 260:	0e 94 3a 04 	call	0x874	; 0x874 <Led_On>
+			Led_Off(LED_3);
+ 264:	83 e0       	ldi	r24, 0x03	; 3
+ 266:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			u8_currentState = GET_READY;
+ 26a:	82 e0       	ldi	r24, 0x02	; 2
+ 26c:	89 83       	std	Y+1, r24	; 0x01
+ 26e:	0a c0       	rjmp	.+20     	; 0x284 <GPIO_REQ9+0x8a>
+			break;
+		case GET_READY:
+			Led_Off(LED_1);
+ 270:	81 e0       	ldi	r24, 0x01	; 1
+ 272:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			Led_Off(LED_2);
+ 276:	82 e0       	ldi	r24, 0x02	; 2
+ 278:	0e 94 7d 04 	call	0x8fa	; 0x8fa <Led_Off>
+			Led_On(LED_3);
+ 27c:	83 e0       	ldi	r24, 0x03	; 3
+ 27e:	0e 94 3a 04 	call	0x874	; 0x874 <Led_On>
+			u8_currentState = GO;
+ 282:	19 82       	std	Y+1, r1	; 0x01
+			break;
+		}
+		softwareDelayMs(1000);
+ 284:	68 ee       	ldi	r22, 0xE8	; 232
+ 286:	73 e0       	ldi	r23, 0x03	; 3
+ 288:	80 e0       	ldi	r24, 0x00	; 0
+ 28a:	90 e0       	ldi	r25, 0x00	; 0
+ 28c:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+ 290:	c4 cf       	rjmp	.-120    	; 0x21a <GPIO_REQ9+0x20>
+
+00000292 <main>:
+	}
+}
+
+int main(void)
+{
+ 292:	df 93       	push	r29
+ 294:	cf 93       	push	r28
+ 296:	cd b7       	in	r28, 0x3d	; 61
+ 298:	de b7       	in	r29, 0x3e	; 62
+ 29a:	ff cf       	rjmp	.-2      	; 0x29a <main+0x8>
+
+0000029c <gpioPortDirection>:
+
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void gpioPortDirection(uint8_t u8_port, uint8_t u8_direction)
+{
+ 29c:	df 93       	push	r29
+ 29e:	cf 93       	push	r28
+ 2a0:	00 d0       	rcall	.+0      	; 0x2a2 <gpioPortDirection+0x6>
+ 2a2:	00 d0       	rcall	.+0      	; 0x2a4 <gpioPortDirection+0x8>
+ 2a4:	cd b7       	in	r28, 0x3d	; 61
+ 2a6:	de b7       	in	r29, 0x3e	; 62
+ 2a8:	89 83       	std	Y+1, r24	; 0x01
+ 2aa:	6a 83       	std	Y+2, r22	; 0x02
+	/* A switch-case statement to decide which port to manipulate its direction */
+	switch(u8_port)
+ 2ac:	89 81       	ldd	r24, Y+1	; 0x01
+ 2ae:	28 2f       	mov	r18, r24
+ 2b0:	30 e0       	ldi	r19, 0x00	; 0
+ 2b2:	3c 83       	std	Y+4, r19	; 0x04
+ 2b4:	2b 83       	std	Y+3, r18	; 0x03
+ 2b6:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2b8:	9c 81       	ldd	r25, Y+4	; 0x04
+ 2ba:	81 30       	cpi	r24, 0x01	; 1
+ 2bc:	91 05       	cpc	r25, r1
+ 2be:	d1 f0       	breq	.+52     	; 0x2f4 <gpioPortDirection+0x58>
+ 2c0:	2b 81       	ldd	r18, Y+3	; 0x03
+ 2c2:	3c 81       	ldd	r19, Y+4	; 0x04
+ 2c4:	22 30       	cpi	r18, 0x02	; 2
+ 2c6:	31 05       	cpc	r19, r1
+ 2c8:	2c f4       	brge	.+10     	; 0x2d4 <gpioPortDirection+0x38>
+ 2ca:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2cc:	9c 81       	ldd	r25, Y+4	; 0x04
+ 2ce:	00 97       	sbiw	r24, 0x00	; 0
+ 2d0:	61 f0       	breq	.+24     	; 0x2ea <gpioPortDirection+0x4e>
+ 2d2:	1e c0       	rjmp	.+60     	; 0x310 <gpioPortDirection+0x74>
+ 2d4:	2b 81       	ldd	r18, Y+3	; 0x03
+ 2d6:	3c 81       	ldd	r19, Y+4	; 0x04
+ 2d8:	22 30       	cpi	r18, 0x02	; 2
+ 2da:	31 05       	cpc	r19, r1
+ 2dc:	81 f0       	breq	.+32     	; 0x2fe <gpioPortDirection+0x62>
+ 2de:	8b 81       	ldd	r24, Y+3	; 0x03
+ 2e0:	9c 81       	ldd	r25, Y+4	; 0x04
+ 2e2:	83 30       	cpi	r24, 0x03	; 3
+ 2e4:	91 05       	cpc	r25, r1
+ 2e6:	81 f0       	breq	.+32     	; 0x308 <gpioPortDirection+0x6c>
+ 2e8:	13 c0       	rjmp	.+38     	; 0x310 <gpioPortDirection+0x74>
+	{
+	case GPIOA:
+		PORTA_DIR = u8_direction;
+ 2ea:	ea e3       	ldi	r30, 0x3A	; 58
+ 2ec:	f0 e0       	ldi	r31, 0x00	; 0
+ 2ee:	8a 81       	ldd	r24, Y+2	; 0x02
+ 2f0:	80 83       	st	Z, r24
+ 2f2:	0e c0       	rjmp	.+28     	; 0x310 <gpioPortDirection+0x74>
+		break;
+	case GPIOB:
+		PORTB_DIR = u8_direction;
+ 2f4:	e7 e3       	ldi	r30, 0x37	; 55
+ 2f6:	f0 e0       	ldi	r31, 0x00	; 0
+ 2f8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 2fa:	80 83       	st	Z, r24
+ 2fc:	09 c0       	rjmp	.+18     	; 0x310 <gpioPortDirection+0x74>
+		break;
+	case GPIOC:
+		PORTC_DIR = u8_direction;
+ 2fe:	e4 e3       	ldi	r30, 0x34	; 52
+ 300:	f0 e0       	ldi	r31, 0x00	; 0
+ 302:	8a 81       	ldd	r24, Y+2	; 0x02
+ 304:	80 83       	st	Z, r24
+ 306:	04 c0       	rjmp	.+8      	; 0x310 <gpioPortDirection+0x74>
+		break;
+	case GPIOD:
+		PORTD_DIR = u8_direction;
+ 308:	e1 e3       	ldi	r30, 0x31	; 49
+ 30a:	f0 e0       	ldi	r31, 0x00	; 0
+ 30c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 30e:	80 83       	st	Z, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 310:	0f 90       	pop	r0
+ 312:	0f 90       	pop	r0
+ 314:	0f 90       	pop	r0
+ 316:	0f 90       	pop	r0
+ 318:	cf 91       	pop	r28
+ 31a:	df 91       	pop	r29
+ 31c:	08 95       	ret
+
+0000031e <gpioPortWrite>:
+
+void gpioPortWrite(uint8_t u8_port, uint8_t u8_value)
+{
+ 31e:	df 93       	push	r29
+ 320:	cf 93       	push	r28
+ 322:	00 d0       	rcall	.+0      	; 0x324 <gpioPortWrite+0x6>
+ 324:	00 d0       	rcall	.+0      	; 0x326 <gpioPortWrite+0x8>
+ 326:	cd b7       	in	r28, 0x3d	; 61
+ 328:	de b7       	in	r29, 0x3e	; 62
+ 32a:	89 83       	std	Y+1, r24	; 0x01
+ 32c:	6a 83       	std	Y+2, r22	; 0x02
+	/* A switch-case statement to decide which port to assign the value to */
+	switch(u8_port)
+ 32e:	89 81       	ldd	r24, Y+1	; 0x01
+ 330:	28 2f       	mov	r18, r24
+ 332:	30 e0       	ldi	r19, 0x00	; 0
+ 334:	3c 83       	std	Y+4, r19	; 0x04
+ 336:	2b 83       	std	Y+3, r18	; 0x03
+ 338:	8b 81       	ldd	r24, Y+3	; 0x03
+ 33a:	9c 81       	ldd	r25, Y+4	; 0x04
+ 33c:	81 30       	cpi	r24, 0x01	; 1
+ 33e:	91 05       	cpc	r25, r1
+ 340:	d1 f0       	breq	.+52     	; 0x376 <gpioPortWrite+0x58>
+ 342:	2b 81       	ldd	r18, Y+3	; 0x03
+ 344:	3c 81       	ldd	r19, Y+4	; 0x04
+ 346:	22 30       	cpi	r18, 0x02	; 2
+ 348:	31 05       	cpc	r19, r1
+ 34a:	2c f4       	brge	.+10     	; 0x356 <gpioPortWrite+0x38>
+ 34c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 34e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 350:	00 97       	sbiw	r24, 0x00	; 0
+ 352:	61 f0       	breq	.+24     	; 0x36c <gpioPortWrite+0x4e>
+ 354:	1e c0       	rjmp	.+60     	; 0x392 <gpioPortWrite+0x74>
+ 356:	2b 81       	ldd	r18, Y+3	; 0x03
+ 358:	3c 81       	ldd	r19, Y+4	; 0x04
+ 35a:	22 30       	cpi	r18, 0x02	; 2
+ 35c:	31 05       	cpc	r19, r1
+ 35e:	81 f0       	breq	.+32     	; 0x380 <gpioPortWrite+0x62>
+ 360:	8b 81       	ldd	r24, Y+3	; 0x03
+ 362:	9c 81       	ldd	r25, Y+4	; 0x04
+ 364:	83 30       	cpi	r24, 0x03	; 3
+ 366:	91 05       	cpc	r25, r1
+ 368:	81 f0       	breq	.+32     	; 0x38a <gpioPortWrite+0x6c>
+ 36a:	13 c0       	rjmp	.+38     	; 0x392 <gpioPortWrite+0x74>
+	{
+	case GPIOA:
+		PORTA_DATA = u8_value;
+ 36c:	eb e3       	ldi	r30, 0x3B	; 59
+ 36e:	f0 e0       	ldi	r31, 0x00	; 0
+ 370:	8a 81       	ldd	r24, Y+2	; 0x02
+ 372:	80 83       	st	Z, r24
+ 374:	0e c0       	rjmp	.+28     	; 0x392 <gpioPortWrite+0x74>
+		break;
+	case GPIOB:
+		PORTB_DATA = u8_value;
+ 376:	e8 e3       	ldi	r30, 0x38	; 56
+ 378:	f0 e0       	ldi	r31, 0x00	; 0
+ 37a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 37c:	80 83       	st	Z, r24
+ 37e:	09 c0       	rjmp	.+18     	; 0x392 <gpioPortWrite+0x74>
+		break;
+	case GPIOC:
+		PORTC_DATA = u8_value;
+ 380:	e5 e3       	ldi	r30, 0x35	; 53
+ 382:	f0 e0       	ldi	r31, 0x00	; 0
+ 384:	8a 81       	ldd	r24, Y+2	; 0x02
+ 386:	80 83       	st	Z, r24
+ 388:	04 c0       	rjmp	.+8      	; 0x392 <gpioPortWrite+0x74>
+		break;
+	case GPIOD:
+		PORTD_DATA = u8_value;
+ 38a:	e2 e3       	ldi	r30, 0x32	; 50
+ 38c:	f0 e0       	ldi	r31, 0x00	; 0
+ 38e:	8a 81       	ldd	r24, Y+2	; 0x02
+ 390:	80 83       	st	Z, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 392:	0f 90       	pop	r0
+ 394:	0f 90       	pop	r0
+ 396:	0f 90       	pop	r0
+ 398:	0f 90       	pop	r0
+ 39a:	cf 91       	pop	r28
+ 39c:	df 91       	pop	r29
+ 39e:	08 95       	ret
+
+000003a0 <gpioPortToggle>:
+
+void gpioPortToggle(uint8_t u8_port)
+{
+ 3a0:	df 93       	push	r29
+ 3a2:	cf 93       	push	r28
+ 3a4:	00 d0       	rcall	.+0      	; 0x3a6 <gpioPortToggle+0x6>
+ 3a6:	0f 92       	push	r0
+ 3a8:	cd b7       	in	r28, 0x3d	; 61
+ 3aa:	de b7       	in	r29, 0x3e	; 62
+ 3ac:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which port to toggle its value */
+	switch(u8_port)
+ 3ae:	89 81       	ldd	r24, Y+1	; 0x01
+ 3b0:	28 2f       	mov	r18, r24
+ 3b2:	30 e0       	ldi	r19, 0x00	; 0
+ 3b4:	3b 83       	std	Y+3, r19	; 0x03
+ 3b6:	2a 83       	std	Y+2, r18	; 0x02
+ 3b8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3ba:	9b 81       	ldd	r25, Y+3	; 0x03
+ 3bc:	81 30       	cpi	r24, 0x01	; 1
+ 3be:	91 05       	cpc	r25, r1
+ 3c0:	e9 f0       	breq	.+58     	; 0x3fc <gpioPortToggle+0x5c>
+ 3c2:	2a 81       	ldd	r18, Y+2	; 0x02
+ 3c4:	3b 81       	ldd	r19, Y+3	; 0x03
+ 3c6:	22 30       	cpi	r18, 0x02	; 2
+ 3c8:	31 05       	cpc	r19, r1
+ 3ca:	2c f4       	brge	.+10     	; 0x3d6 <gpioPortToggle+0x36>
+ 3cc:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3ce:	9b 81       	ldd	r25, Y+3	; 0x03
+ 3d0:	00 97       	sbiw	r24, 0x00	; 0
+ 3d2:	61 f0       	breq	.+24     	; 0x3ec <gpioPortToggle+0x4c>
+ 3d4:	2a c0       	rjmp	.+84     	; 0x42a <gpioPortToggle+0x8a>
+ 3d6:	2a 81       	ldd	r18, Y+2	; 0x02
+ 3d8:	3b 81       	ldd	r19, Y+3	; 0x03
+ 3da:	22 30       	cpi	r18, 0x02	; 2
+ 3dc:	31 05       	cpc	r19, r1
+ 3de:	b1 f0       	breq	.+44     	; 0x40c <gpioPortToggle+0x6c>
+ 3e0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 3e2:	9b 81       	ldd	r25, Y+3	; 0x03
+ 3e4:	83 30       	cpi	r24, 0x03	; 3
+ 3e6:	91 05       	cpc	r25, r1
+ 3e8:	c9 f0       	breq	.+50     	; 0x41c <gpioPortToggle+0x7c>
+ 3ea:	1f c0       	rjmp	.+62     	; 0x42a <gpioPortToggle+0x8a>
+	{
+	case GPIOA:
+		PORTA_DATA ^= HIGH;
+ 3ec:	ab e3       	ldi	r26, 0x3B	; 59
+ 3ee:	b0 e0       	ldi	r27, 0x00	; 0
+ 3f0:	eb e3       	ldi	r30, 0x3B	; 59
+ 3f2:	f0 e0       	ldi	r31, 0x00	; 0
+ 3f4:	80 81       	ld	r24, Z
+ 3f6:	80 95       	com	r24
+ 3f8:	8c 93       	st	X, r24
+ 3fa:	17 c0       	rjmp	.+46     	; 0x42a <gpioPortToggle+0x8a>
+		break;
+	case GPIOB:
+		PORTB_DATA ^= HIGH;
+ 3fc:	a8 e3       	ldi	r26, 0x38	; 56
+ 3fe:	b0 e0       	ldi	r27, 0x00	; 0
+ 400:	e8 e3       	ldi	r30, 0x38	; 56
+ 402:	f0 e0       	ldi	r31, 0x00	; 0
+ 404:	80 81       	ld	r24, Z
+ 406:	80 95       	com	r24
+ 408:	8c 93       	st	X, r24
+ 40a:	0f c0       	rjmp	.+30     	; 0x42a <gpioPortToggle+0x8a>
+		break;
+	case GPIOC:
+		PORTC_DATA ^= HIGH;
+ 40c:	a5 e3       	ldi	r26, 0x35	; 53
+ 40e:	b0 e0       	ldi	r27, 0x00	; 0
+ 410:	e5 e3       	ldi	r30, 0x35	; 53
+ 412:	f0 e0       	ldi	r31, 0x00	; 0
+ 414:	80 81       	ld	r24, Z
+ 416:	80 95       	com	r24
+ 418:	8c 93       	st	X, r24
+ 41a:	07 c0       	rjmp	.+14     	; 0x42a <gpioPortToggle+0x8a>
+		break;
+	case GPIOD:
+		PORTD_DATA ^= HIGH;
+ 41c:	a2 e3       	ldi	r26, 0x32	; 50
+ 41e:	b0 e0       	ldi	r27, 0x00	; 0
+ 420:	e2 e3       	ldi	r30, 0x32	; 50
+ 422:	f0 e0       	ldi	r31, 0x00	; 0
+ 424:	80 81       	ld	r24, Z
+ 426:	80 95       	com	r24
+ 428:	8c 93       	st	X, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 42a:	0f 90       	pop	r0
+ 42c:	0f 90       	pop	r0
+ 42e:	0f 90       	pop	r0
+ 430:	cf 91       	pop	r28
+ 432:	df 91       	pop	r29
+ 434:	08 95       	ret
+
+00000436 <gpioPortRead>:
+
+uint8_t gpioPortRead(uint8_t u8_port)
+{
+ 436:	df 93       	push	r29
+ 438:	cf 93       	push	r28
+ 43a:	00 d0       	rcall	.+0      	; 0x43c <gpioPortRead+0x6>
+ 43c:	00 d0       	rcall	.+0      	; 0x43e <gpioPortRead+0x8>
+ 43e:	cd b7       	in	r28, 0x3d	; 61
+ 440:	de b7       	in	r29, 0x3e	; 62
+ 442:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which port to be read */
+	switch(u8_port)
+ 444:	89 81       	ldd	r24, Y+1	; 0x01
+ 446:	28 2f       	mov	r18, r24
+ 448:	30 e0       	ldi	r19, 0x00	; 0
+ 44a:	3c 83       	std	Y+4, r19	; 0x04
+ 44c:	2b 83       	std	Y+3, r18	; 0x03
+ 44e:	8b 81       	ldd	r24, Y+3	; 0x03
+ 450:	9c 81       	ldd	r25, Y+4	; 0x04
+ 452:	81 30       	cpi	r24, 0x01	; 1
+ 454:	91 05       	cpc	r25, r1
+ 456:	d1 f0       	breq	.+52     	; 0x48c <gpioPortRead+0x56>
+ 458:	2b 81       	ldd	r18, Y+3	; 0x03
+ 45a:	3c 81       	ldd	r19, Y+4	; 0x04
+ 45c:	22 30       	cpi	r18, 0x02	; 2
+ 45e:	31 05       	cpc	r19, r1
+ 460:	2c f4       	brge	.+10     	; 0x46c <gpioPortRead+0x36>
+ 462:	8b 81       	ldd	r24, Y+3	; 0x03
+ 464:	9c 81       	ldd	r25, Y+4	; 0x04
+ 466:	00 97       	sbiw	r24, 0x00	; 0
+ 468:	61 f0       	breq	.+24     	; 0x482 <gpioPortRead+0x4c>
+ 46a:	1f c0       	rjmp	.+62     	; 0x4aa <gpioPortRead+0x74>
+ 46c:	2b 81       	ldd	r18, Y+3	; 0x03
+ 46e:	3c 81       	ldd	r19, Y+4	; 0x04
+ 470:	22 30       	cpi	r18, 0x02	; 2
+ 472:	31 05       	cpc	r19, r1
+ 474:	81 f0       	breq	.+32     	; 0x496 <gpioPortRead+0x60>
+ 476:	8b 81       	ldd	r24, Y+3	; 0x03
+ 478:	9c 81       	ldd	r25, Y+4	; 0x04
+ 47a:	83 30       	cpi	r24, 0x03	; 3
+ 47c:	91 05       	cpc	r25, r1
+ 47e:	81 f0       	breq	.+32     	; 0x4a0 <gpioPortRead+0x6a>
+ 480:	14 c0       	rjmp	.+40     	; 0x4aa <gpioPortRead+0x74>
+	{
+	case GPIOA:
+		return PORTA_PIN;
+ 482:	e9 e3       	ldi	r30, 0x39	; 57
+ 484:	f0 e0       	ldi	r31, 0x00	; 0
+ 486:	90 81       	ld	r25, Z
+ 488:	9a 83       	std	Y+2, r25	; 0x02
+ 48a:	11 c0       	rjmp	.+34     	; 0x4ae <gpioPortRead+0x78>
+		break;
+	case GPIOB:
+		return PORTB_PIN;
+ 48c:	e6 e3       	ldi	r30, 0x36	; 54
+ 48e:	f0 e0       	ldi	r31, 0x00	; 0
+ 490:	20 81       	ld	r18, Z
+ 492:	2a 83       	std	Y+2, r18	; 0x02
+ 494:	0c c0       	rjmp	.+24     	; 0x4ae <gpioPortRead+0x78>
+		break;
+	case GPIOC:
+		return PORTC_PIN;
+ 496:	e3 e3       	ldi	r30, 0x33	; 51
+ 498:	f0 e0       	ldi	r31, 0x00	; 0
+ 49a:	30 81       	ld	r19, Z
+ 49c:	3a 83       	std	Y+2, r19	; 0x02
+ 49e:	07 c0       	rjmp	.+14     	; 0x4ae <gpioPortRead+0x78>
+		break;
+	case GPIOD:
+		return PORTD_PIN;
+ 4a0:	e0 e3       	ldi	r30, 0x30	; 48
+ 4a2:	f0 e0       	ldi	r31, 0x00	; 0
+ 4a4:	80 81       	ld	r24, Z
+ 4a6:	8a 83       	std	Y+2, r24	; 0x02
+ 4a8:	02 c0       	rjmp	.+4      	; 0x4ae <gpioPortRead+0x78>
+		break;
+	default:
+		return ERROR;
+ 4aa:	9f ef       	ldi	r25, 0xFF	; 255
+ 4ac:	9a 83       	std	Y+2, r25	; 0x02
+ 4ae:	8a 81       	ldd	r24, Y+2	; 0x02
+		break;
+	}
+}
+ 4b0:	0f 90       	pop	r0
+ 4b2:	0f 90       	pop	r0
+ 4b4:	0f 90       	pop	r0
+ 4b6:	0f 90       	pop	r0
+ 4b8:	cf 91       	pop	r28
+ 4ba:	df 91       	pop	r29
+ 4bc:	08 95       	ret
+
+000004be <gpioPinDirection>:
+
+void gpioPinDirection(uint8_t u8_port, uint8_t u8_pins, uint8_t u8_direction)
+{
+ 4be:	df 93       	push	r29
+ 4c0:	cf 93       	push	r28
+ 4c2:	cd b7       	in	r28, 0x3d	; 61
+ 4c4:	de b7       	in	r29, 0x3e	; 62
+ 4c6:	29 97       	sbiw	r28, 0x09	; 9
+ 4c8:	0f b6       	in	r0, 0x3f	; 63
+ 4ca:	f8 94       	cli
+ 4cc:	de bf       	out	0x3e, r29	; 62
+ 4ce:	0f be       	out	0x3f, r0	; 63
+ 4d0:	cd bf       	out	0x3d, r28	; 61
+ 4d2:	8b 83       	std	Y+3, r24	; 0x03
+ 4d4:	6c 83       	std	Y+4, r22	; 0x04
+ 4d6:	4d 83       	std	Y+5, r20	; 0x05
+	/* A pointer to hold the address of the port which direction is to be manipulated */
+	uint8_t* pu8_portDirectionPointer = NULL;
+ 4d8:	1a 82       	std	Y+2, r1	; 0x02
+ 4da:	19 82       	std	Y+1, r1	; 0x01
+
+	/* A switch-case statement to assign the right port address to the pointer */
+	switch(u8_port)
+ 4dc:	8b 81       	ldd	r24, Y+3	; 0x03
+ 4de:	28 2f       	mov	r18, r24
+ 4e0:	30 e0       	ldi	r19, 0x00	; 0
+ 4e2:	39 87       	std	Y+9, r19	; 0x09
+ 4e4:	28 87       	std	Y+8, r18	; 0x08
+ 4e6:	88 85       	ldd	r24, Y+8	; 0x08
+ 4e8:	99 85       	ldd	r25, Y+9	; 0x09
+ 4ea:	81 30       	cpi	r24, 0x01	; 1
+ 4ec:	91 05       	cpc	r25, r1
+ 4ee:	d1 f0       	breq	.+52     	; 0x524 <gpioPinDirection+0x66>
+ 4f0:	28 85       	ldd	r18, Y+8	; 0x08
+ 4f2:	39 85       	ldd	r19, Y+9	; 0x09
+ 4f4:	22 30       	cpi	r18, 0x02	; 2
+ 4f6:	31 05       	cpc	r19, r1
+ 4f8:	2c f4       	brge	.+10     	; 0x504 <gpioPinDirection+0x46>
+ 4fa:	88 85       	ldd	r24, Y+8	; 0x08
+ 4fc:	99 85       	ldd	r25, Y+9	; 0x09
+ 4fe:	00 97       	sbiw	r24, 0x00	; 0
+ 500:	61 f0       	breq	.+24     	; 0x51a <gpioPinDirection+0x5c>
+ 502:	1e c0       	rjmp	.+60     	; 0x540 <gpioPinDirection+0x82>
+ 504:	28 85       	ldd	r18, Y+8	; 0x08
+ 506:	39 85       	ldd	r19, Y+9	; 0x09
+ 508:	22 30       	cpi	r18, 0x02	; 2
+ 50a:	31 05       	cpc	r19, r1
+ 50c:	81 f0       	breq	.+32     	; 0x52e <gpioPinDirection+0x70>
+ 50e:	88 85       	ldd	r24, Y+8	; 0x08
+ 510:	99 85       	ldd	r25, Y+9	; 0x09
+ 512:	83 30       	cpi	r24, 0x03	; 3
+ 514:	91 05       	cpc	r25, r1
+ 516:	81 f0       	breq	.+32     	; 0x538 <gpioPinDirection+0x7a>
+ 518:	13 c0       	rjmp	.+38     	; 0x540 <gpioPinDirection+0x82>
+	{
+	case GPIOA:
+		pu8_portDirectionPointer = (uint8_t*)(&PORTA_DIR);
+ 51a:	8a e3       	ldi	r24, 0x3A	; 58
+ 51c:	90 e0       	ldi	r25, 0x00	; 0
+ 51e:	9a 83       	std	Y+2, r25	; 0x02
+ 520:	89 83       	std	Y+1, r24	; 0x01
+ 522:	0e c0       	rjmp	.+28     	; 0x540 <gpioPinDirection+0x82>
+		break;
+	case GPIOB:
+		pu8_portDirectionPointer = (uint8_t*)(&PORTB_DIR);
+ 524:	87 e3       	ldi	r24, 0x37	; 55
+ 526:	90 e0       	ldi	r25, 0x00	; 0
+ 528:	9a 83       	std	Y+2, r25	; 0x02
+ 52a:	89 83       	std	Y+1, r24	; 0x01
+ 52c:	09 c0       	rjmp	.+18     	; 0x540 <gpioPinDirection+0x82>
+		break;
+	case GPIOC:
+		pu8_portDirectionPointer = (uint8_t*)(&PORTC_DIR);
+ 52e:	84 e3       	ldi	r24, 0x34	; 52
+ 530:	90 e0       	ldi	r25, 0x00	; 0
+ 532:	9a 83       	std	Y+2, r25	; 0x02
+ 534:	89 83       	std	Y+1, r24	; 0x01
+ 536:	04 c0       	rjmp	.+8      	; 0x540 <gpioPinDirection+0x82>
+		break;
+	case GPIOD:
+		pu8_portDirectionPointer = (uint8_t*)(&PORTD_DIR);
+ 538:	81 e3       	ldi	r24, 0x31	; 49
+ 53a:	90 e0       	ldi	r25, 0x00	; 0
+ 53c:	9a 83       	std	Y+2, r25	; 0x02
+ 53e:	89 83       	std	Y+1, r24	; 0x01
+
+		break;
+	}
+
+	/* A switch-case statement to decide whether the pins are to be input or output */
+	switch(u8_direction)
+ 540:	8d 81       	ldd	r24, Y+5	; 0x05
+ 542:	28 2f       	mov	r18, r24
+ 544:	30 e0       	ldi	r19, 0x00	; 0
+ 546:	3f 83       	std	Y+7, r19	; 0x07
+ 548:	2e 83       	std	Y+6, r18	; 0x06
+ 54a:	8e 81       	ldd	r24, Y+6	; 0x06
+ 54c:	9f 81       	ldd	r25, Y+7	; 0x07
+ 54e:	00 97       	sbiw	r24, 0x00	; 0
+ 550:	31 f0       	breq	.+12     	; 0x55e <gpioPinDirection+0xa0>
+ 552:	2e 81       	ldd	r18, Y+6	; 0x06
+ 554:	3f 81       	ldd	r19, Y+7	; 0x07
+ 556:	2f 3f       	cpi	r18, 0xFF	; 255
+ 558:	31 05       	cpc	r19, r1
+ 55a:	61 f0       	breq	.+24     	; 0x574 <gpioPinDirection+0xb6>
+ 55c:	13 c0       	rjmp	.+38     	; 0x584 <gpioPinDirection+0xc6>
+	{
+	case INPUT:
+		*pu8_portDirectionPointer &= ~u8_pins;
+ 55e:	e9 81       	ldd	r30, Y+1	; 0x01
+ 560:	fa 81       	ldd	r31, Y+2	; 0x02
+ 562:	80 81       	ld	r24, Z
+ 564:	98 2f       	mov	r25, r24
+ 566:	8c 81       	ldd	r24, Y+4	; 0x04
+ 568:	80 95       	com	r24
+ 56a:	89 23       	and	r24, r25
+ 56c:	e9 81       	ldd	r30, Y+1	; 0x01
+ 56e:	fa 81       	ldd	r31, Y+2	; 0x02
+ 570:	80 83       	st	Z, r24
+ 572:	08 c0       	rjmp	.+16     	; 0x584 <gpioPinDirection+0xc6>
+		break;
+	case OUTPUT:
+		*pu8_portDirectionPointer |= u8_pins;
+ 574:	e9 81       	ldd	r30, Y+1	; 0x01
+ 576:	fa 81       	ldd	r31, Y+2	; 0x02
+ 578:	90 81       	ld	r25, Z
+ 57a:	8c 81       	ldd	r24, Y+4	; 0x04
+ 57c:	89 2b       	or	r24, r25
+ 57e:	e9 81       	ldd	r30, Y+1	; 0x01
+ 580:	fa 81       	ldd	r31, Y+2	; 0x02
+ 582:	80 83       	st	Z, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 584:	29 96       	adiw	r28, 0x09	; 9
+ 586:	0f b6       	in	r0, 0x3f	; 63
+ 588:	f8 94       	cli
+ 58a:	de bf       	out	0x3e, r29	; 62
+ 58c:	0f be       	out	0x3f, r0	; 63
+ 58e:	cd bf       	out	0x3d, r28	; 61
+ 590:	cf 91       	pop	r28
+ 592:	df 91       	pop	r29
+ 594:	08 95       	ret
+
+00000596 <gpioPinWrite>:
+
+void gpioPinWrite(uint8_t u8_port, uint8_t u8_pins, uint8_t u8_value)
+{
+ 596:	df 93       	push	r29
+ 598:	cf 93       	push	r28
+ 59a:	cd b7       	in	r28, 0x3d	; 61
+ 59c:	de b7       	in	r29, 0x3e	; 62
+ 59e:	29 97       	sbiw	r28, 0x09	; 9
+ 5a0:	0f b6       	in	r0, 0x3f	; 63
+ 5a2:	f8 94       	cli
+ 5a4:	de bf       	out	0x3e, r29	; 62
+ 5a6:	0f be       	out	0x3f, r0	; 63
+ 5a8:	cd bf       	out	0x3d, r28	; 61
+ 5aa:	8b 83       	std	Y+3, r24	; 0x03
+ 5ac:	6c 83       	std	Y+4, r22	; 0x04
+ 5ae:	4d 83       	std	Y+5, r20	; 0x05
+	/* A pointer to hold the address of the port which pins values are to be changed */
+	uint8_t* pu8_portDataPointer = NULL;
+ 5b0:	1a 82       	std	Y+2, r1	; 0x02
+ 5b2:	19 82       	std	Y+1, r1	; 0x01
+
+	/* A switch-case statement to assign the right port address to the pointer */
+	switch(u8_port)
+ 5b4:	8b 81       	ldd	r24, Y+3	; 0x03
+ 5b6:	28 2f       	mov	r18, r24
+ 5b8:	30 e0       	ldi	r19, 0x00	; 0
+ 5ba:	39 87       	std	Y+9, r19	; 0x09
+ 5bc:	28 87       	std	Y+8, r18	; 0x08
+ 5be:	88 85       	ldd	r24, Y+8	; 0x08
+ 5c0:	99 85       	ldd	r25, Y+9	; 0x09
+ 5c2:	81 30       	cpi	r24, 0x01	; 1
+ 5c4:	91 05       	cpc	r25, r1
+ 5c6:	d1 f0       	breq	.+52     	; 0x5fc <gpioPinWrite+0x66>
+ 5c8:	28 85       	ldd	r18, Y+8	; 0x08
+ 5ca:	39 85       	ldd	r19, Y+9	; 0x09
+ 5cc:	22 30       	cpi	r18, 0x02	; 2
+ 5ce:	31 05       	cpc	r19, r1
+ 5d0:	2c f4       	brge	.+10     	; 0x5dc <gpioPinWrite+0x46>
+ 5d2:	88 85       	ldd	r24, Y+8	; 0x08
+ 5d4:	99 85       	ldd	r25, Y+9	; 0x09
+ 5d6:	00 97       	sbiw	r24, 0x00	; 0
+ 5d8:	61 f0       	breq	.+24     	; 0x5f2 <gpioPinWrite+0x5c>
+ 5da:	1e c0       	rjmp	.+60     	; 0x618 <gpioPinWrite+0x82>
+ 5dc:	28 85       	ldd	r18, Y+8	; 0x08
+ 5de:	39 85       	ldd	r19, Y+9	; 0x09
+ 5e0:	22 30       	cpi	r18, 0x02	; 2
+ 5e2:	31 05       	cpc	r19, r1
+ 5e4:	81 f0       	breq	.+32     	; 0x606 <gpioPinWrite+0x70>
+ 5e6:	88 85       	ldd	r24, Y+8	; 0x08
+ 5e8:	99 85       	ldd	r25, Y+9	; 0x09
+ 5ea:	83 30       	cpi	r24, 0x03	; 3
+ 5ec:	91 05       	cpc	r25, r1
+ 5ee:	81 f0       	breq	.+32     	; 0x610 <gpioPinWrite+0x7a>
+ 5f0:	13 c0       	rjmp	.+38     	; 0x618 <gpioPinWrite+0x82>
+	{
+	case GPIOA:
+		pu8_portDataPointer = (uint8_t*)(&PORTA_DATA);
+ 5f2:	8b e3       	ldi	r24, 0x3B	; 59
+ 5f4:	90 e0       	ldi	r25, 0x00	; 0
+ 5f6:	9a 83       	std	Y+2, r25	; 0x02
+ 5f8:	89 83       	std	Y+1, r24	; 0x01
+ 5fa:	0e c0       	rjmp	.+28     	; 0x618 <gpioPinWrite+0x82>
+		break;
+	case GPIOB:
+		pu8_portDataPointer = (uint8_t*)(&PORTB_DATA);
+ 5fc:	88 e3       	ldi	r24, 0x38	; 56
+ 5fe:	90 e0       	ldi	r25, 0x00	; 0
+ 600:	9a 83       	std	Y+2, r25	; 0x02
+ 602:	89 83       	std	Y+1, r24	; 0x01
+ 604:	09 c0       	rjmp	.+18     	; 0x618 <gpioPinWrite+0x82>
+		break;
+	case GPIOC:
+		pu8_portDataPointer = (uint8_t*)(&PORTC_DATA);
+ 606:	85 e3       	ldi	r24, 0x35	; 53
+ 608:	90 e0       	ldi	r25, 0x00	; 0
+ 60a:	9a 83       	std	Y+2, r25	; 0x02
+ 60c:	89 83       	std	Y+1, r24	; 0x01
+ 60e:	04 c0       	rjmp	.+8      	; 0x618 <gpioPinWrite+0x82>
+		break;
+	case GPIOD:
+		pu8_portDataPointer = (uint8_t*)(&PORTD_DATA);
+ 610:	82 e3       	ldi	r24, 0x32	; 50
+ 612:	90 e0       	ldi	r25, 0x00	; 0
+ 614:	9a 83       	std	Y+2, r25	; 0x02
+ 616:	89 83       	std	Y+1, r24	; 0x01
+
+		break;
+	}
+
+	/* A switch-case statement to decide whether the bits values are to be high or low */
+	switch(u8_value)
+ 618:	8d 81       	ldd	r24, Y+5	; 0x05
+ 61a:	28 2f       	mov	r18, r24
+ 61c:	30 e0       	ldi	r19, 0x00	; 0
+ 61e:	3f 83       	std	Y+7, r19	; 0x07
+ 620:	2e 83       	std	Y+6, r18	; 0x06
+ 622:	8e 81       	ldd	r24, Y+6	; 0x06
+ 624:	9f 81       	ldd	r25, Y+7	; 0x07
+ 626:	00 97       	sbiw	r24, 0x00	; 0
+ 628:	31 f0       	breq	.+12     	; 0x636 <gpioPinWrite+0xa0>
+ 62a:	2e 81       	ldd	r18, Y+6	; 0x06
+ 62c:	3f 81       	ldd	r19, Y+7	; 0x07
+ 62e:	2f 3f       	cpi	r18, 0xFF	; 255
+ 630:	31 05       	cpc	r19, r1
+ 632:	61 f0       	breq	.+24     	; 0x64c <gpioPinWrite+0xb6>
+ 634:	13 c0       	rjmp	.+38     	; 0x65c <gpioPinWrite+0xc6>
+	{
+	case LOW:
+		*pu8_portDataPointer &= ~u8_pins;
+ 636:	e9 81       	ldd	r30, Y+1	; 0x01
+ 638:	fa 81       	ldd	r31, Y+2	; 0x02
+ 63a:	80 81       	ld	r24, Z
+ 63c:	98 2f       	mov	r25, r24
+ 63e:	8c 81       	ldd	r24, Y+4	; 0x04
+ 640:	80 95       	com	r24
+ 642:	89 23       	and	r24, r25
+ 644:	e9 81       	ldd	r30, Y+1	; 0x01
+ 646:	fa 81       	ldd	r31, Y+2	; 0x02
+ 648:	80 83       	st	Z, r24
+ 64a:	08 c0       	rjmp	.+16     	; 0x65c <gpioPinWrite+0xc6>
+		break;
+	case HIGH:
+		*pu8_portDataPointer |= u8_pins;
+ 64c:	e9 81       	ldd	r30, Y+1	; 0x01
+ 64e:	fa 81       	ldd	r31, Y+2	; 0x02
+ 650:	90 81       	ld	r25, Z
+ 652:	8c 81       	ldd	r24, Y+4	; 0x04
+ 654:	89 2b       	or	r24, r25
+ 656:	e9 81       	ldd	r30, Y+1	; 0x01
+ 658:	fa 81       	ldd	r31, Y+2	; 0x02
+ 65a:	80 83       	st	Z, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 65c:	29 96       	adiw	r28, 0x09	; 9
+ 65e:	0f b6       	in	r0, 0x3f	; 63
+ 660:	f8 94       	cli
+ 662:	de bf       	out	0x3e, r29	; 62
+ 664:	0f be       	out	0x3f, r0	; 63
+ 666:	cd bf       	out	0x3d, r28	; 61
+ 668:	cf 91       	pop	r28
+ 66a:	df 91       	pop	r29
+ 66c:	08 95       	ret
+
+0000066e <gpioPinToggle>:
+
+void gpioPinToggle(uint8_t u8_port, uint8_t u8_pins)
+{
+ 66e:	df 93       	push	r29
+ 670:	cf 93       	push	r28
+ 672:	00 d0       	rcall	.+0      	; 0x674 <gpioPinToggle+0x6>
+ 674:	00 d0       	rcall	.+0      	; 0x676 <gpioPinToggle+0x8>
+ 676:	cd b7       	in	r28, 0x3d	; 61
+ 678:	de b7       	in	r29, 0x3e	; 62
+ 67a:	89 83       	std	Y+1, r24	; 0x01
+ 67c:	6a 83       	std	Y+2, r22	; 0x02
+	/* A switch-case statement to decide which port to toggle its pins */
+	switch(u8_port)
+ 67e:	89 81       	ldd	r24, Y+1	; 0x01
+ 680:	28 2f       	mov	r18, r24
+ 682:	30 e0       	ldi	r19, 0x00	; 0
+ 684:	3c 83       	std	Y+4, r19	; 0x04
+ 686:	2b 83       	std	Y+3, r18	; 0x03
+ 688:	8b 81       	ldd	r24, Y+3	; 0x03
+ 68a:	9c 81       	ldd	r25, Y+4	; 0x04
+ 68c:	81 30       	cpi	r24, 0x01	; 1
+ 68e:	91 05       	cpc	r25, r1
+ 690:	f1 f0       	breq	.+60     	; 0x6ce <gpioPinToggle+0x60>
+ 692:	2b 81       	ldd	r18, Y+3	; 0x03
+ 694:	3c 81       	ldd	r19, Y+4	; 0x04
+ 696:	22 30       	cpi	r18, 0x02	; 2
+ 698:	31 05       	cpc	r19, r1
+ 69a:	2c f4       	brge	.+10     	; 0x6a6 <gpioPinToggle+0x38>
+ 69c:	8b 81       	ldd	r24, Y+3	; 0x03
+ 69e:	9c 81       	ldd	r25, Y+4	; 0x04
+ 6a0:	00 97       	sbiw	r24, 0x00	; 0
+ 6a2:	61 f0       	breq	.+24     	; 0x6bc <gpioPinToggle+0x4e>
+ 6a4:	2e c0       	rjmp	.+92     	; 0x702 <gpioPinToggle+0x94>
+ 6a6:	2b 81       	ldd	r18, Y+3	; 0x03
+ 6a8:	3c 81       	ldd	r19, Y+4	; 0x04
+ 6aa:	22 30       	cpi	r18, 0x02	; 2
+ 6ac:	31 05       	cpc	r19, r1
+ 6ae:	c1 f0       	breq	.+48     	; 0x6e0 <gpioPinToggle+0x72>
+ 6b0:	8b 81       	ldd	r24, Y+3	; 0x03
+ 6b2:	9c 81       	ldd	r25, Y+4	; 0x04
+ 6b4:	83 30       	cpi	r24, 0x03	; 3
+ 6b6:	91 05       	cpc	r25, r1
+ 6b8:	e1 f0       	breq	.+56     	; 0x6f2 <gpioPinToggle+0x84>
+ 6ba:	23 c0       	rjmp	.+70     	; 0x702 <gpioPinToggle+0x94>
+	{
+	case GPIOA:
+		PORTA_DATA ^= u8_pins;
+ 6bc:	ab e3       	ldi	r26, 0x3B	; 59
+ 6be:	b0 e0       	ldi	r27, 0x00	; 0
+ 6c0:	eb e3       	ldi	r30, 0x3B	; 59
+ 6c2:	f0 e0       	ldi	r31, 0x00	; 0
+ 6c4:	90 81       	ld	r25, Z
+ 6c6:	8a 81       	ldd	r24, Y+2	; 0x02
+ 6c8:	89 27       	eor	r24, r25
+ 6ca:	8c 93       	st	X, r24
+ 6cc:	1a c0       	rjmp	.+52     	; 0x702 <gpioPinToggle+0x94>
+		break;
+	case GPIOB:
+		PORTB_DATA ^= u8_pins;
+ 6ce:	a8 e3       	ldi	r26, 0x38	; 56
+ 6d0:	b0 e0       	ldi	r27, 0x00	; 0
+ 6d2:	e8 e3       	ldi	r30, 0x38	; 56
+ 6d4:	f0 e0       	ldi	r31, 0x00	; 0
+ 6d6:	90 81       	ld	r25, Z
+ 6d8:	8a 81       	ldd	r24, Y+2	; 0x02
+ 6da:	89 27       	eor	r24, r25
+ 6dc:	8c 93       	st	X, r24
+ 6de:	11 c0       	rjmp	.+34     	; 0x702 <gpioPinToggle+0x94>
+		break;
+	case GPIOC:
+		PORTC_DATA ^= u8_pins;
+ 6e0:	a5 e3       	ldi	r26, 0x35	; 53
+ 6e2:	b0 e0       	ldi	r27, 0x00	; 0
+ 6e4:	e5 e3       	ldi	r30, 0x35	; 53
+ 6e6:	f0 e0       	ldi	r31, 0x00	; 0
+ 6e8:	90 81       	ld	r25, Z
+ 6ea:	8a 81       	ldd	r24, Y+2	; 0x02
+ 6ec:	89 27       	eor	r24, r25
+ 6ee:	8c 93       	st	X, r24
+ 6f0:	08 c0       	rjmp	.+16     	; 0x702 <gpioPinToggle+0x94>
+		break;
+	case GPIOD:
+		PORTD_DATA ^= u8_pins;
+ 6f2:	a2 e3       	ldi	r26, 0x32	; 50
+ 6f4:	b0 e0       	ldi	r27, 0x00	; 0
+ 6f6:	e2 e3       	ldi	r30, 0x32	; 50
+ 6f8:	f0 e0       	ldi	r31, 0x00	; 0
+ 6fa:	90 81       	ld	r25, Z
+ 6fc:	8a 81       	ldd	r24, Y+2	; 0x02
+ 6fe:	89 27       	eor	r24, r25
+ 700:	8c 93       	st	X, r24
+		break;
+	default:
+
+		break;
+	}
+}
+ 702:	0f 90       	pop	r0
+ 704:	0f 90       	pop	r0
+ 706:	0f 90       	pop	r0
+ 708:	0f 90       	pop	r0
+ 70a:	cf 91       	pop	r28
+ 70c:	df 91       	pop	r29
+ 70e:	08 95       	ret
+
+00000710 <gpioPinRead>:
+
+uint8_t gpioPinRead(uint8_t u8_port, uint8_t u8_pin)
+{
+ 710:	df 93       	push	r29
+ 712:	cf 93       	push	r28
+ 714:	cd b7       	in	r28, 0x3d	; 61
+ 716:	de b7       	in	r29, 0x3e	; 62
+ 718:	29 97       	sbiw	r28, 0x09	; 9
+ 71a:	0f b6       	in	r0, 0x3f	; 63
+ 71c:	f8 94       	cli
+ 71e:	de bf       	out	0x3e, r29	; 62
+ 720:	0f be       	out	0x3f, r0	; 63
+ 722:	cd bf       	out	0x3d, r28	; 61
+ 724:	89 83       	std	Y+1, r24	; 0x01
+ 726:	6a 83       	std	Y+2, r22	; 0x02
+	/* A switch-case statement to decide which port to read its pin */
+	switch(u8_port)
+ 728:	89 81       	ldd	r24, Y+1	; 0x01
+ 72a:	28 2f       	mov	r18, r24
+ 72c:	30 e0       	ldi	r19, 0x00	; 0
+ 72e:	3d 83       	std	Y+5, r19	; 0x05
+ 730:	2c 83       	std	Y+4, r18	; 0x04
+ 732:	8c 81       	ldd	r24, Y+4	; 0x04
+ 734:	9d 81       	ldd	r25, Y+5	; 0x05
+ 736:	81 30       	cpi	r24, 0x01	; 1
+ 738:	91 05       	cpc	r25, r1
+ 73a:	19 f1       	breq	.+70     	; 0x782 <gpioPinRead+0x72>
+ 73c:	2c 81       	ldd	r18, Y+4	; 0x04
+ 73e:	3d 81       	ldd	r19, Y+5	; 0x05
+ 740:	22 30       	cpi	r18, 0x02	; 2
+ 742:	31 05       	cpc	r19, r1
+ 744:	2c f4       	brge	.+10     	; 0x750 <gpioPinRead+0x40>
+ 746:	8c 81       	ldd	r24, Y+4	; 0x04
+ 748:	9d 81       	ldd	r25, Y+5	; 0x05
+ 74a:	00 97       	sbiw	r24, 0x00	; 0
+ 74c:	61 f0       	breq	.+24     	; 0x766 <gpioPinRead+0x56>
+ 74e:	43 c0       	rjmp	.+134    	; 0x7d6 <gpioPinRead+0xc6>
+ 750:	2c 81       	ldd	r18, Y+4	; 0x04
+ 752:	3d 81       	ldd	r19, Y+5	; 0x05
+ 754:	22 30       	cpi	r18, 0x02	; 2
+ 756:	31 05       	cpc	r19, r1
+ 758:	11 f1       	breq	.+68     	; 0x79e <gpioPinRead+0x8e>
+ 75a:	8c 81       	ldd	r24, Y+4	; 0x04
+ 75c:	9d 81       	ldd	r25, Y+5	; 0x05
+ 75e:	83 30       	cpi	r24, 0x03	; 3
+ 760:	91 05       	cpc	r25, r1
+ 762:	59 f1       	breq	.+86     	; 0x7ba <gpioPinRead+0xaa>
+ 764:	38 c0       	rjmp	.+112    	; 0x7d6 <gpioPinRead+0xc6>
+	{
+	case GPIOA:
+		return ((PORTA_PIN & u8_pin)? 1:0);
+ 766:	e9 e3       	ldi	r30, 0x39	; 57
+ 768:	f0 e0       	ldi	r31, 0x00	; 0
+ 76a:	90 81       	ld	r25, Z
+ 76c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 76e:	89 23       	and	r24, r25
+ 770:	8e 83       	std	Y+6, r24	; 0x06
+ 772:	9e 81       	ldd	r25, Y+6	; 0x06
+ 774:	99 23       	and	r25, r25
+ 776:	11 f0       	breq	.+4      	; 0x77c <gpioPinRead+0x6c>
+ 778:	21 e0       	ldi	r18, 0x01	; 1
+ 77a:	2e 83       	std	Y+6, r18	; 0x06
+ 77c:	3e 81       	ldd	r19, Y+6	; 0x06
+ 77e:	3b 83       	std	Y+3, r19	; 0x03
+ 780:	2c c0       	rjmp	.+88     	; 0x7da <gpioPinRead+0xca>
+		break;
+	case GPIOB:
+		return ((PORTB_PIN & u8_pin)? 1:0);
+ 782:	e6 e3       	ldi	r30, 0x36	; 54
+ 784:	f0 e0       	ldi	r31, 0x00	; 0
+ 786:	90 81       	ld	r25, Z
+ 788:	8a 81       	ldd	r24, Y+2	; 0x02
+ 78a:	89 23       	and	r24, r25
+ 78c:	8f 83       	std	Y+7, r24	; 0x07
+ 78e:	8f 81       	ldd	r24, Y+7	; 0x07
+ 790:	88 23       	and	r24, r24
+ 792:	11 f0       	breq	.+4      	; 0x798 <gpioPinRead+0x88>
+ 794:	91 e0       	ldi	r25, 0x01	; 1
+ 796:	9f 83       	std	Y+7, r25	; 0x07
+ 798:	2f 81       	ldd	r18, Y+7	; 0x07
+ 79a:	2b 83       	std	Y+3, r18	; 0x03
+ 79c:	1e c0       	rjmp	.+60     	; 0x7da <gpioPinRead+0xca>
+		break;
+	case GPIOC:
+		return ((PORTC_PIN & u8_pin)? 1:0);
+ 79e:	e3 e3       	ldi	r30, 0x33	; 51
+ 7a0:	f0 e0       	ldi	r31, 0x00	; 0
+ 7a2:	90 81       	ld	r25, Z
+ 7a4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 7a6:	89 23       	and	r24, r25
+ 7a8:	88 87       	std	Y+8, r24	; 0x08
+ 7aa:	38 85       	ldd	r19, Y+8	; 0x08
+ 7ac:	33 23       	and	r19, r19
+ 7ae:	11 f0       	breq	.+4      	; 0x7b4 <gpioPinRead+0xa4>
+ 7b0:	81 e0       	ldi	r24, 0x01	; 1
+ 7b2:	88 87       	std	Y+8, r24	; 0x08
+ 7b4:	98 85       	ldd	r25, Y+8	; 0x08
+ 7b6:	9b 83       	std	Y+3, r25	; 0x03
+ 7b8:	10 c0       	rjmp	.+32     	; 0x7da <gpioPinRead+0xca>
+		break;
+	case GPIOD:
+		return ((PORTD_PIN & u8_pin)? 1:0);
+ 7ba:	e0 e3       	ldi	r30, 0x30	; 48
+ 7bc:	f0 e0       	ldi	r31, 0x00	; 0
+ 7be:	90 81       	ld	r25, Z
+ 7c0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 7c2:	89 23       	and	r24, r25
+ 7c4:	89 87       	std	Y+9, r24	; 0x09
+ 7c6:	29 85       	ldd	r18, Y+9	; 0x09
+ 7c8:	22 23       	and	r18, r18
+ 7ca:	11 f0       	breq	.+4      	; 0x7d0 <gpioPinRead+0xc0>
+ 7cc:	31 e0       	ldi	r19, 0x01	; 1
+ 7ce:	39 87       	std	Y+9, r19	; 0x09
+ 7d0:	89 85       	ldd	r24, Y+9	; 0x09
+ 7d2:	8b 83       	std	Y+3, r24	; 0x03
+ 7d4:	02 c0       	rjmp	.+4      	; 0x7da <gpioPinRead+0xca>
+		break;
+	default:
+		return ERROR;
+ 7d6:	9f ef       	ldi	r25, 0xFF	; 255
+ 7d8:	9b 83       	std	Y+3, r25	; 0x03
+ 7da:	8b 81       	ldd	r24, Y+3	; 0x03
+		break;
+	}
+}
+ 7dc:	29 96       	adiw	r28, 0x09	; 9
+ 7de:	0f b6       	in	r0, 0x3f	; 63
+ 7e0:	f8 94       	cli
+ 7e2:	de bf       	out	0x3e, r29	; 62
+ 7e4:	0f be       	out	0x3f, r0	; 63
+ 7e6:	cd bf       	out	0x3d, r28	; 61
+ 7e8:	cf 91       	pop	r28
+ 7ea:	df 91       	pop	r29
+ 7ec:	08 95       	ret
+
+000007ee <Led_Init>:
+#include "led.h"
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void Led_Init(En_LedNumber_t en_led_id)
+{
+ 7ee:	df 93       	push	r29
+ 7f0:	cf 93       	push	r28
+ 7f2:	00 d0       	rcall	.+0      	; 0x7f4 <Led_Init+0x6>
+ 7f4:	0f 92       	push	r0
+ 7f6:	cd b7       	in	r28, 0x3d	; 61
+ 7f8:	de b7       	in	r29, 0x3e	; 62
+ 7fa:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which led to be initialized */
+	switch(en_led_id)
+ 7fc:	89 81       	ldd	r24, Y+1	; 0x01
+ 7fe:	28 2f       	mov	r18, r24
+ 800:	30 e0       	ldi	r19, 0x00	; 0
+ 802:	3b 83       	std	Y+3, r19	; 0x03
+ 804:	2a 83       	std	Y+2, r18	; 0x02
+ 806:	8a 81       	ldd	r24, Y+2	; 0x02
+ 808:	9b 81       	ldd	r25, Y+3	; 0x03
+ 80a:	81 30       	cpi	r24, 0x01	; 1
+ 80c:	91 05       	cpc	r25, r1
+ 80e:	d9 f0       	breq	.+54     	; 0x846 <Led_Init+0x58>
+ 810:	2a 81       	ldd	r18, Y+2	; 0x02
+ 812:	3b 81       	ldd	r19, Y+3	; 0x03
+ 814:	22 30       	cpi	r18, 0x02	; 2
+ 816:	31 05       	cpc	r19, r1
+ 818:	2c f4       	brge	.+10     	; 0x824 <Led_Init+0x36>
+ 81a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 81c:	9b 81       	ldd	r25, Y+3	; 0x03
+ 81e:	00 97       	sbiw	r24, 0x00	; 0
+ 820:	61 f0       	breq	.+24     	; 0x83a <Led_Init+0x4c>
+ 822:	22 c0       	rjmp	.+68     	; 0x868 <__stack+0x9>
+ 824:	2a 81       	ldd	r18, Y+2	; 0x02
+ 826:	3b 81       	ldd	r19, Y+3	; 0x03
+ 828:	22 30       	cpi	r18, 0x02	; 2
+ 82a:	31 05       	cpc	r19, r1
+ 82c:	91 f0       	breq	.+36     	; 0x852 <Led_Init+0x64>
+ 82e:	8a 81       	ldd	r24, Y+2	; 0x02
+ 830:	9b 81       	ldd	r25, Y+3	; 0x03
+ 832:	83 30       	cpi	r24, 0x03	; 3
+ 834:	91 05       	cpc	r25, r1
+ 836:	99 f0       	breq	.+38     	; 0x85e <Led_Init+0x70>
+ 838:	17 c0       	rjmp	.+46     	; 0x868 <__stack+0x9>
+	{
+	case LED_0:
+		gpioPinDirection(LED_0_GPIO, LED_0_BIT, OUTPUT);
+ 83a:	81 e0       	ldi	r24, 0x01	; 1
+ 83c:	60 e1       	ldi	r22, 0x10	; 16
+ 83e:	4f ef       	ldi	r20, 0xFF	; 255
+ 840:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+ 844:	11 c0       	rjmp	.+34     	; 0x868 <__stack+0x9>
+		break;
+	case LED_1:
+		gpioPinDirection(LED_1_GPIO, LED_1_BIT, OUTPUT);
+ 846:	81 e0       	ldi	r24, 0x01	; 1
+ 848:	60 e2       	ldi	r22, 0x20	; 32
+ 84a:	4f ef       	ldi	r20, 0xFF	; 255
+ 84c:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+ 850:	0b c0       	rjmp	.+22     	; 0x868 <__stack+0x9>
+		break;
+	case LED_2:
+		gpioPinDirection(LED_2_GPIO, LED_2_BIT, OUTPUT);
+ 852:	81 e0       	ldi	r24, 0x01	; 1
+ 854:	60 e4       	ldi	r22, 0x40	; 64
+ 856:	4f ef       	ldi	r20, 0xFF	; 255
+ 858:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+ 85c:	05 c0       	rjmp	.+10     	; 0x868 <__stack+0x9>
+		break;
+	case LED_3:
+		gpioPinDirection(LED_3_GPIO, LED_3_BIT, OUTPUT);
+ 85e:	81 e0       	ldi	r24, 0x01	; 1
+ 860:	60 e8       	ldi	r22, 0x80	; 128
+ 862:	4f ef       	ldi	r20, 0xFF	; 255
+ 864:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		break;
+	default:
+
+		break;
+	}
+}
+ 868:	0f 90       	pop	r0
+ 86a:	0f 90       	pop	r0
+ 86c:	0f 90       	pop	r0
+ 86e:	cf 91       	pop	r28
+ 870:	df 91       	pop	r29
+ 872:	08 95       	ret
+
+00000874 <Led_On>:
+
+void Led_On(En_LedNumber_t en_led_id)
+{
+ 874:	df 93       	push	r29
+ 876:	cf 93       	push	r28
+ 878:	00 d0       	rcall	.+0      	; 0x87a <Led_On+0x6>
+ 87a:	0f 92       	push	r0
+ 87c:	cd b7       	in	r28, 0x3d	; 61
+ 87e:	de b7       	in	r29, 0x3e	; 62
+ 880:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which led to be turned on */
+	switch(en_led_id)
+ 882:	89 81       	ldd	r24, Y+1	; 0x01
+ 884:	28 2f       	mov	r18, r24
+ 886:	30 e0       	ldi	r19, 0x00	; 0
+ 888:	3b 83       	std	Y+3, r19	; 0x03
+ 88a:	2a 83       	std	Y+2, r18	; 0x02
+ 88c:	8a 81       	ldd	r24, Y+2	; 0x02
+ 88e:	9b 81       	ldd	r25, Y+3	; 0x03
+ 890:	81 30       	cpi	r24, 0x01	; 1
+ 892:	91 05       	cpc	r25, r1
+ 894:	d9 f0       	breq	.+54     	; 0x8cc <Led_On+0x58>
+ 896:	2a 81       	ldd	r18, Y+2	; 0x02
+ 898:	3b 81       	ldd	r19, Y+3	; 0x03
+ 89a:	22 30       	cpi	r18, 0x02	; 2
+ 89c:	31 05       	cpc	r19, r1
+ 89e:	2c f4       	brge	.+10     	; 0x8aa <Led_On+0x36>
+ 8a0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 8a2:	9b 81       	ldd	r25, Y+3	; 0x03
+ 8a4:	00 97       	sbiw	r24, 0x00	; 0
+ 8a6:	61 f0       	breq	.+24     	; 0x8c0 <Led_On+0x4c>
+ 8a8:	22 c0       	rjmp	.+68     	; 0x8ee <Led_On+0x7a>
+ 8aa:	2a 81       	ldd	r18, Y+2	; 0x02
+ 8ac:	3b 81       	ldd	r19, Y+3	; 0x03
+ 8ae:	22 30       	cpi	r18, 0x02	; 2
+ 8b0:	31 05       	cpc	r19, r1
+ 8b2:	91 f0       	breq	.+36     	; 0x8d8 <Led_On+0x64>
+ 8b4:	8a 81       	ldd	r24, Y+2	; 0x02
+ 8b6:	9b 81       	ldd	r25, Y+3	; 0x03
+ 8b8:	83 30       	cpi	r24, 0x03	; 3
+ 8ba:	91 05       	cpc	r25, r1
+ 8bc:	99 f0       	breq	.+38     	; 0x8e4 <Led_On+0x70>
+ 8be:	17 c0       	rjmp	.+46     	; 0x8ee <Led_On+0x7a>
+	{
+	case LED_0:
+		gpioPinWrite(LED_0_GPIO, LED_0_BIT, HIGH);
+ 8c0:	81 e0       	ldi	r24, 0x01	; 1
+ 8c2:	60 e1       	ldi	r22, 0x10	; 16
+ 8c4:	4f ef       	ldi	r20, 0xFF	; 255
+ 8c6:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 8ca:	11 c0       	rjmp	.+34     	; 0x8ee <Led_On+0x7a>
+		break;
+	case LED_1:
+		gpioPinWrite(LED_1_GPIO, LED_1_BIT, HIGH);
+ 8cc:	81 e0       	ldi	r24, 0x01	; 1
+ 8ce:	60 e2       	ldi	r22, 0x20	; 32
+ 8d0:	4f ef       	ldi	r20, 0xFF	; 255
+ 8d2:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 8d6:	0b c0       	rjmp	.+22     	; 0x8ee <Led_On+0x7a>
+		break;
+	case LED_2:
+		gpioPinWrite(LED_2_GPIO, LED_2_BIT, HIGH);
+ 8d8:	81 e0       	ldi	r24, 0x01	; 1
+ 8da:	60 e4       	ldi	r22, 0x40	; 64
+ 8dc:	4f ef       	ldi	r20, 0xFF	; 255
+ 8de:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 8e2:	05 c0       	rjmp	.+10     	; 0x8ee <Led_On+0x7a>
+		break;
+	case LED_3:
+		gpioPinWrite(LED_3_GPIO, LED_3_BIT, HIGH);
+ 8e4:	81 e0       	ldi	r24, 0x01	; 1
+ 8e6:	60 e8       	ldi	r22, 0x80	; 128
+ 8e8:	4f ef       	ldi	r20, 0xFF	; 255
+ 8ea:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		break;
+	default:
+
+		break;
+	}
+}
+ 8ee:	0f 90       	pop	r0
+ 8f0:	0f 90       	pop	r0
+ 8f2:	0f 90       	pop	r0
+ 8f4:	cf 91       	pop	r28
+ 8f6:	df 91       	pop	r29
+ 8f8:	08 95       	ret
+
+000008fa <Led_Off>:
+
+void Led_Off(En_LedNumber_t en_led_id)
+{
+ 8fa:	df 93       	push	r29
+ 8fc:	cf 93       	push	r28
+ 8fe:	00 d0       	rcall	.+0      	; 0x900 <Led_Off+0x6>
+ 900:	0f 92       	push	r0
+ 902:	cd b7       	in	r28, 0x3d	; 61
+ 904:	de b7       	in	r29, 0x3e	; 62
+ 906:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which led to be turned off */
+	switch(en_led_id)
+ 908:	89 81       	ldd	r24, Y+1	; 0x01
+ 90a:	28 2f       	mov	r18, r24
+ 90c:	30 e0       	ldi	r19, 0x00	; 0
+ 90e:	3b 83       	std	Y+3, r19	; 0x03
+ 910:	2a 83       	std	Y+2, r18	; 0x02
+ 912:	8a 81       	ldd	r24, Y+2	; 0x02
+ 914:	9b 81       	ldd	r25, Y+3	; 0x03
+ 916:	81 30       	cpi	r24, 0x01	; 1
+ 918:	91 05       	cpc	r25, r1
+ 91a:	d9 f0       	breq	.+54     	; 0x952 <Led_Off+0x58>
+ 91c:	2a 81       	ldd	r18, Y+2	; 0x02
+ 91e:	3b 81       	ldd	r19, Y+3	; 0x03
+ 920:	22 30       	cpi	r18, 0x02	; 2
+ 922:	31 05       	cpc	r19, r1
+ 924:	2c f4       	brge	.+10     	; 0x930 <Led_Off+0x36>
+ 926:	8a 81       	ldd	r24, Y+2	; 0x02
+ 928:	9b 81       	ldd	r25, Y+3	; 0x03
+ 92a:	00 97       	sbiw	r24, 0x00	; 0
+ 92c:	61 f0       	breq	.+24     	; 0x946 <Led_Off+0x4c>
+ 92e:	22 c0       	rjmp	.+68     	; 0x974 <Led_Off+0x7a>
+ 930:	2a 81       	ldd	r18, Y+2	; 0x02
+ 932:	3b 81       	ldd	r19, Y+3	; 0x03
+ 934:	22 30       	cpi	r18, 0x02	; 2
+ 936:	31 05       	cpc	r19, r1
+ 938:	91 f0       	breq	.+36     	; 0x95e <Led_Off+0x64>
+ 93a:	8a 81       	ldd	r24, Y+2	; 0x02
+ 93c:	9b 81       	ldd	r25, Y+3	; 0x03
+ 93e:	83 30       	cpi	r24, 0x03	; 3
+ 940:	91 05       	cpc	r25, r1
+ 942:	99 f0       	breq	.+38     	; 0x96a <Led_Off+0x70>
+ 944:	17 c0       	rjmp	.+46     	; 0x974 <Led_Off+0x7a>
+	{
+	case LED_0:
+		gpioPinWrite(LED_0_GPIO, LED_0_BIT, LOW);
+ 946:	81 e0       	ldi	r24, 0x01	; 1
+ 948:	60 e1       	ldi	r22, 0x10	; 16
+ 94a:	40 e0       	ldi	r20, 0x00	; 0
+ 94c:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 950:	11 c0       	rjmp	.+34     	; 0x974 <Led_Off+0x7a>
+		break;
+	case LED_1:
+		gpioPinWrite(LED_1_GPIO, LED_1_BIT, LOW);
+ 952:	81 e0       	ldi	r24, 0x01	; 1
+ 954:	60 e2       	ldi	r22, 0x20	; 32
+ 956:	40 e0       	ldi	r20, 0x00	; 0
+ 958:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 95c:	0b c0       	rjmp	.+22     	; 0x974 <Led_Off+0x7a>
+		break;
+	case LED_2:
+		gpioPinWrite(LED_2_GPIO, LED_2_BIT, LOW);
+ 95e:	81 e0       	ldi	r24, 0x01	; 1
+ 960:	60 e4       	ldi	r22, 0x40	; 64
+ 962:	40 e0       	ldi	r20, 0x00	; 0
+ 964:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+ 968:	05 c0       	rjmp	.+10     	; 0x974 <Led_Off+0x7a>
+		break;
+	case LED_3:
+		gpioPinWrite(LED_3_GPIO, LED_3_BIT, LOW);
+ 96a:	81 e0       	ldi	r24, 0x01	; 1
+ 96c:	60 e8       	ldi	r22, 0x80	; 128
+ 96e:	40 e0       	ldi	r20, 0x00	; 0
+ 970:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		break;
+	default:
+
+		break;
+	}
+}
+ 974:	0f 90       	pop	r0
+ 976:	0f 90       	pop	r0
+ 978:	0f 90       	pop	r0
+ 97a:	cf 91       	pop	r28
+ 97c:	df 91       	pop	r29
+ 97e:	08 95       	ret
+
+00000980 <Led_Toggle>:
+
+void Led_Toggle(En_LedNumber_t en_led_id)
+{
+ 980:	df 93       	push	r29
+ 982:	cf 93       	push	r28
+ 984:	00 d0       	rcall	.+0      	; 0x986 <Led_Toggle+0x6>
+ 986:	0f 92       	push	r0
+ 988:	cd b7       	in	r28, 0x3d	; 61
+ 98a:	de b7       	in	r29, 0x3e	; 62
+ 98c:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which led to be toggled */
+	switch(en_led_id)
+ 98e:	89 81       	ldd	r24, Y+1	; 0x01
+ 990:	28 2f       	mov	r18, r24
+ 992:	30 e0       	ldi	r19, 0x00	; 0
+ 994:	3b 83       	std	Y+3, r19	; 0x03
+ 996:	2a 83       	std	Y+2, r18	; 0x02
+ 998:	8a 81       	ldd	r24, Y+2	; 0x02
+ 99a:	9b 81       	ldd	r25, Y+3	; 0x03
+ 99c:	81 30       	cpi	r24, 0x01	; 1
+ 99e:	91 05       	cpc	r25, r1
+ 9a0:	d1 f0       	breq	.+52     	; 0x9d6 <Led_Toggle+0x56>
+ 9a2:	2a 81       	ldd	r18, Y+2	; 0x02
+ 9a4:	3b 81       	ldd	r19, Y+3	; 0x03
+ 9a6:	22 30       	cpi	r18, 0x02	; 2
+ 9a8:	31 05       	cpc	r19, r1
+ 9aa:	2c f4       	brge	.+10     	; 0x9b6 <Led_Toggle+0x36>
+ 9ac:	8a 81       	ldd	r24, Y+2	; 0x02
+ 9ae:	9b 81       	ldd	r25, Y+3	; 0x03
+ 9b0:	00 97       	sbiw	r24, 0x00	; 0
+ 9b2:	61 f0       	breq	.+24     	; 0x9cc <Led_Toggle+0x4c>
+ 9b4:	1e c0       	rjmp	.+60     	; 0x9f2 <Led_Toggle+0x72>
+ 9b6:	2a 81       	ldd	r18, Y+2	; 0x02
+ 9b8:	3b 81       	ldd	r19, Y+3	; 0x03
+ 9ba:	22 30       	cpi	r18, 0x02	; 2
+ 9bc:	31 05       	cpc	r19, r1
+ 9be:	81 f0       	breq	.+32     	; 0x9e0 <Led_Toggle+0x60>
+ 9c0:	8a 81       	ldd	r24, Y+2	; 0x02
+ 9c2:	9b 81       	ldd	r25, Y+3	; 0x03
+ 9c4:	83 30       	cpi	r24, 0x03	; 3
+ 9c6:	91 05       	cpc	r25, r1
+ 9c8:	81 f0       	breq	.+32     	; 0x9ea <Led_Toggle+0x6a>
+ 9ca:	13 c0       	rjmp	.+38     	; 0x9f2 <Led_Toggle+0x72>
+	{
+	case LED_0:
+		gpioPinToggle(LED_0_GPIO, LED_0_BIT);
+ 9cc:	81 e0       	ldi	r24, 0x01	; 1
+ 9ce:	60 e1       	ldi	r22, 0x10	; 16
+ 9d0:	0e 94 37 03 	call	0x66e	; 0x66e <gpioPinToggle>
+ 9d4:	0e c0       	rjmp	.+28     	; 0x9f2 <Led_Toggle+0x72>
+		break;
+	case LED_1:
+		gpioPinToggle(LED_1_GPIO, LED_1_BIT);
+ 9d6:	81 e0       	ldi	r24, 0x01	; 1
+ 9d8:	60 e2       	ldi	r22, 0x20	; 32
+ 9da:	0e 94 37 03 	call	0x66e	; 0x66e <gpioPinToggle>
+ 9de:	09 c0       	rjmp	.+18     	; 0x9f2 <Led_Toggle+0x72>
+		break;
+	case LED_2:
+		gpioPinToggle(LED_2_GPIO, LED_2_BIT);
+ 9e0:	81 e0       	ldi	r24, 0x01	; 1
+ 9e2:	60 e4       	ldi	r22, 0x40	; 64
+ 9e4:	0e 94 37 03 	call	0x66e	; 0x66e <gpioPinToggle>
+ 9e8:	04 c0       	rjmp	.+8      	; 0x9f2 <Led_Toggle+0x72>
+		break;
+	case LED_3:
+		gpioPinToggle(LED_3_GPIO, LED_3_BIT);
+ 9ea:	81 e0       	ldi	r24, 0x01	; 1
+ 9ec:	60 e8       	ldi	r22, 0x80	; 128
+ 9ee:	0e 94 37 03 	call	0x66e	; 0x66e <gpioPinToggle>
+		break;
+	default:
+
+		break;
+	}
+}
+ 9f2:	0f 90       	pop	r0
+ 9f4:	0f 90       	pop	r0
+ 9f6:	0f 90       	pop	r0
+ 9f8:	cf 91       	pop	r28
+ 9fa:	df 91       	pop	r29
+ 9fc:	08 95       	ret
+
+000009fe <pushButtonInit>:
+#include "pushButton.h"
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void pushButtonInit(En_buttonId_t en_button_id)
+{
+ 9fe:	df 93       	push	r29
+ a00:	cf 93       	push	r28
+ a02:	00 d0       	rcall	.+0      	; 0xa04 <pushButtonInit+0x6>
+ a04:	0f 92       	push	r0
+ a06:	cd b7       	in	r28, 0x3d	; 61
+ a08:	de b7       	in	r29, 0x3e	; 62
+ a0a:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which push button to be initialized */
+	switch(en_button_id)
+ a0c:	89 81       	ldd	r24, Y+1	; 0x01
+ a0e:	28 2f       	mov	r18, r24
+ a10:	30 e0       	ldi	r19, 0x00	; 0
+ a12:	3b 83       	std	Y+3, r19	; 0x03
+ a14:	2a 83       	std	Y+2, r18	; 0x02
+ a16:	8a 81       	ldd	r24, Y+2	; 0x02
+ a18:	9b 81       	ldd	r25, Y+3	; 0x03
+ a1a:	00 97       	sbiw	r24, 0x00	; 0
+ a1c:	31 f0       	breq	.+12     	; 0xa2a <pushButtonInit+0x2c>
+ a1e:	2a 81       	ldd	r18, Y+2	; 0x02
+ a20:	3b 81       	ldd	r19, Y+3	; 0x03
+ a22:	21 30       	cpi	r18, 0x01	; 1
+ a24:	31 05       	cpc	r19, r1
+ a26:	39 f0       	breq	.+14     	; 0xa36 <pushButtonInit+0x38>
+ a28:	0b c0       	rjmp	.+22     	; 0xa40 <pushButtonInit+0x42>
+	{
+	case BTN_0:
+		gpioPinDirection(BTN_0_GPIO, BTN_0_BIT, INPUT);
+ a2a:	82 e0       	ldi	r24, 0x02	; 2
+ a2c:	60 e1       	ldi	r22, 0x10	; 16
+ a2e:	40 e0       	ldi	r20, 0x00	; 0
+ a30:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+ a34:	05 c0       	rjmp	.+10     	; 0xa40 <pushButtonInit+0x42>
+		break;
+	case BTN_1:
+		gpioPinDirection(BTN_1_GPIO, BTN_1_BIT, INPUT);
+ a36:	81 e0       	ldi	r24, 0x01	; 1
+ a38:	64 e0       	ldi	r22, 0x04	; 4
+ a3a:	40 e0       	ldi	r20, 0x00	; 0
+ a3c:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		break;
+	default:
+
+		break;
+	}
+}
+ a40:	0f 90       	pop	r0
+ a42:	0f 90       	pop	r0
+ a44:	0f 90       	pop	r0
+ a46:	cf 91       	pop	r28
+ a48:	df 91       	pop	r29
+ a4a:	08 95       	ret
+
+00000a4c <pushButtonUpdate>:
+
+void pushButtonUpdate(void)
+{
+ a4c:	df 93       	push	r29
+ a4e:	cf 93       	push	r28
+ a50:	cd b7       	in	r28, 0x3d	; 61
+ a52:	de b7       	in	r29, 0x3e	; 62
+	/* Postponed */
+}
+ a54:	cf 91       	pop	r28
+ a56:	df 91       	pop	r29
+ a58:	08 95       	ret
+
+00000a5a <pushButtonGetStatus>:
+
+En_buttonStatus_t pushButtonGetStatus(En_buttonId_t en_button_id)
+{
+ a5a:	df 93       	push	r29
+ a5c:	cf 93       	push	r28
+ a5e:	00 d0       	rcall	.+0      	; 0xa60 <pushButtonGetStatus+0x6>
+ a60:	00 d0       	rcall	.+0      	; 0xa62 <pushButtonGetStatus+0x8>
+ a62:	cd b7       	in	r28, 0x3d	; 61
+ a64:	de b7       	in	r29, 0x3e	; 62
+ a66:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which push button to read its status (pressed or released) */
+	switch(en_button_id)
+ a68:	89 81       	ldd	r24, Y+1	; 0x01
+ a6a:	28 2f       	mov	r18, r24
+ a6c:	30 e0       	ldi	r19, 0x00	; 0
+ a6e:	3c 83       	std	Y+4, r19	; 0x04
+ a70:	2b 83       	std	Y+3, r18	; 0x03
+ a72:	8b 81       	ldd	r24, Y+3	; 0x03
+ a74:	9c 81       	ldd	r25, Y+4	; 0x04
+ a76:	81 30       	cpi	r24, 0x01	; 1
+ a78:	91 05       	cpc	r25, r1
+ a7a:	71 f1       	breq	.+92     	; 0xad8 <pushButtonGetStatus+0x7e>
+ a7c:	2b 81       	ldd	r18, Y+3	; 0x03
+ a7e:	3c 81       	ldd	r19, Y+4	; 0x04
+ a80:	22 30       	cpi	r18, 0x02	; 2
+ a82:	31 05       	cpc	r19, r1
+ a84:	2c f4       	brge	.+10     	; 0xa90 <pushButtonGetStatus+0x36>
+ a86:	8b 81       	ldd	r24, Y+3	; 0x03
+ a88:	9c 81       	ldd	r25, Y+4	; 0x04
+ a8a:	00 97       	sbiw	r24, 0x00	; 0
+ a8c:	61 f0       	breq	.+24     	; 0xaa6 <pushButtonGetStatus+0x4c>
+ a8e:	43 c0       	rjmp	.+134    	; 0xb16 <pushButtonGetStatus+0xbc>
+ a90:	2b 81       	ldd	r18, Y+3	; 0x03
+ a92:	3c 81       	ldd	r19, Y+4	; 0x04
+ a94:	22 30       	cpi	r18, 0x02	; 2
+ a96:	31 05       	cpc	r19, r1
+ a98:	c1 f1       	breq	.+112    	; 0xb0a <pushButtonGetStatus+0xb0>
+ a9a:	8b 81       	ldd	r24, Y+3	; 0x03
+ a9c:	9c 81       	ldd	r25, Y+4	; 0x04
+ a9e:	83 30       	cpi	r24, 0x03	; 3
+ aa0:	91 05       	cpc	r25, r1
+ aa2:	b1 f1       	breq	.+108    	; 0xb10 <pushButtonGetStatus+0xb6>
+ aa4:	38 c0       	rjmp	.+112    	; 0xb16 <pushButtonGetStatus+0xbc>
+	{
+	case BTN_0:
+		if(gpioPinRead(BTN_0_GPIO, BTN_0_BIT))
+ aa6:	82 e0       	ldi	r24, 0x02	; 2
+ aa8:	60 e1       	ldi	r22, 0x10	; 16
+ aaa:	0e 94 88 03 	call	0x710	; 0x710 <gpioPinRead>
+ aae:	88 23       	and	r24, r24
+ ab0:	89 f0       	breq	.+34     	; 0xad4 <pushButtonGetStatus+0x7a>
+		{
+			softwareDelayMs(20);
+ ab2:	64 e1       	ldi	r22, 0x14	; 20
+ ab4:	70 e0       	ldi	r23, 0x00	; 0
+ ab6:	80 e0       	ldi	r24, 0x00	; 0
+ ab8:	90 e0       	ldi	r25, 0x00	; 0
+ aba:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+			if(gpioPinRead(BTN_0_GPIO, BTN_0_BIT))
+ abe:	82 e0       	ldi	r24, 0x02	; 2
+ ac0:	60 e1       	ldi	r22, 0x10	; 16
+ ac2:	0e 94 88 03 	call	0x710	; 0x710 <gpioPinRead>
+ ac6:	88 23       	and	r24, r24
+ ac8:	19 f0       	breq	.+6      	; 0xad0 <pushButtonGetStatus+0x76>
+			{
+				return Pressed;
+ aca:	92 e0       	ldi	r25, 0x02	; 2
+ acc:	9a 83       	std	Y+2, r25	; 0x02
+ ace:	25 c0       	rjmp	.+74     	; 0xb1a <pushButtonGetStatus+0xc0>
+			}else
+			{
+				return Released;
+ ad0:	1a 82       	std	Y+2, r1	; 0x02
+ ad2:	23 c0       	rjmp	.+70     	; 0xb1a <pushButtonGetStatus+0xc0>
+			}
+		}else
+		{
+			return Released;
+ ad4:	1a 82       	std	Y+2, r1	; 0x02
+ ad6:	21 c0       	rjmp	.+66     	; 0xb1a <pushButtonGetStatus+0xc0>
+		}
+		break;
+	case BTN_1:
+		if(gpioPinRead(BTN_1_GPIO, BTN_1_BIT))
+ ad8:	81 e0       	ldi	r24, 0x01	; 1
+ ada:	64 e0       	ldi	r22, 0x04	; 4
+ adc:	0e 94 88 03 	call	0x710	; 0x710 <gpioPinRead>
+ ae0:	88 23       	and	r24, r24
+ ae2:	89 f0       	breq	.+34     	; 0xb06 <pushButtonGetStatus+0xac>
+		{
+			softwareDelayMs(20);
+ ae4:	64 e1       	ldi	r22, 0x14	; 20
+ ae6:	70 e0       	ldi	r23, 0x00	; 0
+ ae8:	80 e0       	ldi	r24, 0x00	; 0
+ aea:	90 e0       	ldi	r25, 0x00	; 0
+ aec:	0e 94 6d 06 	call	0xcda	; 0xcda <softwareDelayMs>
+			if(gpioPinRead(BTN_1_GPIO, BTN_1_BIT))
+ af0:	81 e0       	ldi	r24, 0x01	; 1
+ af2:	64 e0       	ldi	r22, 0x04	; 4
+ af4:	0e 94 88 03 	call	0x710	; 0x710 <gpioPinRead>
+ af8:	88 23       	and	r24, r24
+ afa:	19 f0       	breq	.+6      	; 0xb02 <pushButtonGetStatus+0xa8>
+			{
+				return Pressed;
+ afc:	22 e0       	ldi	r18, 0x02	; 2
+ afe:	2a 83       	std	Y+2, r18	; 0x02
+ b00:	0c c0       	rjmp	.+24     	; 0xb1a <pushButtonGetStatus+0xc0>
+			}else
+			{
+				return Released;
+ b02:	1a 82       	std	Y+2, r1	; 0x02
+ b04:	0a c0       	rjmp	.+20     	; 0xb1a <pushButtonGetStatus+0xc0>
+			}
+		}else
+		{
+			return Released;
+ b06:	1a 82       	std	Y+2, r1	; 0x02
+ b08:	08 c0       	rjmp	.+16     	; 0xb1a <pushButtonGetStatus+0xc0>
+		}
+		break;
+	case BTN_2:
+		return ERROR;
+ b0a:	3f ef       	ldi	r19, 0xFF	; 255
+ b0c:	3a 83       	std	Y+2, r19	; 0x02
+ b0e:	05 c0       	rjmp	.+10     	; 0xb1a <pushButtonGetStatus+0xc0>
+		break;
+	case BTN_3:
+		return ERROR;
+ b10:	8f ef       	ldi	r24, 0xFF	; 255
+ b12:	8a 83       	std	Y+2, r24	; 0x02
+ b14:	02 c0       	rjmp	.+4      	; 0xb1a <pushButtonGetStatus+0xc0>
+		break;
+	default:
+		return ERROR;
+ b16:	9f ef       	ldi	r25, 0xFF	; 255
+ b18:	9a 83       	std	Y+2, r25	; 0x02
+ b1a:	8a 81       	ldd	r24, Y+2	; 0x02
+		break;
+	}
+}
+ b1c:	0f 90       	pop	r0
+ b1e:	0f 90       	pop	r0
+ b20:	0f 90       	pop	r0
+ b22:	0f 90       	pop	r0
+ b24:	cf 91       	pop	r28
+ b26:	df 91       	pop	r29
+ b28:	08 95       	ret
+
+00000b2a <sevenSegInit>:
+static uint8_t gu8_sevenSeg1Status = HIGH;
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void sevenSegInit(En_SevenSegId_t a_segment_id)
+{
+ b2a:	df 93       	push	r29
+ b2c:	cf 93       	push	r28
+ b2e:	00 d0       	rcall	.+0      	; 0xb30 <sevenSegInit+0x6>
+ b30:	0f 92       	push	r0
+ b32:	cd b7       	in	r28, 0x3d	; 61
+ b34:	de b7       	in	r29, 0x3e	; 62
+ b36:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which 7seg to be initialized */
+	switch(a_segment_id)
+ b38:	89 81       	ldd	r24, Y+1	; 0x01
+ b3a:	28 2f       	mov	r18, r24
+ b3c:	30 e0       	ldi	r19, 0x00	; 0
+ b3e:	3b 83       	std	Y+3, r19	; 0x03
+ b40:	2a 83       	std	Y+2, r18	; 0x02
+ b42:	8a 81       	ldd	r24, Y+2	; 0x02
+ b44:	9b 81       	ldd	r25, Y+3	; 0x03
+ b46:	00 97       	sbiw	r24, 0x00	; 0
+ b48:	31 f0       	breq	.+12     	; 0xb56 <sevenSegInit+0x2c>
+ b4a:	2a 81       	ldd	r18, Y+2	; 0x02
+ b4c:	3b 81       	ldd	r19, Y+3	; 0x03
+ b4e:	21 30       	cpi	r18, 0x01	; 1
+ b50:	31 05       	cpc	r19, r1
+ b52:	c9 f0       	breq	.+50     	; 0xb86 <sevenSegInit+0x5c>
+ b54:	2f c0       	rjmp	.+94     	; 0xbb4 <sevenSegInit+0x8a>
+	{
+	case SEG_0:
+		gpioPinDirection(GPIOB, (BIT0 | BIT1 | BIT2 | BIT3), OUTPUT);
+ b56:	81 e0       	ldi	r24, 0x01	; 1
+ b58:	6f e0       	ldi	r22, 0x0F	; 15
+ b5a:	4f ef       	ldi	r20, 0xFF	; 255
+ b5c:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		gpioPinDirection(GPIOD, (BIT2 | BIT4), OUTPUT);
+ b60:	83 e0       	ldi	r24, 0x03	; 3
+ b62:	64 e1       	ldi	r22, 0x14	; 20
+ b64:	4f ef       	ldi	r20, 0xFF	; 255
+ b66:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		gpioPinWrite(GPIOB, (BIT0 | BIT1 | BIT2 | BIT3), LOW);
+ b6a:	81 e0       	ldi	r24, 0x01	; 1
+ b6c:	6f e0       	ldi	r22, 0x0F	; 15
+ b6e:	40 e0       	ldi	r20, 0x00	; 0
+ b70:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gpioPinWrite(GPIOD, BIT4, LOW);
+ b74:	83 e0       	ldi	r24, 0x03	; 3
+ b76:	60 e1       	ldi	r22, 0x10	; 16
+ b78:	40 e0       	ldi	r20, 0x00	; 0
+ b7a:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		sevenSegDisable(SEG_0);
+ b7e:	80 e0       	ldi	r24, 0x00	; 0
+ b80:	0e 94 0d 06 	call	0xc1a	; 0xc1a <sevenSegDisable>
+ b84:	17 c0       	rjmp	.+46     	; 0xbb4 <sevenSegInit+0x8a>
+		break;
+	case SEG_1:
+		gpioPinDirection(GPIOB, (BIT0 | BIT1 | BIT2 | BIT3), OUTPUT);
+ b86:	81 e0       	ldi	r24, 0x01	; 1
+ b88:	6f e0       	ldi	r22, 0x0F	; 15
+ b8a:	4f ef       	ldi	r20, 0xFF	; 255
+ b8c:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		gpioPinDirection(GPIOD, (BIT3 | BIT4), OUTPUT);
+ b90:	83 e0       	ldi	r24, 0x03	; 3
+ b92:	68 e1       	ldi	r22, 0x18	; 24
+ b94:	4f ef       	ldi	r20, 0xFF	; 255
+ b96:	0e 94 5f 02 	call	0x4be	; 0x4be <gpioPinDirection>
+		gpioPinWrite(GPIOB, (BIT0 | BIT1 | BIT2 | BIT3), LOW);
+ b9a:	81 e0       	ldi	r24, 0x01	; 1
+ b9c:	6f e0       	ldi	r22, 0x0F	; 15
+ b9e:	40 e0       	ldi	r20, 0x00	; 0
+ ba0:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gpioPinWrite(GPIOD, BIT4, LOW);
+ ba4:	83 e0       	ldi	r24, 0x03	; 3
+ ba6:	60 e1       	ldi	r22, 0x10	; 16
+ ba8:	40 e0       	ldi	r20, 0x00	; 0
+ baa:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		sevenSegDisable(SEG_1);
+ bae:	81 e0       	ldi	r24, 0x01	; 1
+ bb0:	0e 94 0d 06 	call	0xc1a	; 0xc1a <sevenSegDisable>
+		break;
+	}
+}
+ bb4:	0f 90       	pop	r0
+ bb6:	0f 90       	pop	r0
+ bb8:	0f 90       	pop	r0
+ bba:	cf 91       	pop	r28
+ bbc:	df 91       	pop	r29
+ bbe:	08 95       	ret
+
+00000bc0 <sevenSegEnable>:
+
+void sevenSegEnable(En_SevenSegId_t en_segment_id)
+{
+ bc0:	df 93       	push	r29
+ bc2:	cf 93       	push	r28
+ bc4:	00 d0       	rcall	.+0      	; 0xbc6 <sevenSegEnable+0x6>
+ bc6:	0f 92       	push	r0
+ bc8:	cd b7       	in	r28, 0x3d	; 61
+ bca:	de b7       	in	r29, 0x3e	; 62
+ bcc:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which 7seg to be enabled */
+	switch(en_segment_id)
+ bce:	89 81       	ldd	r24, Y+1	; 0x01
+ bd0:	28 2f       	mov	r18, r24
+ bd2:	30 e0       	ldi	r19, 0x00	; 0
+ bd4:	3b 83       	std	Y+3, r19	; 0x03
+ bd6:	2a 83       	std	Y+2, r18	; 0x02
+ bd8:	8a 81       	ldd	r24, Y+2	; 0x02
+ bda:	9b 81       	ldd	r25, Y+3	; 0x03
+ bdc:	00 97       	sbiw	r24, 0x00	; 0
+ bde:	31 f0       	breq	.+12     	; 0xbec <sevenSegEnable+0x2c>
+ be0:	2a 81       	ldd	r18, Y+2	; 0x02
+ be2:	3b 81       	ldd	r19, Y+3	; 0x03
+ be4:	21 30       	cpi	r18, 0x01	; 1
+ be6:	31 05       	cpc	r19, r1
+ be8:	51 f0       	breq	.+20     	; 0xbfe <sevenSegEnable+0x3e>
+ bea:	11 c0       	rjmp	.+34     	; 0xc0e <sevenSegEnable+0x4e>
+	{
+	case SEG_0:
+		gpioPinWrite(GPIOD, BIT2, LOW);
+ bec:	83 e0       	ldi	r24, 0x03	; 3
+ bee:	64 e0       	ldi	r22, 0x04	; 4
+ bf0:	40 e0       	ldi	r20, 0x00	; 0
+ bf2:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gu8_sevenSeg0Status = HIGH;
+ bf6:	8f ef       	ldi	r24, 0xFF	; 255
+ bf8:	80 93 62 00 	sts	0x0062, r24
+ bfc:	08 c0       	rjmp	.+16     	; 0xc0e <sevenSegEnable+0x4e>
+		break;
+	case SEG_1:
+		gpioPinWrite(GPIOD, BIT3, LOW);
+ bfe:	83 e0       	ldi	r24, 0x03	; 3
+ c00:	68 e0       	ldi	r22, 0x08	; 8
+ c02:	40 e0       	ldi	r20, 0x00	; 0
+ c04:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gu8_sevenSeg1Status = HIGH;
+ c08:	8f ef       	ldi	r24, 0xFF	; 255
+ c0a:	80 93 60 00 	sts	0x0060, r24
+		break;
+	}
+}
+ c0e:	0f 90       	pop	r0
+ c10:	0f 90       	pop	r0
+ c12:	0f 90       	pop	r0
+ c14:	cf 91       	pop	r28
+ c16:	df 91       	pop	r29
+ c18:	08 95       	ret
+
+00000c1a <sevenSegDisable>:
+
+void sevenSegDisable(En_SevenSegId_t en_segment_id)
+{
+ c1a:	df 93       	push	r29
+ c1c:	cf 93       	push	r28
+ c1e:	00 d0       	rcall	.+0      	; 0xc20 <sevenSegDisable+0x6>
+ c20:	0f 92       	push	r0
+ c22:	cd b7       	in	r28, 0x3d	; 61
+ c24:	de b7       	in	r29, 0x3e	; 62
+ c26:	89 83       	std	Y+1, r24	; 0x01
+	/* A switch-case statement to decide which 7seg to be disabled */
+	switch(en_segment_id)
+ c28:	89 81       	ldd	r24, Y+1	; 0x01
+ c2a:	28 2f       	mov	r18, r24
+ c2c:	30 e0       	ldi	r19, 0x00	; 0
+ c2e:	3b 83       	std	Y+3, r19	; 0x03
+ c30:	2a 83       	std	Y+2, r18	; 0x02
+ c32:	8a 81       	ldd	r24, Y+2	; 0x02
+ c34:	9b 81       	ldd	r25, Y+3	; 0x03
+ c36:	00 97       	sbiw	r24, 0x00	; 0
+ c38:	31 f0       	breq	.+12     	; 0xc46 <sevenSegDisable+0x2c>
+ c3a:	2a 81       	ldd	r18, Y+2	; 0x02
+ c3c:	3b 81       	ldd	r19, Y+3	; 0x03
+ c3e:	21 30       	cpi	r18, 0x01	; 1
+ c40:	31 05       	cpc	r19, r1
+ c42:	49 f0       	breq	.+18     	; 0xc56 <sevenSegDisable+0x3c>
+ c44:	0f c0       	rjmp	.+30     	; 0xc64 <sevenSegDisable+0x4a>
+	{
+	case SEG_0:
+		gpioPinWrite(GPIOD, BIT2, HIGH);
+ c46:	83 e0       	ldi	r24, 0x03	; 3
+ c48:	64 e0       	ldi	r22, 0x04	; 4
+ c4a:	4f ef       	ldi	r20, 0xFF	; 255
+ c4c:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gu8_sevenSeg0Status = LOW;
+ c50:	10 92 62 00 	sts	0x0062, r1
+ c54:	07 c0       	rjmp	.+14     	; 0xc64 <sevenSegDisable+0x4a>
+		break;
+	case SEG_1:
+		gpioPinWrite(GPIOD, BIT3, HIGH);
+ c56:	83 e0       	ldi	r24, 0x03	; 3
+ c58:	68 e0       	ldi	r22, 0x08	; 8
+ c5a:	4f ef       	ldi	r20, 0xFF	; 255
+ c5c:	0e 94 cb 02 	call	0x596	; 0x596 <gpioPinWrite>
+		gu8_sevenSeg1Status = LOW;
+ c60:	10 92 60 00 	sts	0x0060, r1
+		break;
+	}
+}
+ c64:	0f 90       	pop	r0
+ c66:	0f 90       	pop	r0
+ c68:	0f 90       	pop	r0
+ c6a:	cf 91       	pop	r28
+ c6c:	df 91       	pop	r29
+ c6e:	08 95       	ret
+
+00000c70 <sevenSegWrite>:
+
+void sevenSegWrite(En_SevenSegId_t en_segment_id, uint8_t u8_number)
+{
+ c70:	df 93       	push	r29
+ c72:	cf 93       	push	r28
+ c74:	00 d0       	rcall	.+0      	; 0xc76 <sevenSegWrite+0x6>
+ c76:	00 d0       	rcall	.+0      	; 0xc78 <sevenSegWrite+0x8>
+ c78:	cd b7       	in	r28, 0x3d	; 61
+ c7a:	de b7       	in	r29, 0x3e	; 62
+ c7c:	89 83       	std	Y+1, r24	; 0x01
+ c7e:	6a 83       	std	Y+2, r22	; 0x02
+	/* A switch-case statement to decide which 7seg to be written */
+	switch(en_segment_id)
+ c80:	89 81       	ldd	r24, Y+1	; 0x01
+ c82:	28 2f       	mov	r18, r24
+ c84:	30 e0       	ldi	r19, 0x00	; 0
+ c86:	3c 83       	std	Y+4, r19	; 0x04
+ c88:	2b 83       	std	Y+3, r18	; 0x03
+ c8a:	8b 81       	ldd	r24, Y+3	; 0x03
+ c8c:	9c 81       	ldd	r25, Y+4	; 0x04
+ c8e:	00 97       	sbiw	r24, 0x00	; 0
+ c90:	31 f0       	breq	.+12     	; 0xc9e <sevenSegWrite+0x2e>
+ c92:	2b 81       	ldd	r18, Y+3	; 0x03
+ c94:	3c 81       	ldd	r19, Y+4	; 0x04
+ c96:	21 30       	cpi	r18, 0x01	; 1
+ c98:	31 05       	cpc	r19, r1
+ c9a:	69 f0       	breq	.+26     	; 0xcb6 <sevenSegWrite+0x46>
+ c9c:	17 c0       	rjmp	.+46     	; 0xccc <sevenSegWrite+0x5c>
+	{
+	case SEG_0:
+		if(gu8_sevenSeg0Status == HIGH)
+ c9e:	80 91 62 00 	lds	r24, 0x0062
+ ca2:	8f 3f       	cpi	r24, 0xFF	; 255
+ ca4:	99 f4       	brne	.+38     	; 0xccc <sevenSegWrite+0x5c>
+		{
+			gpioPortWrite(GPIOB, (GPIOB & 0xF0) | (u8_number & 0x0F));
+ ca6:	8a 81       	ldd	r24, Y+2	; 0x02
+ ca8:	98 2f       	mov	r25, r24
+ caa:	9f 70       	andi	r25, 0x0F	; 15
+ cac:	81 e0       	ldi	r24, 0x01	; 1
+ cae:	69 2f       	mov	r22, r25
+ cb0:	0e 94 8f 01 	call	0x31e	; 0x31e <gpioPortWrite>
+ cb4:	0b c0       	rjmp	.+22     	; 0xccc <sevenSegWrite+0x5c>
+		}
+		break;
+	case SEG_1:
+		if(gu8_sevenSeg1Status == HIGH)
+ cb6:	80 91 60 00 	lds	r24, 0x0060
+ cba:	8f 3f       	cpi	r24, 0xFF	; 255
+ cbc:	39 f4       	brne	.+14     	; 0xccc <sevenSegWrite+0x5c>
+		{
+			gpioPortWrite(GPIOB, (GPIOB & 0xF0) | (u8_number & 0x0F));
+ cbe:	8a 81       	ldd	r24, Y+2	; 0x02
+ cc0:	98 2f       	mov	r25, r24
+ cc2:	9f 70       	andi	r25, 0x0F	; 15
+ cc4:	81 e0       	ldi	r24, 0x01	; 1
+ cc6:	69 2f       	mov	r22, r25
+ cc8:	0e 94 8f 01 	call	0x31e	; 0x31e <gpioPortWrite>
+		}
+		break;
+	}
+}
+ ccc:	0f 90       	pop	r0
+ cce:	0f 90       	pop	r0
+ cd0:	0f 90       	pop	r0
+ cd2:	0f 90       	pop	r0
+ cd4:	cf 91       	pop	r28
+ cd6:	df 91       	pop	r29
+ cd8:	08 95       	ret
+
+00000cda <softwareDelayMs>:
+#include "softwareDelay.h"
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
+
+void softwareDelayMs(uint32_t u32_delay_in_ms)
+{
+ cda:	df 93       	push	r29
+ cdc:	cf 93       	push	r28
+ cde:	cd b7       	in	r28, 0x3d	; 61
+ ce0:	de b7       	in	r29, 0x3e	; 62
+ ce2:	60 97       	sbiw	r28, 0x10	; 16
+ ce4:	0f b6       	in	r0, 0x3f	; 63
+ ce6:	f8 94       	cli
+ ce8:	de bf       	out	0x3e, r29	; 62
+ cea:	0f be       	out	0x3f, r0	; 63
+ cec:	cd bf       	out	0x3d, r28	; 61
+ cee:	6d 87       	std	Y+13, r22	; 0x0d
+ cf0:	7e 87       	std	Y+14, r23	; 0x0e
+ cf2:	8f 87       	std	Y+15, r24	; 0x0f
+ cf4:	98 8b       	std	Y+16, r25	; 0x10
+	/* 16 MHz */
+	uint32_t ticks=380, i, j;
+ cf6:	8c e7       	ldi	r24, 0x7C	; 124
+ cf8:	91 e0       	ldi	r25, 0x01	; 1
+ cfa:	a0 e0       	ldi	r26, 0x00	; 0
+ cfc:	b0 e0       	ldi	r27, 0x00	; 0
+ cfe:	89 87       	std	Y+9, r24	; 0x09
+ d00:	9a 87       	std	Y+10, r25	; 0x0a
+ d02:	ab 87       	std	Y+11, r26	; 0x0b
+ d04:	bc 87       	std	Y+12, r27	; 0x0c
+	for(i=0 ; i<u32_delay_in_ms ; i++)
+ d06:	1d 82       	std	Y+5, r1	; 0x05
+ d08:	1e 82       	std	Y+6, r1	; 0x06
+ d0a:	1f 82       	std	Y+7, r1	; 0x07
+ d0c:	18 86       	std	Y+8, r1	; 0x08
+ d0e:	28 c0       	rjmp	.+80     	; 0xd60 <softwareDelayMs+0x86>
+	{
+		for(j=0 ; j<ticks ; j++);
+ d10:	19 82       	std	Y+1, r1	; 0x01
+ d12:	1a 82       	std	Y+2, r1	; 0x02
+ d14:	1b 82       	std	Y+3, r1	; 0x03
+ d16:	1c 82       	std	Y+4, r1	; 0x04
+ d18:	0b c0       	rjmp	.+22     	; 0xd30 <softwareDelayMs+0x56>
+ d1a:	89 81       	ldd	r24, Y+1	; 0x01
+ d1c:	9a 81       	ldd	r25, Y+2	; 0x02
+ d1e:	ab 81       	ldd	r26, Y+3	; 0x03
+ d20:	bc 81       	ldd	r27, Y+4	; 0x04
+ d22:	01 96       	adiw	r24, 0x01	; 1
+ d24:	a1 1d       	adc	r26, r1
+ d26:	b1 1d       	adc	r27, r1
+ d28:	89 83       	std	Y+1, r24	; 0x01
+ d2a:	9a 83       	std	Y+2, r25	; 0x02
+ d2c:	ab 83       	std	Y+3, r26	; 0x03
+ d2e:	bc 83       	std	Y+4, r27	; 0x04
+ d30:	29 81       	ldd	r18, Y+1	; 0x01
+ d32:	3a 81       	ldd	r19, Y+2	; 0x02
+ d34:	4b 81       	ldd	r20, Y+3	; 0x03
+ d36:	5c 81       	ldd	r21, Y+4	; 0x04
+ d38:	89 85       	ldd	r24, Y+9	; 0x09
+ d3a:	9a 85       	ldd	r25, Y+10	; 0x0a
+ d3c:	ab 85       	ldd	r26, Y+11	; 0x0b
+ d3e:	bc 85       	ldd	r27, Y+12	; 0x0c
+ d40:	28 17       	cp	r18, r24
+ d42:	39 07       	cpc	r19, r25
+ d44:	4a 07       	cpc	r20, r26
+ d46:	5b 07       	cpc	r21, r27
+ d48:	40 f3       	brcs	.-48     	; 0xd1a <softwareDelayMs+0x40>
+
+void softwareDelayMs(uint32_t u32_delay_in_ms)
+{
+	/* 16 MHz */
+	uint32_t ticks=380, i, j;
+	for(i=0 ; i<u32_delay_in_ms ; i++)
+ d4a:	8d 81       	ldd	r24, Y+5	; 0x05
+ d4c:	9e 81       	ldd	r25, Y+6	; 0x06
+ d4e:	af 81       	ldd	r26, Y+7	; 0x07
+ d50:	b8 85       	ldd	r27, Y+8	; 0x08
+ d52:	01 96       	adiw	r24, 0x01	; 1
+ d54:	a1 1d       	adc	r26, r1
+ d56:	b1 1d       	adc	r27, r1
+ d58:	8d 83       	std	Y+5, r24	; 0x05
+ d5a:	9e 83       	std	Y+6, r25	; 0x06
+ d5c:	af 83       	std	Y+7, r26	; 0x07
+ d5e:	b8 87       	std	Y+8, r27	; 0x08
+ d60:	2d 81       	ldd	r18, Y+5	; 0x05
+ d62:	3e 81       	ldd	r19, Y+6	; 0x06
+ d64:	4f 81       	ldd	r20, Y+7	; 0x07
+ d66:	58 85       	ldd	r21, Y+8	; 0x08
+ d68:	8d 85       	ldd	r24, Y+13	; 0x0d
+ d6a:	9e 85       	ldd	r25, Y+14	; 0x0e
+ d6c:	af 85       	ldd	r26, Y+15	; 0x0f
+ d6e:	b8 89       	ldd	r27, Y+16	; 0x10
+ d70:	28 17       	cp	r18, r24
+ d72:	39 07       	cpc	r19, r25
+ d74:	4a 07       	cpc	r20, r26
+ d76:	5b 07       	cpc	r21, r27
+ d78:	58 f2       	brcs	.-106    	; 0xd10 <softwareDelayMs+0x36>
+	{
+		for(j=0 ; j<ticks ; j++);
+	}
+}
+ d7a:	60 96       	adiw	r28, 0x10	; 16
+ d7c:	0f b6       	in	r0, 0x3f	; 63
+ d7e:	f8 94       	cli
+ d80:	de bf       	out	0x3e, r29	; 62
+ d82:	0f be       	out	0x3f, r0	; 63
+ d84:	cd bf       	out	0x3d, r28	; 61
+ d86:	cf 91       	pop	r28
+ d88:	df 91       	pop	r29
+ d8a:	08 95       	ret
+
+00000d8c <__udivmodqi4>:
+ d8c:	99 1b       	sub	r25, r25
+ d8e:	79 e0       	ldi	r23, 0x09	; 9
+ d90:	04 c0       	rjmp	.+8      	; 0xd9a <__udivmodqi4_ep>
+
+00000d92 <__udivmodqi4_loop>:
+ d92:	99 1f       	adc	r25, r25
+ d94:	96 17       	cp	r25, r22
+ d96:	08 f0       	brcs	.+2      	; 0xd9a <__udivmodqi4_ep>
+ d98:	96 1b       	sub	r25, r22
+
+00000d9a <__udivmodqi4_ep>:
+ d9a:	88 1f       	adc	r24, r24
+ d9c:	7a 95       	dec	r23
+ d9e:	c9 f7       	brne	.-14     	; 0xd92 <__udivmodqi4_loop>
+ da0:	80 95       	com	r24
+ da2:	08 95       	ret
+
+00000da4 <__udivmodsi4>:
+ da4:	a1 e2       	ldi	r26, 0x21	; 33
+ da6:	1a 2e       	mov	r1, r26
+ da8:	aa 1b       	sub	r26, r26
+ daa:	bb 1b       	sub	r27, r27
+ dac:	fd 01       	movw	r30, r26
+ dae:	0d c0       	rjmp	.+26     	; 0xdca <__udivmodsi4_ep>
+
+00000db0 <__udivmodsi4_loop>:
+ db0:	aa 1f       	adc	r26, r26
+ db2:	bb 1f       	adc	r27, r27
+ db4:	ee 1f       	adc	r30, r30
+ db6:	ff 1f       	adc	r31, r31
+ db8:	a2 17       	cp	r26, r18
+ dba:	b3 07       	cpc	r27, r19
+ dbc:	e4 07       	cpc	r30, r20
+ dbe:	f5 07       	cpc	r31, r21
+ dc0:	20 f0       	brcs	.+8      	; 0xdca <__udivmodsi4_ep>
+ dc2:	a2 1b       	sub	r26, r18
+ dc4:	b3 0b       	sbc	r27, r19
+ dc6:	e4 0b       	sbc	r30, r20
+ dc8:	f5 0b       	sbc	r31, r21
+
+00000dca <__udivmodsi4_ep>:
+ dca:	66 1f       	adc	r22, r22
+ dcc:	77 1f       	adc	r23, r23
+ dce:	88 1f       	adc	r24, r24
+ dd0:	99 1f       	adc	r25, r25
+ dd2:	1a 94       	dec	r1
+ dd4:	69 f7       	brne	.-38     	; 0xdb0 <__udivmodsi4_loop>
+ dd6:	60 95       	com	r22
+ dd8:	70 95       	com	r23
+ dda:	80 95       	com	r24
+ ddc:	90 95       	com	r25
+ dde:	9b 01       	movw	r18, r22
+ de0:	ac 01       	movw	r20, r24
+ de2:	bd 01       	movw	r22, r26
+ de4:	cf 01       	movw	r24, r30
+ de6:	08 95       	ret
+
+00000de8 <_exit>:
+ de8:	f8 94       	cli
+
+00000dea <__stop_program>:
+ dea:	ff cf       	rjmp	.-2      	; 0xdea <__stop_program>
