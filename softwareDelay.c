@@ -20,4 +20,3 @@ void softwareDelayMs(uint32_t u32_delay_in_ms)
 		for(j=0 ; j<ticks ; j++);
 	}
 }
-

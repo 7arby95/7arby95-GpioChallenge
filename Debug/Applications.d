@@ -1,6 +1,6 @@
 Applications.o Applications.o: ../Applications.c ../gpio.h ../std_types.h \
-  ../registers.h ../softwareDelay.h ../led.h ../ledConfig.h \
-  ../pushButton.h ../pushButtonConfig.h ../sevenSeg.h ../sevenSegConfig.h
+  ../registers.h ../softwareDelay.h ../led.h ../pushButton.h \
+  ../sevenSeg.h ../timers.h ../common_macros.h ../interrupt.h
 
 ../gpio.h:
 
@@ -12,12 +12,12 @@ Applications.o Applications.o: ../Applications.c ../gpio.h ../std_types.h \
 
 ../led.h:
 
-../ledConfig.h:
-
 ../pushButton.h:
-
-../pushButtonConfig.h:
 
 ../sevenSeg.h:
 
-../sevenSegConfig.h:
+../timers.h:
+
+../common_macros.h:
+
+../interrupt.h:

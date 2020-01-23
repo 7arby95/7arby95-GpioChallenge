@@ -8,6 +8,7 @@
 /*- INCLUDES -----------------------------------------------*/
 
 #include "sevenSeg.h"
+#include "sevenSegConfig.h"
 
 /*- GLOBAL STATIC VARIABLES --------------------------------*/
 

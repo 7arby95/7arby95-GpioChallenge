@@ -12,10 +12,10 @@
 /*
  * General Registers
  */
-#define MCUCR		
-#define MCUCSR		
-#define GICR		
-#define GIFR		
+#define MCUCR		*((reg_type8_t)(0x55))
+#define MCUCSR		*((reg_type8_t)(0x54))
+#define GICR		*((reg_type8_t)(0x5B))
+#define GIFR		*((reg_type8_t)(0x5A))
 
 /*
  * PORTx registers
@@ -42,46 +42,46 @@
 /*
  * General Timer registers
  */
-#define TIMSK		
-#define TIFR		
+#define TIMSK		*((reg_type8_t)(0x59))
+#define TIFR		*((reg_type8_t)(0x58))
 
 
 /*
  * Timer 0 Registers
  */
 
-#define TCCR0		
-#define TCNT0		
-#define OCR0		
+#define TCCR0		*((reg_type8_t)(0x53))
+#define TCNT0		*((reg_type8_t)(0x52))
+#define OCR0		*((reg_type8_t)(0x5C))
 
 
 /*
  * Timer 1 Registers
  */
 
-#define TCCR1A		
-#define TCCR1B		
-#define TCCR1		
-#define TCNT1H		
-#define TCNT1L		
-#define TCNT1		
-#define OCR1AH		
-#define OCR1AL		
-#define OCR1A		
-#define OCR1BH		
-#define OCR1BL		
-#define OCR1B		
-#define ICR1H		
-#define ICR1L		
-#define ICR1		
+#define TCCR1A		*((reg_type8_t)(0x4F))
+#define TCCR1B		*((reg_type8_t)(0x4E))
+#define TCCR1		*((reg_type16_t)(0x4E))
+#define TCNT1H		*((reg_type8_t)(0x4D))
+#define TCNT1L		*((reg_type8_t)(0x4C))
+#define TCNT1		*((reg_type16_t)(0x4C))
+#define OCR1AH		*((reg_type8_t)(0x4B))
+#define OCR1AL		*((reg_type8_t)(0x4A))
+#define OCR1A		*((reg_type16_t)(0x4A))
+#define OCR1BH		*((reg_type8_t)(0x49))
+#define OCR1BL		*((reg_type8_t)(0x48))
+#define OCR1B		*((reg_type16_t)(0x48))
+#define ICR1H		*((reg_type8_t)(0x47))
+#define ICR1L		*((reg_type8_t)(0x46))
+#define ICR1		*((reg_type16_t)(0x46))
 
 
 /*
  * Timer 2 Registers
  */
-#define TCCR2		
-#define TCNT2		
-#define OCR2		
+#define TCCR2		*((reg_type8_t)(0x45))
+#define TCNT2		*((reg_type8_t)(0x44))
+#define OCR2		*((reg_type8_t)(0x43))
 
 
 

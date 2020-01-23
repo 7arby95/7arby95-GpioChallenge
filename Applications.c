@@ -12,6 +12,8 @@
 #include "led.h"
 #include "pushButton.h"
 #include "sevenSeg.h"
+#include "timers.h"
+#include "interrupt.h"
 
 /*- ENUMS --------------------------------------------------*/
 
@@ -126,11 +128,6 @@ void GPIO_REQ9(void)
 int main(void)
 {
 
-//	GPIO_REQ7();
-
-//	GPIO_REQ8();
-
-//	GPIO_REQ9();
 
 	while(1)
 	{

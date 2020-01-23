@@ -1,15 +1,15 @@
 pushButton.o pushButton.o: ../pushButton.c ../pushButton.h \
-  ../pushButtonConfig.h ../gpio.h ../std_types.h ../registers.h \
-  ../softwareDelay.h
+  ../softwareDelay.h ../std_types.h ../pushButtonConfig.h ../gpio.h \
+  ../registers.h
 
 ../pushButton.h:
+
+../softwareDelay.h:
+
+../std_types.h:
 
 ../pushButtonConfig.h:
 
 ../gpio.h:
 
-../std_types.h:
-
 ../registers.h:
-
-../softwareDelay.h:

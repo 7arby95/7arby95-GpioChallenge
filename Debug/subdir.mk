@@ -6,26 +6,32 @@
 C_SRCS += \
 ../Applications.c \
 ../gpio.c \
+../interrupt.c \
 ../led.c \
 ../pushButton.c \
 ../sevenSeg.c \
-../softwareDelay.c 
+../softwareDelay.c \
+../timers.c 
 
 OBJS += \
 ./Applications.o \
 ./gpio.o \
+./interrupt.o \
 ./led.o \
 ./pushButton.o \
 ./sevenSeg.o \
-./softwareDelay.o 
+./softwareDelay.o \
+./timers.o 
 
 C_DEPS += \
 ./Applications.d \
 ./gpio.d \
+./interrupt.d \
 ./led.d \
 ./pushButton.d \
 ./sevenSeg.d \
-./softwareDelay.d 
+./softwareDelay.d \
+./timers.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes

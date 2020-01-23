@@ -8,6 +8,7 @@
 /*- INCLUDES -----------------------------------------------*/
 
 #include "pushButton.h"
+#include "pushButtonConfig.h"
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 

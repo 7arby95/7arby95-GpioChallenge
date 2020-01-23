@@ -8,6 +8,7 @@
 /*- INCLUDES -----------------------------------------------*/
 
 #include "led.h"
+#include "ledConfig.h"
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 
