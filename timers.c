@@ -5,6 +5,8 @@
  *      Author: Youssef Harby
  */
 
+/*- INCLUDES -----------------------------------------------*/
+
 #include "timers.h"
 
 /* Register TCCR0 bit definitions */
@@ -54,9 +56,16 @@
 #define TOV2		6
 #define OCF2		7
 
+#define TIMER_MS_DIVISION_FACTOR		64000
+#define TIMER_US_DIVISION_FACTOR		1000000
 
-uint8_t gu8_timer0Timer1PreScaler = 0;
-uint8_t gu8_timer2PreScaler = 0;
+/*- GLOBAL STATIC VARIABLES --------------------------------*/
+
+/* Global variables to hold the prescaler values: one for both timer0 and timer1 as they share the prescaler and one for timer2 */
+static uint8_t gu8_timer0Timer1PreScaler = 0;
+static uint8_t gu8_timer2PreScaler = 0;
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
 
 void timer0Init(En_timer0Mode_t en_mode,En_timer0OC_t en_OC0,En_timer0perscaler_t en_prescal, uint8_t u8_initialValue, uint8_t u8_outputCompare, En_timer0Interrupt_t en_interruptMask)
 {
@@ -70,7 +79,6 @@ void timer0Init(En_timer0Mode_t en_mode,En_timer0OC_t en_OC0,En_timer0perscaler_
 	TCCR0 = (TCCR0 & 0xCF) | (en_OC0);
 
 	/* Set the pre-scaler */
-//	TCCR0 = (TCCR0 & 0xF8) | (en_prescal);
 	gu8_timer0Timer1PreScaler = en_prescal;
 
 	/* Set the timer/counter0 initial value */
@@ -85,32 +93,38 @@ void timer0Init(En_timer0Mode_t en_mode,En_timer0OC_t en_OC0,En_timer0perscaler_
 
 void timer0Set(uint8_t u8_value)
 {
+	/* Set the timer/counter0 custom value */
 	TCNT0 = u8_value;
 }
 
 uint8_t timer0Read(void)
 {
+	/* Read the counter register */
 	return TCNT0;
 }
 
 void timer0Start(void)
 {
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
 	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
+	/* Set the timer/counter0 initial value to zero */
 	TCNT0 = 0;
 }
 
 void timer0Stop(void)
 {
+	/* disable the timer clock */
 	TCCR0 &= ~((1 << CS00) | (1 << CS01) | (1 << CS02));
+	/* reset the counter value */
 	TCNT0 = 0;
 }
 
 void timer0DelayMs(uint16_t u16_delay_in_ms)
 {
 	uint16_t u16_msCounter = 0;
-	uint8_t u8_outputCompare = 250;
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, u8_outputCompare, T0_POLLING);
+	timer0Init(T0_NORMAL_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, 0, T0_POLLING);
 	timer0Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
@@ -118,14 +132,12 @@ void timer0DelayMs(uint16_t u16_delay_in_ms)
 		while(TCNT0 < u8_outputCompare);
 		TCNT0 = 0;
 	}
-
-	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
 }
 
 void timer0DelayUs(uint32_t u32_delay_in_us)
 {
 	uint32_t u32_usCounter = 0;
-	uint8_t u8_outputCompare = F_CPU / 1000000;
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_NO, 0, u8_outputCompare, T0_POLLING);
 	timer0Start();
@@ -136,8 +148,6 @@ void timer0DelayUs(uint32_t u32_delay_in_us)
 		SET_BIT(TIFR, OCF0);
 		TCNT0 = 0;
 	}
-
-	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
 }
 
 void timer0SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
@@ -176,32 +186,38 @@ void timer1Init(En_timer1Mode_t en_mode,En_timer1OC_t en_OC1,En_timer1perscaler_
 
 void timer1Set(uint16_t u16_value)
 {
+	/* Set the timer/counter1 custom value */
 	TCNT1 = u16_value;
 }
 
 uint16_t timer1Read(void)
 {
+	/* Read the counter register */
 	return TCNT1;
 }
 
 void timer1Start(void)
 {
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
 	TCCR1B = (TCCR1B & 0xF8) | (gu8_timer0Timer1PreScaler);
+	/* Set the timer/counter0 initial value to zero */
 	TCNT1 = 0;
 }
 
 void timer1Stop(void)
 {
+	/* disable the timer clock */
 	TCCR1B &= ~((1 << CS10) | (1 << CS11) | (1 << CS12));
+	/* reset the counter value */
 	TCNT1 = 0;
 }
 
 void timer1DelayMs(uint16_t u16_delay_in_ms)
 {
 	uint16_t u16_msCounter = 0;
-	uint16_t u16_outputCompare = 250;
+	uint16_t u16_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_64, 0, u16_outputCompare, 0, 0, T1_POLLING);
+	timer1Init(T1_NORMAL_MODE, T1_OC1_DIS, T1_PRESCALER_64, 0, 0, 0, 0, T1_POLLING);
 	timer1Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
@@ -209,14 +225,12 @@ void timer1DelayMs(uint16_t u16_delay_in_ms)
 		while(TCNT1 < u16_outputCompare);
 		TCNT1 = 0;
 	}
-
-	TCCR1 = (TCCR1 & 0xF8) | (gu8_timer0Timer1PreScaler);
 }
 
 void timer1DelayUs(uint32_t u32_delay_in_us)
 {
 	uint32_t u32_usCounter = 0;
-	uint16_t u16_outputCompare = F_CPU / 1000000;
+	uint16_t u16_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_NO, 0, u16_outputCompare, 0, 0, T1_POLLING);
 	timer1Start();
@@ -227,8 +241,6 @@ void timer1DelayUs(uint32_t u32_delay_in_us)
 		SET_BIT(TIFR, OCF1A);
 		TCNT1 = 0;
 	}
-
-	TCCR1 = (TCCR1 & 0xF8) | (gu8_timer0Timer1PreScaler);
 }
 
 void timer1SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
@@ -266,32 +278,38 @@ void timer2Init(En_timer2Mode_t en_mode,En_timer2OC_t en_OC2,En_timer2perscaler_
 
 void timer2Set(uint8_t u8_value)
 {
+	/* Set the timer/counter2 custom value */
 	TCNT2 = u8_value;
 }
 
 uint8_t timer2Read(void)
 {
+	/* Read the counter register */
 	return TCNT2;
 }
 
 void timer2Start(void)
 {
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
 	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
+	/* Set the timer/counter0 initial value to zero */
 	TCNT2 = 0;
 }
 
 void timer2Stop(void)
 {
+	/* disable the timer clock */
 	TCCR2 &= ~((1 << CS20) | (1 << CS21) | (1 << CS22));
+	/* reset the counter value */
 	TCNT2 = 0;
 }
 
 void timer2DelayMs(uint16_t u16_delay_in_ms)
 {
 	uint16_t u16_msCounter = 0;
-	uint8_t u8_outputCompare = 250;
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, u8_outputCompare, 0, T2_POLLING);
+	timer2Init(T2_NORMAL_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, 0, 0, T2_POLLING);
 	timer2Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
@@ -299,14 +317,12 @@ void timer2DelayMs(uint16_t u16_delay_in_ms)
 		while(TCNT2 < u8_outputCompare);
 		TCNT2 = 0;
 	}
-
-	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
 }
 
 void timer2DelayUs(uint32_t u32_delay_in_us)
 {
 	uint32_t u32_usCounter = 0;
-	uint8_t u8_outputCompare = F_CPU / 1000000;
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_NO, 0, u8_outputCompare, 0, T2_POLLING);
 	timer2Start();
@@ -317,8 +333,6 @@ void timer2DelayUs(uint32_t u32_delay_in_us)
 		SET_BIT(TIFR, OCF2);
 		TCNT2 = 0;
 	}
-
-	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
 }
 
 void timer2SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)

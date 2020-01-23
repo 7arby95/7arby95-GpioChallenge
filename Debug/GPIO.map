@@ -127,7 +127,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x18ea
+.text           0x00000000     0x1848
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
                 0x00000000                __vectors
@@ -344,74 +344,74 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00001122       0x22 ./timers.o
                 0x00001122                timer0Stop
  .text.timer0DelayMs
-                0x00001144       0x8c ./timers.o
+                0x00001144       0x76 ./timers.o
                 0x00001144                timer0DelayMs
  .text.timer0DelayUs
-                0x000011d0       0xcc ./timers.o
-                0x000011d0                timer0DelayUs
+                0x000011ba       0xb6 ./timers.o
+                0x000011ba                timer0DelayUs
  .text.timer0SwPWM
-                0x0000129c       0x18 ./timers.o
-                0x0000129c                timer0SwPWM
+                0x00001270       0x18 ./timers.o
+                0x00001270                timer0SwPWM
  .text.timer1Init
-                0x000012b4       0xd4 ./timers.o
-                0x000012b4                timer1Init
+                0x00001288       0xd4 ./timers.o
+                0x00001288                timer1Init
  .text.timer1Set
-                0x00001388       0x24 ./timers.o
-                0x00001388                timer1Set
+                0x0000135c       0x24 ./timers.o
+                0x0000135c                timer1Set
  .text.timer1Read
-                0x000013ac       0x16 ./timers.o
-                0x000013ac                timer1Read
+                0x00001380       0x16 ./timers.o
+                0x00001380                timer1Read
  .text.timer1Start
-                0x000013c2       0x2c ./timers.o
-                0x000013c2                timer1Start
+                0x00001396       0x2c ./timers.o
+                0x00001396                timer1Start
  .text.timer1Stop
-                0x000013ee       0x24 ./timers.o
-                0x000013ee                timer1Stop
+                0x000013c2       0x24 ./timers.o
+                0x000013c2                timer1Stop
  .text.timer1DelayMs
-                0x00001412       0xcc ./timers.o
-                0x00001412                timer1DelayMs
+                0x000013e6       0xa6 ./timers.o
+                0x000013e6                timer1DelayMs
  .text.timer1DelayUs
-                0x000014de      0x104 ./timers.o
-                0x000014de                timer1DelayUs
+                0x0000148c       0xe0 ./timers.o
+                0x0000148c                timer1DelayUs
  .text.timer1SwPWM
-                0x000015e2       0x18 ./timers.o
-                0x000015e2                timer1SwPWM
+                0x0000156c       0x18 ./timers.o
+                0x0000156c                timer1SwPWM
  .text.timer2Init
-                0x000015fa       0xa0 ./timers.o
-                0x000015fa                timer2Init
+                0x00001584       0xa0 ./timers.o
+                0x00001584                timer2Init
  .text.timer2Set
-                0x0000169a       0x1c ./timers.o
-                0x0000169a                timer2Set
+                0x00001624       0x1c ./timers.o
+                0x00001624                timer2Set
  .text.timer2Read
-                0x000016b6       0x14 ./timers.o
-                0x000016b6                timer2Read
+                0x00001640       0x14 ./timers.o
+                0x00001640                timer2Read
  .text.timer2Start
-                0x000016ca       0x2a ./timers.o
-                0x000016ca                timer2Start
+                0x00001654       0x2a ./timers.o
+                0x00001654                timer2Start
  .text.timer2Stop
-                0x000016f4       0x22 ./timers.o
-                0x000016f4                timer2Stop
+                0x0000167e       0x22 ./timers.o
+                0x0000167e                timer2Stop
  .text.timer2DelayMs
-                0x00001716       0x92 ./timers.o
-                0x00001716                timer2DelayMs
+                0x000016a0       0x7c ./timers.o
+                0x000016a0                timer2DelayMs
  .text.timer2DelayUs
-                0x000017a8       0xca ./timers.o
-                0x000017a8                timer2DelayUs
+                0x0000171c       0xb4 ./timers.o
+                0x0000171c                timer2DelayUs
  .text.timer2SwPWM
-                0x00001872       0x18 ./timers.o
-                0x00001872                timer2SwPWM
- .text.libgcc   0x0000188a       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
-                0x0000188a                __udivmodqi4
- .text.libgcc   0x000018a2       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x000018a2                __udivmodsi4
- .text.libgcc   0x000018e6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x000018e6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x000018e6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                0x000018e6                . = ALIGN (0x2)
+                0x000017d0       0x18 ./timers.o
+                0x000017d0                timer2SwPWM
+ .text.libgcc   0x000017e8       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+                0x000017e8                __udivmodqi4
+ .text.libgcc   0x00001800       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00001800                __udivmodsi4
+ .text.libgcc   0x00001844        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00001844        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00001844        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00001844                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x000018e6        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x000018e6                exit
-                0x000018e6                _exit
+ .fini9         0x00001844        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00001844                exit
+                0x00001844                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -430,11 +430,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x000018e6        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001844        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x000018ea                _etext = .
+                0x00001848                _etext = .
 
-.data           0x00800060        0x2 load address 0x000018ea
+.data           0x00800060        0x2 load address 0x00001848
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
@@ -482,19 +482,16 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.bss*)
  .bss.gu16_global_interrupt_variable
                 0x00800062        0x2 ./interrupt.o
-                0x00800062                gu16_global_interrupt_variable
  .bss.gu8_sevenSeg0Status
                 0x00800064        0x1 ./sevenSeg.o
  .bss.gu8_timer0Timer1PreScaler
                 0x00800065        0x1 ./timers.o
-                0x00800065                gu8_timer0Timer1PreScaler
  .bss.gu8_timer2PreScaler
                 0x00800066        0x1 ./timers.o
-                0x00800066                gu8_timer2PreScaler
  *(COMMON)
                 0x00800067                PROVIDE (__bss_end, .)
-                0x000018ea                __data_load_start = LOADADDR (.data)
-                0x000018ec                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00001848                __data_load_start = LOADADDR (.data)
+                0x0000184a                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800067        0x0
                 0x00800067                PROVIDE (__noinit_start, .)
@@ -519,7 +516,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x2640
+.stab           0x00000000     0x25f8
  *(.stab)
  .stab          0x00000000      0x6f0 ./Applications.o
  .stab          0x000006f0      0x570 ./gpio.o
@@ -534,8 +531,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                                 0x3f0 (size before relaxing)
  .stab          0x000018cc      0x18c ./softwareDelay.o
                                 0x228 (size before relaxing)
- .stab          0x00001a58      0xbe8 ./timers.o
-                                0xdd4 (size before relaxing)
+ .stab          0x00001a58      0xba0 ./timers.o
+                                0xd8c (size before relaxing)
 
 .stabstr        0x00000000     0x169c
  *(.stabstr)

@@ -3,15 +3,15 @@ GPIO.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         000018ea  00000000  00000000  00000094  2**1
+  0 .text         00001848  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000002  00800060  000018ea  0000197e  2**0
+  1 .data         00000002  00800060  00001848  000018dc  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          00000005  00800062  00800062  00001980  2**0
+  2 .bss          00000005  00800062  00800062  000018de  2**0
                   ALLOC
-  3 .stab         00002640  00000000  00000000  00001980  2**2
+  3 .stab         000025f8  00000000  00000000  000018e0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  4 .stabstr      0000169c  00000000  00000000  00003fc0  2**0
+  4 .stabstr      0000169c  00000000  00000000  00003ed8  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -51,7 +51,7 @@ Disassembly of section .text:
       60:	10 e0       	ldi	r17, 0x00	; 0
       62:	a0 e6       	ldi	r26, 0x60	; 96
       64:	b0 e0       	ldi	r27, 0x00	; 0
-      66:	ea ee       	ldi	r30, 0xEA	; 234
+      66:	e8 e4       	ldi	r30, 0x48	; 72
       68:	f8 e1       	ldi	r31, 0x18	; 24
       6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
 
@@ -78,7 +78,7 @@ Disassembly of section .text:
       82:	b1 07       	cpc	r27, r17
       84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
       86:	0e 94 49 01 	call	0x292	; 0x292 <main>
-      8a:	0c 94 73 0c 	jmp	0x18e6	; 0x18e6 <_exit>
+      8a:	0c 94 22 0c 	jmp	0x1844	; 0x1844 <_exit>
 
 0000008e <__bad_interrupt>:
       8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -124,10 +124,10 @@ void GPIO_REQ7(void)
       be:	8d 81       	ldd	r24, Y+5	; 0x05
       c0:	9a e0       	ldi	r25, 0x0A	; 10
       c2:	69 2f       	mov	r22, r25
-      c4:	0e 94 45 0c 	call	0x188a	; 0x188a <__udivmodqi4>
+      c4:	0e 94 f4 0b 	call	0x17e8	; 0x17e8 <__udivmodqi4>
       c8:	9a e0       	ldi	r25, 0x0A	; 10
       ca:	69 2f       	mov	r22, r25
-      cc:	0e 94 45 0c 	call	0x188a	; 0x188a <__udivmodqi4>
+      cc:	0e 94 f4 0b 	call	0x17e8	; 0x17e8 <__udivmodqi4>
       d0:	89 2f       	mov	r24, r25
       d2:	98 2f       	mov	r25, r24
       d4:	80 e0       	ldi	r24, 0x00	; 0
@@ -150,7 +150,7 @@ void GPIO_REQ7(void)
       f4:	8d 81       	ldd	r24, Y+5	; 0x05
       f6:	9a e0       	ldi	r25, 0x0A	; 10
       f8:	69 2f       	mov	r22, r25
-      fa:	0e 94 45 0c 	call	0x188a	; 0x188a <__udivmodqi4>
+      fa:	0e 94 f4 0b 	call	0x17e8	; 0x17e8 <__udivmodqi4>
       fe:	89 2f       	mov	r24, r25
      100:	98 2f       	mov	r25, r24
      102:	81 e0       	ldi	r24, 0x01	; 1
@@ -190,7 +190,7 @@ void GPIO_REQ7(void)
      140:	50 e0       	ldi	r21, 0x00	; 0
      142:	bc 01       	movw	r22, r24
      144:	cd 01       	movw	r24, r26
-     146:	0e 94 51 0c 	call	0x18a2	; 0x18a2 <__udivmodsi4>
+     146:	0e 94 00 0c 	call	0x1800	; 0x1800 <__udivmodsi4>
      14a:	dc 01       	movw	r26, r24
      14c:	cb 01       	movw	r24, r22
      14e:	00 97       	sbiw	r24, 0x00	; 0
@@ -1361,9 +1361,9 @@ uint8_t gpioPinRead(uint8_t u8_port, uint8_t u8_pin)
      7ec:	08 95       	ret
 
 000007ee <__vector_1>:
+volatile static uint16_t gu16_global_interrupt_variable = 0;
 
-/* A global variable to manipulate when interrupts occur */
-volatile uint16_t gu16_global_interrupt_variable = 0;
+/*- INTERRUPT APIs IMPLEMENTATION --------------------------*/
 
 void EXTERNAL_INTERRUPT0 (void)
 {
@@ -2817,9 +2817,9 @@ void softwareDelayMs(uint32_t u32_delay_in_ms)
     1032:	08 95       	ret
 
 00001034 <timer0Init>:
+static uint8_t gu8_timer2PreScaler = 0;
 
-uint8_t gu8_timer0Timer1PreScaler = 0;
-uint8_t gu8_timer2PreScaler = 0;
+/*- APIs IMPLEMENTATION ------------------------------------*/
 
 void timer0Init(En_timer0Mode_t en_mode,En_timer0OC_t en_OC0,En_timer0perscaler_t en_prescal, uint8_t u8_initialValue, uint8_t u8_outputCompare, En_timer0Interrupt_t en_interruptMask)
 {
@@ -2875,7 +2875,6 @@ void timer0Init(En_timer0Mode_t en_mode,En_timer0OC_t en_OC0,En_timer0perscaler_
     1086:	8c 93       	st	X, r24
 
 	/* Set the pre-scaler */
-//	TCCR0 = (TCCR0 & 0xF8) | (en_prescal);
 	gu8_timer0Timer1PreScaler = en_prescal;
     1088:	8b 81       	ldd	r24, Y+3	; 0x03
     108a:	80 93 65 00 	sts	0x0065, r24
@@ -2929,6 +2928,7 @@ void timer0Set(uint8_t u8_value)
     10ce:	cd b7       	in	r28, 0x3d	; 61
     10d0:	de b7       	in	r29, 0x3e	; 62
     10d2:	89 83       	std	Y+1, r24	; 0x01
+	/* Set the timer/counter0 custom value */
 	TCNT0 = u8_value;
     10d4:	e2 e5       	ldi	r30, 0x52	; 82
     10d6:	f0 e0       	ldi	r31, 0x00	; 0
@@ -2948,6 +2948,7 @@ uint8_t timer0Read(void)
     10e6:	cf 93       	push	r28
     10e8:	cd b7       	in	r28, 0x3d	; 61
     10ea:	de b7       	in	r29, 0x3e	; 62
+	/* Read the counter register */
 	return TCNT0;
     10ec:	e2 e5       	ldi	r30, 0x52	; 82
     10ee:	f0 e0       	ldi	r31, 0x00	; 0
@@ -2965,6 +2966,7 @@ void timer0Start(void)
     10fa:	cf 93       	push	r28
     10fc:	cd b7       	in	r28, 0x3d	; 61
     10fe:	de b7       	in	r29, 0x3e	; 62
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
 	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
     1100:	a3 e5       	ldi	r26, 0x53	; 83
     1102:	b0 e0       	ldi	r27, 0x00	; 0
@@ -2976,6 +2978,7 @@ void timer0Start(void)
     110e:	80 91 65 00 	lds	r24, 0x0065
     1112:	89 2b       	or	r24, r25
     1114:	8c 93       	st	X, r24
+	/* Set the timer/counter0 initial value to zero */
 	TCNT0 = 0;
     1116:	e2 e5       	ldi	r30, 0x52	; 82
     1118:	f0 e0       	ldi	r31, 0x00	; 0
@@ -2993,6 +2996,7 @@ void timer0Stop(void)
     1124:	cf 93       	push	r28
     1126:	cd b7       	in	r28, 0x3d	; 61
     1128:	de b7       	in	r29, 0x3e	; 62
+	/* disable the timer clock */
 	TCCR0 &= ~((1 << CS00) | (1 << CS01) | (1 << CS02));
     112a:	a3 e5       	ldi	r26, 0x53	; 83
     112c:	b0 e0       	ldi	r27, 0x00	; 0
@@ -3001,6 +3005,7 @@ void timer0Stop(void)
     1132:	80 81       	ld	r24, Z
     1134:	88 7f       	andi	r24, 0xF8	; 248
     1136:	8c 93       	st	X, r24
+	/* reset the counter value */
 	TCNT0 = 0;
     1138:	e2 e5       	ldi	r30, 0x52	; 82
     113a:	f0 e0       	ldi	r31, 0x00	; 0
@@ -3028,16 +3033,16 @@ void timer0DelayMs(uint16_t u16_delay_in_ms)
 	uint16_t u16_msCounter = 0;
     115a:	1b 82       	std	Y+3, r1	; 0x03
     115c:	1a 82       	std	Y+2, r1	; 0x02
-	uint8_t u8_outputCompare = 250;
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
     115e:	8a ef       	ldi	r24, 0xFA	; 250
     1160:	89 83       	std	Y+1, r24	; 0x01
 
-	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, u8_outputCompare, T0_POLLING);
-    1162:	88 e0       	ldi	r24, 0x08	; 8
+	timer0Init(T0_NORMAL_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, 0, T0_POLLING);
+    1162:	80 e0       	ldi	r24, 0x00	; 0
     1164:	60 e0       	ldi	r22, 0x00	; 0
     1166:	43 e0       	ldi	r20, 0x03	; 3
     1168:	20 e0       	ldi	r18, 0x00	; 0
-    116a:	09 81       	ldd	r16, Y+1	; 0x01
+    116a:	00 e0       	ldi	r16, 0x00	; 0
     116c:	ee 24       	eor	r14, r14
     116e:	0e 94 1a 08 	call	0x1034	; 0x1034 <timer0Init>
 	timer0Start();
@@ -3059,9 +3064,9 @@ void timer0DelayMs(uint16_t u16_delay_in_ms)
     1188:	e2 e5       	ldi	r30, 0x52	; 82
     118a:	f0 e0       	ldi	r31, 0x00	; 0
     118c:	10 82       	st	Z, r1
-	uint8_t u8_outputCompare = 250;
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, u8_outputCompare, T0_POLLING);
+	timer0Init(T0_NORMAL_MODE, T0_OC0_DIS, T0_PRESCALER_64, 0, 0, T0_POLLING);
 	timer0Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
@@ -3081,1215 +3086,1143 @@ void timer0DelayMs(uint16_t u16_delay_in_ms)
 		while(TCNT0 < u8_outputCompare);
 		TCNT0 = 0;
 	}
-
-	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
-    11a6:	a3 e5       	ldi	r26, 0x53	; 83
-    11a8:	b0 e0       	ldi	r27, 0x00	; 0
-    11aa:	e3 e5       	ldi	r30, 0x53	; 83
-    11ac:	f0 e0       	ldi	r31, 0x00	; 0
-    11ae:	80 81       	ld	r24, Z
-    11b0:	98 2f       	mov	r25, r24
-    11b2:	98 7f       	andi	r25, 0xF8	; 248
-    11b4:	80 91 65 00 	lds	r24, 0x0065
-    11b8:	89 2b       	or	r24, r25
-    11ba:	8c 93       	st	X, r24
 }
-    11bc:	0f 90       	pop	r0
-    11be:	0f 90       	pop	r0
-    11c0:	0f 90       	pop	r0
-    11c2:	0f 90       	pop	r0
-    11c4:	0f 90       	pop	r0
-    11c6:	cf 91       	pop	r28
-    11c8:	df 91       	pop	r29
-    11ca:	0f 91       	pop	r16
-    11cc:	ef 90       	pop	r14
-    11ce:	08 95       	ret
+    11a6:	0f 90       	pop	r0
+    11a8:	0f 90       	pop	r0
+    11aa:	0f 90       	pop	r0
+    11ac:	0f 90       	pop	r0
+    11ae:	0f 90       	pop	r0
+    11b0:	cf 91       	pop	r28
+    11b2:	df 91       	pop	r29
+    11b4:	0f 91       	pop	r16
+    11b6:	ef 90       	pop	r14
+    11b8:	08 95       	ret
 
-000011d0 <timer0DelayUs>:
+000011ba <timer0DelayUs>:
 
 void timer0DelayUs(uint32_t u32_delay_in_us)
 {
-    11d0:	ef 92       	push	r14
-    11d2:	0f 93       	push	r16
-    11d4:	df 93       	push	r29
-    11d6:	cf 93       	push	r28
-    11d8:	cd b7       	in	r28, 0x3d	; 61
-    11da:	de b7       	in	r29, 0x3e	; 62
-    11dc:	29 97       	sbiw	r28, 0x09	; 9
-    11de:	0f b6       	in	r0, 0x3f	; 63
-    11e0:	f8 94       	cli
-    11e2:	de bf       	out	0x3e, r29	; 62
-    11e4:	0f be       	out	0x3f, r0	; 63
-    11e6:	cd bf       	out	0x3d, r28	; 61
-    11e8:	6e 83       	std	Y+6, r22	; 0x06
-    11ea:	7f 83       	std	Y+7, r23	; 0x07
-    11ec:	88 87       	std	Y+8, r24	; 0x08
-    11ee:	99 87       	std	Y+9, r25	; 0x09
+    11ba:	ef 92       	push	r14
+    11bc:	0f 93       	push	r16
+    11be:	df 93       	push	r29
+    11c0:	cf 93       	push	r28
+    11c2:	cd b7       	in	r28, 0x3d	; 61
+    11c4:	de b7       	in	r29, 0x3e	; 62
+    11c6:	29 97       	sbiw	r28, 0x09	; 9
+    11c8:	0f b6       	in	r0, 0x3f	; 63
+    11ca:	f8 94       	cli
+    11cc:	de bf       	out	0x3e, r29	; 62
+    11ce:	0f be       	out	0x3f, r0	; 63
+    11d0:	cd bf       	out	0x3d, r28	; 61
+    11d2:	6e 83       	std	Y+6, r22	; 0x06
+    11d4:	7f 83       	std	Y+7, r23	; 0x07
+    11d6:	88 87       	std	Y+8, r24	; 0x08
+    11d8:	99 87       	std	Y+9, r25	; 0x09
 	uint32_t u32_usCounter = 0;
-    11f0:	1a 82       	std	Y+2, r1	; 0x02
-    11f2:	1b 82       	std	Y+3, r1	; 0x03
-    11f4:	1c 82       	std	Y+4, r1	; 0x04
-    11f6:	1d 82       	std	Y+5, r1	; 0x05
-	uint8_t u8_outputCompare = F_CPU / 1000000;
-    11f8:	80 e1       	ldi	r24, 0x10	; 16
-    11fa:	89 83       	std	Y+1, r24	; 0x01
+    11da:	1a 82       	std	Y+2, r1	; 0x02
+    11dc:	1b 82       	std	Y+3, r1	; 0x03
+    11de:	1c 82       	std	Y+4, r1	; 0x04
+    11e0:	1d 82       	std	Y+5, r1	; 0x05
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
+    11e2:	80 e1       	ldi	r24, 0x10	; 16
+    11e4:	89 83       	std	Y+1, r24	; 0x01
 
 	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_NO, 0, u8_outputCompare, T0_POLLING);
-    11fc:	88 e0       	ldi	r24, 0x08	; 8
-    11fe:	60 e0       	ldi	r22, 0x00	; 0
-    1200:	41 e0       	ldi	r20, 0x01	; 1
-    1202:	20 e0       	ldi	r18, 0x00	; 0
-    1204:	09 81       	ldd	r16, Y+1	; 0x01
-    1206:	ee 24       	eor	r14, r14
-    1208:	0e 94 1a 08 	call	0x1034	; 0x1034 <timer0Init>
+    11e6:	88 e0       	ldi	r24, 0x08	; 8
+    11e8:	60 e0       	ldi	r22, 0x00	; 0
+    11ea:	41 e0       	ldi	r20, 0x01	; 1
+    11ec:	20 e0       	ldi	r18, 0x00	; 0
+    11ee:	09 81       	ldd	r16, Y+1	; 0x01
+    11f0:	ee 24       	eor	r14, r14
+    11f2:	0e 94 1a 08 	call	0x1034	; 0x1034 <timer0Init>
 	timer0Start();
-    120c:	0e 94 7c 08 	call	0x10f8	; 0x10f8 <timer0Start>
+    11f6:	0e 94 7c 08 	call	0x10f8	; 0x10f8 <timer0Start>
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    1210:	1a 82       	std	Y+2, r1	; 0x02
-    1212:	1b 82       	std	Y+3, r1	; 0x03
-    1214:	1c 82       	std	Y+4, r1	; 0x04
-    1216:	1d 82       	std	Y+5, r1	; 0x05
-    1218:	1e c0       	rjmp	.+60     	; 0x1256 <timer0DelayUs+0x86>
+    11fa:	1a 82       	std	Y+2, r1	; 0x02
+    11fc:	1b 82       	std	Y+3, r1	; 0x03
+    11fe:	1c 82       	std	Y+4, r1	; 0x04
+    1200:	1d 82       	std	Y+5, r1	; 0x05
+    1202:	1e c0       	rjmp	.+60     	; 0x1240 <timer0DelayUs+0x86>
 	{
 		while(BIT_IS_CLEAR(TIFR, OCF0));
+    1204:	e8 e5       	ldi	r30, 0x58	; 88
+    1206:	f0 e0       	ldi	r31, 0x00	; 0
+    1208:	80 81       	ld	r24, Z
+    120a:	88 2f       	mov	r24, r24
+    120c:	90 e0       	ldi	r25, 0x00	; 0
+    120e:	82 70       	andi	r24, 0x02	; 2
+    1210:	90 70       	andi	r25, 0x00	; 0
+    1212:	00 97       	sbiw	r24, 0x00	; 0
+    1214:	b9 f3       	breq	.-18     	; 0x1204 <timer0DelayUs+0x4a>
+		SET_BIT(TIFR, OCF0);
+    1216:	a8 e5       	ldi	r26, 0x58	; 88
+    1218:	b0 e0       	ldi	r27, 0x00	; 0
     121a:	e8 e5       	ldi	r30, 0x58	; 88
     121c:	f0 e0       	ldi	r31, 0x00	; 0
     121e:	80 81       	ld	r24, Z
-    1220:	88 2f       	mov	r24, r24
-    1222:	90 e0       	ldi	r25, 0x00	; 0
-    1224:	82 70       	andi	r24, 0x02	; 2
-    1226:	90 70       	andi	r25, 0x00	; 0
-    1228:	00 97       	sbiw	r24, 0x00	; 0
-    122a:	b9 f3       	breq	.-18     	; 0x121a <timer0DelayUs+0x4a>
-		SET_BIT(TIFR, OCF0);
-    122c:	a8 e5       	ldi	r26, 0x58	; 88
-    122e:	b0 e0       	ldi	r27, 0x00	; 0
-    1230:	e8 e5       	ldi	r30, 0x58	; 88
-    1232:	f0 e0       	ldi	r31, 0x00	; 0
-    1234:	80 81       	ld	r24, Z
-    1236:	82 60       	ori	r24, 0x02	; 2
-    1238:	8c 93       	st	X, r24
+    1220:	82 60       	ori	r24, 0x02	; 2
+    1222:	8c 93       	st	X, r24
 		TCNT0 = 0;
-    123a:	e2 e5       	ldi	r30, 0x52	; 82
-    123c:	f0 e0       	ldi	r31, 0x00	; 0
-    123e:	10 82       	st	Z, r1
-	uint8_t u8_outputCompare = F_CPU / 1000000;
+    1224:	e2 e5       	ldi	r30, 0x52	; 82
+    1226:	f0 e0       	ldi	r31, 0x00	; 0
+    1228:	10 82       	st	Z, r1
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer0Init(T0_COMP_MODE, T0_OC0_DIS, T0_PRESCALER_NO, 0, u8_outputCompare, T0_POLLING);
 	timer0Start();
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    1240:	8a 81       	ldd	r24, Y+2	; 0x02
-    1242:	9b 81       	ldd	r25, Y+3	; 0x03
-    1244:	ac 81       	ldd	r26, Y+4	; 0x04
-    1246:	bd 81       	ldd	r27, Y+5	; 0x05
-    1248:	01 96       	adiw	r24, 0x01	; 1
-    124a:	a1 1d       	adc	r26, r1
-    124c:	b1 1d       	adc	r27, r1
-    124e:	8a 83       	std	Y+2, r24	; 0x02
-    1250:	9b 83       	std	Y+3, r25	; 0x03
-    1252:	ac 83       	std	Y+4, r26	; 0x04
-    1254:	bd 83       	std	Y+5, r27	; 0x05
-    1256:	2a 81       	ldd	r18, Y+2	; 0x02
-    1258:	3b 81       	ldd	r19, Y+3	; 0x03
-    125a:	4c 81       	ldd	r20, Y+4	; 0x04
-    125c:	5d 81       	ldd	r21, Y+5	; 0x05
-    125e:	8e 81       	ldd	r24, Y+6	; 0x06
-    1260:	9f 81       	ldd	r25, Y+7	; 0x07
-    1262:	a8 85       	ldd	r26, Y+8	; 0x08
-    1264:	b9 85       	ldd	r27, Y+9	; 0x09
-    1266:	28 17       	cp	r18, r24
-    1268:	39 07       	cpc	r19, r25
-    126a:	4a 07       	cpc	r20, r26
-    126c:	5b 07       	cpc	r21, r27
-    126e:	a8 f2       	brcs	.-86     	; 0x121a <timer0DelayUs+0x4a>
+    122a:	8a 81       	ldd	r24, Y+2	; 0x02
+    122c:	9b 81       	ldd	r25, Y+3	; 0x03
+    122e:	ac 81       	ldd	r26, Y+4	; 0x04
+    1230:	bd 81       	ldd	r27, Y+5	; 0x05
+    1232:	01 96       	adiw	r24, 0x01	; 1
+    1234:	a1 1d       	adc	r26, r1
+    1236:	b1 1d       	adc	r27, r1
+    1238:	8a 83       	std	Y+2, r24	; 0x02
+    123a:	9b 83       	std	Y+3, r25	; 0x03
+    123c:	ac 83       	std	Y+4, r26	; 0x04
+    123e:	bd 83       	std	Y+5, r27	; 0x05
+    1240:	2a 81       	ldd	r18, Y+2	; 0x02
+    1242:	3b 81       	ldd	r19, Y+3	; 0x03
+    1244:	4c 81       	ldd	r20, Y+4	; 0x04
+    1246:	5d 81       	ldd	r21, Y+5	; 0x05
+    1248:	8e 81       	ldd	r24, Y+6	; 0x06
+    124a:	9f 81       	ldd	r25, Y+7	; 0x07
+    124c:	a8 85       	ldd	r26, Y+8	; 0x08
+    124e:	b9 85       	ldd	r27, Y+9	; 0x09
+    1250:	28 17       	cp	r18, r24
+    1252:	39 07       	cpc	r19, r25
+    1254:	4a 07       	cpc	r20, r26
+    1256:	5b 07       	cpc	r21, r27
+    1258:	a8 f2       	brcs	.-86     	; 0x1204 <timer0DelayUs+0x4a>
+	{
 		while(BIT_IS_CLEAR(TIFR, OCF0));
 		SET_BIT(TIFR, OCF0);
 		TCNT0 = 0;
 	}
-
-	TCCR0 = (TCCR0 & 0xF8) | (gu8_timer0Timer1PreScaler);
-    1270:	a3 e5       	ldi	r26, 0x53	; 83
-    1272:	b0 e0       	ldi	r27, 0x00	; 0
-    1274:	e3 e5       	ldi	r30, 0x53	; 83
-    1276:	f0 e0       	ldi	r31, 0x00	; 0
-    1278:	80 81       	ld	r24, Z
-    127a:	98 2f       	mov	r25, r24
-    127c:	98 7f       	andi	r25, 0xF8	; 248
-    127e:	80 91 65 00 	lds	r24, 0x0065
-    1282:	89 2b       	or	r24, r25
-    1284:	8c 93       	st	X, r24
 }
-    1286:	29 96       	adiw	r28, 0x09	; 9
-    1288:	0f b6       	in	r0, 0x3f	; 63
-    128a:	f8 94       	cli
-    128c:	de bf       	out	0x3e, r29	; 62
-    128e:	0f be       	out	0x3f, r0	; 63
-    1290:	cd bf       	out	0x3d, r28	; 61
-    1292:	cf 91       	pop	r28
-    1294:	df 91       	pop	r29
-    1296:	0f 91       	pop	r16
-    1298:	ef 90       	pop	r14
-    129a:	08 95       	ret
+    125a:	29 96       	adiw	r28, 0x09	; 9
+    125c:	0f b6       	in	r0, 0x3f	; 63
+    125e:	f8 94       	cli
+    1260:	de bf       	out	0x3e, r29	; 62
+    1262:	0f be       	out	0x3f, r0	; 63
+    1264:	cd bf       	out	0x3d, r28	; 61
+    1266:	cf 91       	pop	r28
+    1268:	df 91       	pop	r29
+    126a:	0f 91       	pop	r16
+    126c:	ef 90       	pop	r14
+    126e:	08 95       	ret
 
-0000129c <timer0SwPWM>:
+00001270 <timer0SwPWM>:
 
 void timer0SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
-    129c:	df 93       	push	r29
-    129e:	cf 93       	push	r28
-    12a0:	00 d0       	rcall	.+0      	; 0x12a2 <timer0SwPWM+0x6>
-    12a2:	cd b7       	in	r28, 0x3d	; 61
-    12a4:	de b7       	in	r29, 0x3e	; 62
-    12a6:	89 83       	std	Y+1, r24	; 0x01
-    12a8:	6a 83       	std	Y+2, r22	; 0x02
+    1270:	df 93       	push	r29
+    1272:	cf 93       	push	r28
+    1274:	00 d0       	rcall	.+0      	; 0x1276 <timer0SwPWM+0x6>
+    1276:	cd b7       	in	r28, 0x3d	; 61
+    1278:	de b7       	in	r29, 0x3e	; 62
+    127a:	89 83       	std	Y+1, r24	; 0x01
+    127c:	6a 83       	std	Y+2, r22	; 0x02
 
 }
-    12aa:	0f 90       	pop	r0
-    12ac:	0f 90       	pop	r0
-    12ae:	cf 91       	pop	r28
-    12b0:	df 91       	pop	r29
-    12b2:	08 95       	ret
+    127e:	0f 90       	pop	r0
+    1280:	0f 90       	pop	r0
+    1282:	cf 91       	pop	r28
+    1284:	df 91       	pop	r29
+    1286:	08 95       	ret
 
-000012b4 <timer1Init>:
+00001288 <timer1Init>:
 /*
  ********************************************************************************************************************************************************
  */
 
 void timer1Init(En_timer1Mode_t en_mode,En_timer1OC_t en_OC1,En_timer1perscaler_t en_prescal, uint16_t u16_initialValue, uint16_t u16_outputCompareA, uint16_t u16_outputCompareB,uint16_t u16_inputCapture, En_timer1Interrupt_t en_interruptMask)
 {
-    12b4:	af 92       	push	r10
-    12b6:	cf 92       	push	r12
-    12b8:	df 92       	push	r13
-    12ba:	ef 92       	push	r14
-    12bc:	ff 92       	push	r15
-    12be:	0f 93       	push	r16
-    12c0:	1f 93       	push	r17
-    12c2:	df 93       	push	r29
-    12c4:	cf 93       	push	r28
-    12c6:	cd b7       	in	r28, 0x3d	; 61
-    12c8:	de b7       	in	r29, 0x3e	; 62
-    12ca:	2d 97       	sbiw	r28, 0x0d	; 13
-    12cc:	0f b6       	in	r0, 0x3f	; 63
-    12ce:	f8 94       	cli
-    12d0:	de bf       	out	0x3e, r29	; 62
-    12d2:	0f be       	out	0x3f, r0	; 63
-    12d4:	cd bf       	out	0x3d, r28	; 61
-    12d6:	89 83       	std	Y+1, r24	; 0x01
-    12d8:	7b 83       	std	Y+3, r23	; 0x03
-    12da:	6a 83       	std	Y+2, r22	; 0x02
-    12dc:	4c 83       	std	Y+4, r20	; 0x04
-    12de:	3e 83       	std	Y+6, r19	; 0x06
-    12e0:	2d 83       	std	Y+5, r18	; 0x05
-    12e2:	18 87       	std	Y+8, r17	; 0x08
-    12e4:	0f 83       	std	Y+7, r16	; 0x07
-    12e6:	fa 86       	std	Y+10, r15	; 0x0a
-    12e8:	e9 86       	std	Y+9, r14	; 0x09
-    12ea:	dc 86       	std	Y+12, r13	; 0x0c
-    12ec:	cb 86       	std	Y+11, r12	; 0x0b
-    12ee:	ad 86       	std	Y+13, r10	; 0x0d
+    1288:	af 92       	push	r10
+    128a:	cf 92       	push	r12
+    128c:	df 92       	push	r13
+    128e:	ef 92       	push	r14
+    1290:	ff 92       	push	r15
+    1292:	0f 93       	push	r16
+    1294:	1f 93       	push	r17
+    1296:	df 93       	push	r29
+    1298:	cf 93       	push	r28
+    129a:	cd b7       	in	r28, 0x3d	; 61
+    129c:	de b7       	in	r29, 0x3e	; 62
+    129e:	2d 97       	sbiw	r28, 0x0d	; 13
+    12a0:	0f b6       	in	r0, 0x3f	; 63
+    12a2:	f8 94       	cli
+    12a4:	de bf       	out	0x3e, r29	; 62
+    12a6:	0f be       	out	0x3f, r0	; 63
+    12a8:	cd bf       	out	0x3d, r28	; 61
+    12aa:	89 83       	std	Y+1, r24	; 0x01
+    12ac:	7b 83       	std	Y+3, r23	; 0x03
+    12ae:	6a 83       	std	Y+2, r22	; 0x02
+    12b0:	4c 83       	std	Y+4, r20	; 0x04
+    12b2:	3e 83       	std	Y+6, r19	; 0x06
+    12b4:	2d 83       	std	Y+5, r18	; 0x05
+    12b6:	18 87       	std	Y+8, r17	; 0x08
+    12b8:	0f 83       	std	Y+7, r16	; 0x07
+    12ba:	fa 86       	std	Y+10, r15	; 0x0a
+    12bc:	e9 86       	std	Y+9, r14	; 0x09
+    12be:	dc 86       	std	Y+12, r13	; 0x0c
+    12c0:	cb 86       	std	Y+11, r12	; 0x0b
+    12c2:	ad 86       	std	Y+13, r10	; 0x0d
 	/* Non-PWM mode */
 	SET_BIT(TCCR1A, FOC1A);
-    12f0:	af e4       	ldi	r26, 0x4F	; 79
-    12f2:	b0 e0       	ldi	r27, 0x00	; 0
-    12f4:	ef e4       	ldi	r30, 0x4F	; 79
-    12f6:	f0 e0       	ldi	r31, 0x00	; 0
-    12f8:	80 81       	ld	r24, Z
-    12fa:	88 60       	ori	r24, 0x08	; 8
-    12fc:	8c 93       	st	X, r24
+    12c4:	af e4       	ldi	r26, 0x4F	; 79
+    12c6:	b0 e0       	ldi	r27, 0x00	; 0
+    12c8:	ef e4       	ldi	r30, 0x4F	; 79
+    12ca:	f0 e0       	ldi	r31, 0x00	; 0
+    12cc:	80 81       	ld	r24, Z
+    12ce:	88 60       	ori	r24, 0x08	; 8
+    12d0:	8c 93       	st	X, r24
 	SET_BIT(TCCR1A, FOC1B);
-    12fe:	af e4       	ldi	r26, 0x4F	; 79
-    1300:	b0 e0       	ldi	r27, 0x00	; 0
-    1302:	ef e4       	ldi	r30, 0x4F	; 79
-    1304:	f0 e0       	ldi	r31, 0x00	; 0
-    1306:	80 81       	ld	r24, Z
-    1308:	84 60       	ori	r24, 0x04	; 4
-    130a:	8c 93       	st	X, r24
+    12d2:	af e4       	ldi	r26, 0x4F	; 79
+    12d4:	b0 e0       	ldi	r27, 0x00	; 0
+    12d6:	ef e4       	ldi	r30, 0x4F	; 79
+    12d8:	f0 e0       	ldi	r31, 0x00	; 0
+    12da:	80 81       	ld	r24, Z
+    12dc:	84 60       	ori	r24, 0x04	; 4
+    12de:	8c 93       	st	X, r24
 
 	TCCR1 = 0x0000;
-    130c:	ee e4       	ldi	r30, 0x4E	; 78
-    130e:	f0 e0       	ldi	r31, 0x00	; 0
-    1310:	11 82       	std	Z+1, r1	; 0x01
-    1312:	10 82       	st	Z, r1
+    12e0:	ee e4       	ldi	r30, 0x4E	; 78
+    12e2:	f0 e0       	ldi	r31, 0x00	; 0
+    12e4:	11 82       	std	Z+1, r1	; 0x01
+    12e6:	10 82       	st	Z, r1
 
 	/* Set the required operating mode */
 	TCCR1 = en_mode | en_OC1;
-    1314:	ee e4       	ldi	r30, 0x4E	; 78
-    1316:	f0 e0       	ldi	r31, 0x00	; 0
-    1318:	89 81       	ldd	r24, Y+1	; 0x01
-    131a:	28 2f       	mov	r18, r24
-    131c:	30 e0       	ldi	r19, 0x00	; 0
-    131e:	8a 81       	ldd	r24, Y+2	; 0x02
-    1320:	9b 81       	ldd	r25, Y+3	; 0x03
-    1322:	82 2b       	or	r24, r18
-    1324:	93 2b       	or	r25, r19
-    1326:	91 83       	std	Z+1, r25	; 0x01
-    1328:	80 83       	st	Z, r24
+    12e8:	ee e4       	ldi	r30, 0x4E	; 78
+    12ea:	f0 e0       	ldi	r31, 0x00	; 0
+    12ec:	89 81       	ldd	r24, Y+1	; 0x01
+    12ee:	28 2f       	mov	r18, r24
+    12f0:	30 e0       	ldi	r19, 0x00	; 0
+    12f2:	8a 81       	ldd	r24, Y+2	; 0x02
+    12f4:	9b 81       	ldd	r25, Y+3	; 0x03
+    12f6:	82 2b       	or	r24, r18
+    12f8:	93 2b       	or	r25, r19
+    12fa:	91 83       	std	Z+1, r25	; 0x01
+    12fc:	80 83       	st	Z, r24
 
 	/* Set the pre-scaler */
 	gu8_timer0Timer1PreScaler = en_prescal;
-    132a:	8c 81       	ldd	r24, Y+4	; 0x04
-    132c:	80 93 65 00 	sts	0x0065, r24
+    12fe:	8c 81       	ldd	r24, Y+4	; 0x04
+    1300:	80 93 65 00 	sts	0x0065, r24
 
 	/* Set the timer/counter0 initial value */
 	TCNT1 = u16_initialValue;
-    1330:	ec e4       	ldi	r30, 0x4C	; 76
-    1332:	f0 e0       	ldi	r31, 0x00	; 0
-    1334:	8d 81       	ldd	r24, Y+5	; 0x05
-    1336:	9e 81       	ldd	r25, Y+6	; 0x06
-    1338:	91 83       	std	Z+1, r25	; 0x01
-    133a:	80 83       	st	Z, r24
+    1304:	ec e4       	ldi	r30, 0x4C	; 76
+    1306:	f0 e0       	ldi	r31, 0x00	; 0
+    1308:	8d 81       	ldd	r24, Y+5	; 0x05
+    130a:	9e 81       	ldd	r25, Y+6	; 0x06
+    130c:	91 83       	std	Z+1, r25	; 0x01
+    130e:	80 83       	st	Z, r24
 
 	/* Set the timer/counter0 CTC mode compare value */
 	OCR1A = u16_outputCompareA;
-    133c:	ea e4       	ldi	r30, 0x4A	; 74
-    133e:	f0 e0       	ldi	r31, 0x00	; 0
-    1340:	8f 81       	ldd	r24, Y+7	; 0x07
-    1342:	98 85       	ldd	r25, Y+8	; 0x08
-    1344:	91 83       	std	Z+1, r25	; 0x01
-    1346:	80 83       	st	Z, r24
+    1310:	ea e4       	ldi	r30, 0x4A	; 74
+    1312:	f0 e0       	ldi	r31, 0x00	; 0
+    1314:	8f 81       	ldd	r24, Y+7	; 0x07
+    1316:	98 85       	ldd	r25, Y+8	; 0x08
+    1318:	91 83       	std	Z+1, r25	; 0x01
+    131a:	80 83       	st	Z, r24
 	OCR1B = u16_outputCompareB;
-    1348:	e8 e4       	ldi	r30, 0x48	; 72
-    134a:	f0 e0       	ldi	r31, 0x00	; 0
-    134c:	89 85       	ldd	r24, Y+9	; 0x09
-    134e:	9a 85       	ldd	r25, Y+10	; 0x0a
-    1350:	91 83       	std	Z+1, r25	; 0x01
-    1352:	80 83       	st	Z, r24
+    131c:	e8 e4       	ldi	r30, 0x48	; 72
+    131e:	f0 e0       	ldi	r31, 0x00	; 0
+    1320:	89 85       	ldd	r24, Y+9	; 0x09
+    1322:	9a 85       	ldd	r25, Y+10	; 0x0a
+    1324:	91 83       	std	Z+1, r25	; 0x01
+    1326:	80 83       	st	Z, r24
 
 	/* Enable the interrupt corresponding to the mode */
 	TIMSK = (TIMSK & 0xC3) | (en_interruptMask);
-    1354:	a9 e5       	ldi	r26, 0x59	; 89
-    1356:	b0 e0       	ldi	r27, 0x00	; 0
-    1358:	e9 e5       	ldi	r30, 0x59	; 89
-    135a:	f0 e0       	ldi	r31, 0x00	; 0
-    135c:	80 81       	ld	r24, Z
-    135e:	98 2f       	mov	r25, r24
-    1360:	93 7c       	andi	r25, 0xC3	; 195
-    1362:	8d 85       	ldd	r24, Y+13	; 0x0d
-    1364:	89 2b       	or	r24, r25
-    1366:	8c 93       	st	X, r24
+    1328:	a9 e5       	ldi	r26, 0x59	; 89
+    132a:	b0 e0       	ldi	r27, 0x00	; 0
+    132c:	e9 e5       	ldi	r30, 0x59	; 89
+    132e:	f0 e0       	ldi	r31, 0x00	; 0
+    1330:	80 81       	ld	r24, Z
+    1332:	98 2f       	mov	r25, r24
+    1334:	93 7c       	andi	r25, 0xC3	; 195
+    1336:	8d 85       	ldd	r24, Y+13	; 0x0d
+    1338:	89 2b       	or	r24, r25
+    133a:	8c 93       	st	X, r24
 }
-    1368:	2d 96       	adiw	r28, 0x0d	; 13
-    136a:	0f b6       	in	r0, 0x3f	; 63
-    136c:	f8 94       	cli
-    136e:	de bf       	out	0x3e, r29	; 62
-    1370:	0f be       	out	0x3f, r0	; 63
-    1372:	cd bf       	out	0x3d, r28	; 61
-    1374:	cf 91       	pop	r28
-    1376:	df 91       	pop	r29
-    1378:	1f 91       	pop	r17
-    137a:	0f 91       	pop	r16
-    137c:	ff 90       	pop	r15
-    137e:	ef 90       	pop	r14
-    1380:	df 90       	pop	r13
-    1382:	cf 90       	pop	r12
-    1384:	af 90       	pop	r10
-    1386:	08 95       	ret
+    133c:	2d 96       	adiw	r28, 0x0d	; 13
+    133e:	0f b6       	in	r0, 0x3f	; 63
+    1340:	f8 94       	cli
+    1342:	de bf       	out	0x3e, r29	; 62
+    1344:	0f be       	out	0x3f, r0	; 63
+    1346:	cd bf       	out	0x3d, r28	; 61
+    1348:	cf 91       	pop	r28
+    134a:	df 91       	pop	r29
+    134c:	1f 91       	pop	r17
+    134e:	0f 91       	pop	r16
+    1350:	ff 90       	pop	r15
+    1352:	ef 90       	pop	r14
+    1354:	df 90       	pop	r13
+    1356:	cf 90       	pop	r12
+    1358:	af 90       	pop	r10
+    135a:	08 95       	ret
 
-00001388 <timer1Set>:
+0000135c <timer1Set>:
 
 void timer1Set(uint16_t u16_value)
 {
-    1388:	df 93       	push	r29
-    138a:	cf 93       	push	r28
-    138c:	00 d0       	rcall	.+0      	; 0x138e <timer1Set+0x6>
-    138e:	cd b7       	in	r28, 0x3d	; 61
-    1390:	de b7       	in	r29, 0x3e	; 62
-    1392:	9a 83       	std	Y+2, r25	; 0x02
-    1394:	89 83       	std	Y+1, r24	; 0x01
+    135c:	df 93       	push	r29
+    135e:	cf 93       	push	r28
+    1360:	00 d0       	rcall	.+0      	; 0x1362 <timer1Set+0x6>
+    1362:	cd b7       	in	r28, 0x3d	; 61
+    1364:	de b7       	in	r29, 0x3e	; 62
+    1366:	9a 83       	std	Y+2, r25	; 0x02
+    1368:	89 83       	std	Y+1, r24	; 0x01
+	/* Set the timer/counter1 custom value */
 	TCNT1 = u16_value;
-    1396:	ec e4       	ldi	r30, 0x4C	; 76
-    1398:	f0 e0       	ldi	r31, 0x00	; 0
-    139a:	89 81       	ldd	r24, Y+1	; 0x01
-    139c:	9a 81       	ldd	r25, Y+2	; 0x02
-    139e:	91 83       	std	Z+1, r25	; 0x01
-    13a0:	80 83       	st	Z, r24
+    136a:	ec e4       	ldi	r30, 0x4C	; 76
+    136c:	f0 e0       	ldi	r31, 0x00	; 0
+    136e:	89 81       	ldd	r24, Y+1	; 0x01
+    1370:	9a 81       	ldd	r25, Y+2	; 0x02
+    1372:	91 83       	std	Z+1, r25	; 0x01
+    1374:	80 83       	st	Z, r24
 }
-    13a2:	0f 90       	pop	r0
-    13a4:	0f 90       	pop	r0
-    13a6:	cf 91       	pop	r28
-    13a8:	df 91       	pop	r29
-    13aa:	08 95       	ret
+    1376:	0f 90       	pop	r0
+    1378:	0f 90       	pop	r0
+    137a:	cf 91       	pop	r28
+    137c:	df 91       	pop	r29
+    137e:	08 95       	ret
 
-000013ac <timer1Read>:
+00001380 <timer1Read>:
 
 uint16_t timer1Read(void)
 {
-    13ac:	df 93       	push	r29
-    13ae:	cf 93       	push	r28
-    13b0:	cd b7       	in	r28, 0x3d	; 61
-    13b2:	de b7       	in	r29, 0x3e	; 62
+    1380:	df 93       	push	r29
+    1382:	cf 93       	push	r28
+    1384:	cd b7       	in	r28, 0x3d	; 61
+    1386:	de b7       	in	r29, 0x3e	; 62
+	/* Read the counter register */
 	return TCNT1;
+    1388:	ec e4       	ldi	r30, 0x4C	; 76
+    138a:	f0 e0       	ldi	r31, 0x00	; 0
+    138c:	80 81       	ld	r24, Z
+    138e:	91 81       	ldd	r25, Z+1	; 0x01
+}
+    1390:	cf 91       	pop	r28
+    1392:	df 91       	pop	r29
+    1394:	08 95       	ret
+
+00001396 <timer1Start>:
+
+void timer1Start(void)
+{
+    1396:	df 93       	push	r29
+    1398:	cf 93       	push	r28
+    139a:	cd b7       	in	r28, 0x3d	; 61
+    139c:	de b7       	in	r29, 0x3e	; 62
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
+	TCCR1B = (TCCR1B & 0xF8) | (gu8_timer0Timer1PreScaler);
+    139e:	ae e4       	ldi	r26, 0x4E	; 78
+    13a0:	b0 e0       	ldi	r27, 0x00	; 0
+    13a2:	ee e4       	ldi	r30, 0x4E	; 78
+    13a4:	f0 e0       	ldi	r31, 0x00	; 0
+    13a6:	80 81       	ld	r24, Z
+    13a8:	98 2f       	mov	r25, r24
+    13aa:	98 7f       	andi	r25, 0xF8	; 248
+    13ac:	80 91 65 00 	lds	r24, 0x0065
+    13b0:	89 2b       	or	r24, r25
+    13b2:	8c 93       	st	X, r24
+	/* Set the timer/counter0 initial value to zero */
+	TCNT1 = 0;
     13b4:	ec e4       	ldi	r30, 0x4C	; 76
     13b6:	f0 e0       	ldi	r31, 0x00	; 0
-    13b8:	80 81       	ld	r24, Z
-    13ba:	91 81       	ldd	r25, Z+1	; 0x01
+    13b8:	11 82       	std	Z+1, r1	; 0x01
+    13ba:	10 82       	st	Z, r1
 }
     13bc:	cf 91       	pop	r28
     13be:	df 91       	pop	r29
     13c0:	08 95       	ret
 
-000013c2 <timer1Start>:
+000013c2 <timer1Stop>:
 
-void timer1Start(void)
+void timer1Stop(void)
 {
     13c2:	df 93       	push	r29
     13c4:	cf 93       	push	r28
     13c6:	cd b7       	in	r28, 0x3d	; 61
     13c8:	de b7       	in	r29, 0x3e	; 62
-	TCCR1B = (TCCR1B & 0xF8) | (gu8_timer0Timer1PreScaler);
+	/* disable the timer clock */
+	TCCR1B &= ~((1 << CS10) | (1 << CS11) | (1 << CS12));
     13ca:	ae e4       	ldi	r26, 0x4E	; 78
     13cc:	b0 e0       	ldi	r27, 0x00	; 0
     13ce:	ee e4       	ldi	r30, 0x4E	; 78
     13d0:	f0 e0       	ldi	r31, 0x00	; 0
     13d2:	80 81       	ld	r24, Z
-    13d4:	98 2f       	mov	r25, r24
-    13d6:	98 7f       	andi	r25, 0xF8	; 248
-    13d8:	80 91 65 00 	lds	r24, 0x0065
-    13dc:	89 2b       	or	r24, r25
-    13de:	8c 93       	st	X, r24
+    13d4:	88 7f       	andi	r24, 0xF8	; 248
+    13d6:	8c 93       	st	X, r24
+	/* reset the counter value */
 	TCNT1 = 0;
-    13e0:	ec e4       	ldi	r30, 0x4C	; 76
-    13e2:	f0 e0       	ldi	r31, 0x00	; 0
-    13e4:	11 82       	std	Z+1, r1	; 0x01
-    13e6:	10 82       	st	Z, r1
+    13d8:	ec e4       	ldi	r30, 0x4C	; 76
+    13da:	f0 e0       	ldi	r31, 0x00	; 0
+    13dc:	11 82       	std	Z+1, r1	; 0x01
+    13de:	10 82       	st	Z, r1
 }
-    13e8:	cf 91       	pop	r28
-    13ea:	df 91       	pop	r29
-    13ec:	08 95       	ret
+    13e0:	cf 91       	pop	r28
+    13e2:	df 91       	pop	r29
+    13e4:	08 95       	ret
 
-000013ee <timer1Stop>:
-
-void timer1Stop(void)
-{
-    13ee:	df 93       	push	r29
-    13f0:	cf 93       	push	r28
-    13f2:	cd b7       	in	r28, 0x3d	; 61
-    13f4:	de b7       	in	r29, 0x3e	; 62
-	TCCR1B &= ~((1 << CS10) | (1 << CS11) | (1 << CS12));
-    13f6:	ae e4       	ldi	r26, 0x4E	; 78
-    13f8:	b0 e0       	ldi	r27, 0x00	; 0
-    13fa:	ee e4       	ldi	r30, 0x4E	; 78
-    13fc:	f0 e0       	ldi	r31, 0x00	; 0
-    13fe:	80 81       	ld	r24, Z
-    1400:	88 7f       	andi	r24, 0xF8	; 248
-    1402:	8c 93       	st	X, r24
-	TCNT1 = 0;
-    1404:	ec e4       	ldi	r30, 0x4C	; 76
-    1406:	f0 e0       	ldi	r31, 0x00	; 0
-    1408:	11 82       	std	Z+1, r1	; 0x01
-    140a:	10 82       	st	Z, r1
-}
-    140c:	cf 91       	pop	r28
-    140e:	df 91       	pop	r29
-    1410:	08 95       	ret
-
-00001412 <timer1DelayMs>:
+000013e6 <timer1DelayMs>:
 
 void timer1DelayMs(uint16_t u16_delay_in_ms)
 {
-    1412:	af 92       	push	r10
-    1414:	cf 92       	push	r12
-    1416:	df 92       	push	r13
-    1418:	ef 92       	push	r14
-    141a:	ff 92       	push	r15
-    141c:	0f 93       	push	r16
-    141e:	1f 93       	push	r17
-    1420:	df 93       	push	r29
-    1422:	cf 93       	push	r28
-    1424:	00 d0       	rcall	.+0      	; 0x1426 <timer1DelayMs+0x14>
-    1426:	00 d0       	rcall	.+0      	; 0x1428 <timer1DelayMs+0x16>
-    1428:	00 d0       	rcall	.+0      	; 0x142a <timer1DelayMs+0x18>
-    142a:	cd b7       	in	r28, 0x3d	; 61
-    142c:	de b7       	in	r29, 0x3e	; 62
-    142e:	9e 83       	std	Y+6, r25	; 0x06
-    1430:	8d 83       	std	Y+5, r24	; 0x05
+    13e6:	af 92       	push	r10
+    13e8:	cf 92       	push	r12
+    13ea:	df 92       	push	r13
+    13ec:	ef 92       	push	r14
+    13ee:	ff 92       	push	r15
+    13f0:	0f 93       	push	r16
+    13f2:	1f 93       	push	r17
+    13f4:	df 93       	push	r29
+    13f6:	cf 93       	push	r28
+    13f8:	00 d0       	rcall	.+0      	; 0x13fa <timer1DelayMs+0x14>
+    13fa:	00 d0       	rcall	.+0      	; 0x13fc <timer1DelayMs+0x16>
+    13fc:	00 d0       	rcall	.+0      	; 0x13fe <timer1DelayMs+0x18>
+    13fe:	cd b7       	in	r28, 0x3d	; 61
+    1400:	de b7       	in	r29, 0x3e	; 62
+    1402:	9e 83       	std	Y+6, r25	; 0x06
+    1404:	8d 83       	std	Y+5, r24	; 0x05
 	uint16_t u16_msCounter = 0;
-    1432:	1c 82       	std	Y+4, r1	; 0x04
-    1434:	1b 82       	std	Y+3, r1	; 0x03
-	uint16_t u16_outputCompare = 250;
-    1436:	8a ef       	ldi	r24, 0xFA	; 250
-    1438:	90 e0       	ldi	r25, 0x00	; 0
-    143a:	9a 83       	std	Y+2, r25	; 0x02
-    143c:	89 83       	std	Y+1, r24	; 0x01
+    1406:	1c 82       	std	Y+4, r1	; 0x04
+    1408:	1b 82       	std	Y+3, r1	; 0x03
+	uint16_t u16_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
+    140a:	8a ef       	ldi	r24, 0xFA	; 250
+    140c:	90 e0       	ldi	r25, 0x00	; 0
+    140e:	9a 83       	std	Y+2, r25	; 0x02
+    1410:	89 83       	std	Y+1, r24	; 0x01
 
-	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_64, 0, u16_outputCompare, 0, 0, T1_POLLING);
-    143e:	e9 81       	ldd	r30, Y+1	; 0x01
-    1440:	fa 81       	ldd	r31, Y+2	; 0x02
-    1442:	88 e0       	ldi	r24, 0x08	; 8
-    1444:	60 e0       	ldi	r22, 0x00	; 0
-    1446:	70 e0       	ldi	r23, 0x00	; 0
-    1448:	43 e0       	ldi	r20, 0x03	; 3
-    144a:	20 e0       	ldi	r18, 0x00	; 0
-    144c:	30 e0       	ldi	r19, 0x00	; 0
-    144e:	8f 01       	movw	r16, r30
-    1450:	ee 24       	eor	r14, r14
-    1452:	ff 24       	eor	r15, r15
-    1454:	cc 24       	eor	r12, r12
-    1456:	dd 24       	eor	r13, r13
-    1458:	aa 24       	eor	r10, r10
-    145a:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <timer1Init>
+	timer1Init(T1_NORMAL_MODE, T1_OC1_DIS, T1_PRESCALER_64, 0, 0, 0, 0, T1_POLLING);
+    1412:	80 e0       	ldi	r24, 0x00	; 0
+    1414:	60 e0       	ldi	r22, 0x00	; 0
+    1416:	70 e0       	ldi	r23, 0x00	; 0
+    1418:	43 e0       	ldi	r20, 0x03	; 3
+    141a:	20 e0       	ldi	r18, 0x00	; 0
+    141c:	30 e0       	ldi	r19, 0x00	; 0
+    141e:	00 e0       	ldi	r16, 0x00	; 0
+    1420:	10 e0       	ldi	r17, 0x00	; 0
+    1422:	ee 24       	eor	r14, r14
+    1424:	ff 24       	eor	r15, r15
+    1426:	cc 24       	eor	r12, r12
+    1428:	dd 24       	eor	r13, r13
+    142a:	aa 24       	eor	r10, r10
+    142c:	0e 94 44 09 	call	0x1288	; 0x1288 <timer1Init>
 	timer1Start();
-    145e:	0e 94 e1 09 	call	0x13c2	; 0x13c2 <timer1Start>
+    1430:	0e 94 cb 09 	call	0x1396	; 0x1396 <timer1Start>
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
-    1462:	1c 82       	std	Y+4, r1	; 0x04
-    1464:	1b 82       	std	Y+3, r1	; 0x03
-    1466:	12 c0       	rjmp	.+36     	; 0x148c <timer1DelayMs+0x7a>
+    1434:	1c 82       	std	Y+4, r1	; 0x04
+    1436:	1b 82       	std	Y+3, r1	; 0x03
+    1438:	12 c0       	rjmp	.+36     	; 0x145e <timer1DelayMs+0x78>
 	{
 		while(TCNT1 < u16_outputCompare);
-    1468:	ec e4       	ldi	r30, 0x4C	; 76
-    146a:	f0 e0       	ldi	r31, 0x00	; 0
-    146c:	20 81       	ld	r18, Z
-    146e:	31 81       	ldd	r19, Z+1	; 0x01
-    1470:	89 81       	ldd	r24, Y+1	; 0x01
-    1472:	9a 81       	ldd	r25, Y+2	; 0x02
-    1474:	28 17       	cp	r18, r24
-    1476:	39 07       	cpc	r19, r25
-    1478:	b8 f3       	brcs	.-18     	; 0x1468 <timer1DelayMs+0x56>
+    143a:	ec e4       	ldi	r30, 0x4C	; 76
+    143c:	f0 e0       	ldi	r31, 0x00	; 0
+    143e:	20 81       	ld	r18, Z
+    1440:	31 81       	ldd	r19, Z+1	; 0x01
+    1442:	89 81       	ldd	r24, Y+1	; 0x01
+    1444:	9a 81       	ldd	r25, Y+2	; 0x02
+    1446:	28 17       	cp	r18, r24
+    1448:	39 07       	cpc	r19, r25
+    144a:	b8 f3       	brcs	.-18     	; 0x143a <timer1DelayMs+0x54>
 		TCNT1 = 0;
-    147a:	ec e4       	ldi	r30, 0x4C	; 76
-    147c:	f0 e0       	ldi	r31, 0x00	; 0
-    147e:	11 82       	std	Z+1, r1	; 0x01
-    1480:	10 82       	st	Z, r1
-	uint16_t u16_outputCompare = 250;
+    144c:	ec e4       	ldi	r30, 0x4C	; 76
+    144e:	f0 e0       	ldi	r31, 0x00	; 0
+    1450:	11 82       	std	Z+1, r1	; 0x01
+    1452:	10 82       	st	Z, r1
+	uint16_t u16_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_64, 0, u16_outputCompare, 0, 0, T1_POLLING);
+	timer1Init(T1_NORMAL_MODE, T1_OC1_DIS, T1_PRESCALER_64, 0, 0, 0, 0, T1_POLLING);
 	timer1Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
-    1482:	8b 81       	ldd	r24, Y+3	; 0x03
-    1484:	9c 81       	ldd	r25, Y+4	; 0x04
-    1486:	01 96       	adiw	r24, 0x01	; 1
-    1488:	9c 83       	std	Y+4, r25	; 0x04
-    148a:	8b 83       	std	Y+3, r24	; 0x03
-    148c:	2b 81       	ldd	r18, Y+3	; 0x03
-    148e:	3c 81       	ldd	r19, Y+4	; 0x04
-    1490:	8d 81       	ldd	r24, Y+5	; 0x05
-    1492:	9e 81       	ldd	r25, Y+6	; 0x06
-    1494:	28 17       	cp	r18, r24
-    1496:	39 07       	cpc	r19, r25
-    1498:	38 f3       	brcs	.-50     	; 0x1468 <timer1DelayMs+0x56>
+    1454:	8b 81       	ldd	r24, Y+3	; 0x03
+    1456:	9c 81       	ldd	r25, Y+4	; 0x04
+    1458:	01 96       	adiw	r24, 0x01	; 1
+    145a:	9c 83       	std	Y+4, r25	; 0x04
+    145c:	8b 83       	std	Y+3, r24	; 0x03
+    145e:	2b 81       	ldd	r18, Y+3	; 0x03
+    1460:	3c 81       	ldd	r19, Y+4	; 0x04
+    1462:	8d 81       	ldd	r24, Y+5	; 0x05
+    1464:	9e 81       	ldd	r25, Y+6	; 0x06
+    1466:	28 17       	cp	r18, r24
+    1468:	39 07       	cpc	r19, r25
+    146a:	38 f3       	brcs	.-50     	; 0x143a <timer1DelayMs+0x54>
 	{
 		while(TCNT1 < u16_outputCompare);
 		TCNT1 = 0;
 	}
-
-	TCCR1 = (TCCR1 & 0xF8) | (gu8_timer0Timer1PreScaler);
-    149a:	ae e4       	ldi	r26, 0x4E	; 78
-    149c:	b0 e0       	ldi	r27, 0x00	; 0
-    149e:	ee e4       	ldi	r30, 0x4E	; 78
-    14a0:	f0 e0       	ldi	r31, 0x00	; 0
-    14a2:	80 81       	ld	r24, Z
-    14a4:	91 81       	ldd	r25, Z+1	; 0x01
-    14a6:	9c 01       	movw	r18, r24
-    14a8:	28 7f       	andi	r18, 0xF8	; 248
-    14aa:	30 70       	andi	r19, 0x00	; 0
-    14ac:	80 91 65 00 	lds	r24, 0x0065
-    14b0:	88 2f       	mov	r24, r24
-    14b2:	90 e0       	ldi	r25, 0x00	; 0
-    14b4:	82 2b       	or	r24, r18
-    14b6:	93 2b       	or	r25, r19
-    14b8:	11 96       	adiw	r26, 0x01	; 1
-    14ba:	9c 93       	st	X, r25
-    14bc:	8e 93       	st	-X, r24
 }
-    14be:	26 96       	adiw	r28, 0x06	; 6
-    14c0:	0f b6       	in	r0, 0x3f	; 63
-    14c2:	f8 94       	cli
-    14c4:	de bf       	out	0x3e, r29	; 62
-    14c6:	0f be       	out	0x3f, r0	; 63
-    14c8:	cd bf       	out	0x3d, r28	; 61
-    14ca:	cf 91       	pop	r28
-    14cc:	df 91       	pop	r29
-    14ce:	1f 91       	pop	r17
-    14d0:	0f 91       	pop	r16
-    14d2:	ff 90       	pop	r15
-    14d4:	ef 90       	pop	r14
-    14d6:	df 90       	pop	r13
-    14d8:	cf 90       	pop	r12
-    14da:	af 90       	pop	r10
-    14dc:	08 95       	ret
+    146c:	26 96       	adiw	r28, 0x06	; 6
+    146e:	0f b6       	in	r0, 0x3f	; 63
+    1470:	f8 94       	cli
+    1472:	de bf       	out	0x3e, r29	; 62
+    1474:	0f be       	out	0x3f, r0	; 63
+    1476:	cd bf       	out	0x3d, r28	; 61
+    1478:	cf 91       	pop	r28
+    147a:	df 91       	pop	r29
+    147c:	1f 91       	pop	r17
+    147e:	0f 91       	pop	r16
+    1480:	ff 90       	pop	r15
+    1482:	ef 90       	pop	r14
+    1484:	df 90       	pop	r13
+    1486:	cf 90       	pop	r12
+    1488:	af 90       	pop	r10
+    148a:	08 95       	ret
 
-000014de <timer1DelayUs>:
+0000148c <timer1DelayUs>:
 
 void timer1DelayUs(uint32_t u32_delay_in_us)
 {
-    14de:	af 92       	push	r10
-    14e0:	cf 92       	push	r12
-    14e2:	df 92       	push	r13
-    14e4:	ef 92       	push	r14
-    14e6:	ff 92       	push	r15
-    14e8:	0f 93       	push	r16
-    14ea:	1f 93       	push	r17
-    14ec:	df 93       	push	r29
-    14ee:	cf 93       	push	r28
-    14f0:	cd b7       	in	r28, 0x3d	; 61
-    14f2:	de b7       	in	r29, 0x3e	; 62
-    14f4:	2a 97       	sbiw	r28, 0x0a	; 10
-    14f6:	0f b6       	in	r0, 0x3f	; 63
-    14f8:	f8 94       	cli
-    14fa:	de bf       	out	0x3e, r29	; 62
-    14fc:	0f be       	out	0x3f, r0	; 63
-    14fe:	cd bf       	out	0x3d, r28	; 61
-    1500:	6f 83       	std	Y+7, r22	; 0x07
-    1502:	78 87       	std	Y+8, r23	; 0x08
-    1504:	89 87       	std	Y+9, r24	; 0x09
-    1506:	9a 87       	std	Y+10, r25	; 0x0a
+    148c:	af 92       	push	r10
+    148e:	cf 92       	push	r12
+    1490:	df 92       	push	r13
+    1492:	ef 92       	push	r14
+    1494:	ff 92       	push	r15
+    1496:	0f 93       	push	r16
+    1498:	1f 93       	push	r17
+    149a:	df 93       	push	r29
+    149c:	cf 93       	push	r28
+    149e:	cd b7       	in	r28, 0x3d	; 61
+    14a0:	de b7       	in	r29, 0x3e	; 62
+    14a2:	2a 97       	sbiw	r28, 0x0a	; 10
+    14a4:	0f b6       	in	r0, 0x3f	; 63
+    14a6:	f8 94       	cli
+    14a8:	de bf       	out	0x3e, r29	; 62
+    14aa:	0f be       	out	0x3f, r0	; 63
+    14ac:	cd bf       	out	0x3d, r28	; 61
+    14ae:	6f 83       	std	Y+7, r22	; 0x07
+    14b0:	78 87       	std	Y+8, r23	; 0x08
+    14b2:	89 87       	std	Y+9, r24	; 0x09
+    14b4:	9a 87       	std	Y+10, r25	; 0x0a
 	uint32_t u32_usCounter = 0;
-    1508:	1b 82       	std	Y+3, r1	; 0x03
-    150a:	1c 82       	std	Y+4, r1	; 0x04
-    150c:	1d 82       	std	Y+5, r1	; 0x05
-    150e:	1e 82       	std	Y+6, r1	; 0x06
-	uint16_t u16_outputCompare = F_CPU / 1000000;
-    1510:	80 e1       	ldi	r24, 0x10	; 16
-    1512:	90 e0       	ldi	r25, 0x00	; 0
-    1514:	9a 83       	std	Y+2, r25	; 0x02
-    1516:	89 83       	std	Y+1, r24	; 0x01
+    14b6:	1b 82       	std	Y+3, r1	; 0x03
+    14b8:	1c 82       	std	Y+4, r1	; 0x04
+    14ba:	1d 82       	std	Y+5, r1	; 0x05
+    14bc:	1e 82       	std	Y+6, r1	; 0x06
+	uint16_t u16_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
+    14be:	80 e1       	ldi	r24, 0x10	; 16
+    14c0:	90 e0       	ldi	r25, 0x00	; 0
+    14c2:	9a 83       	std	Y+2, r25	; 0x02
+    14c4:	89 83       	std	Y+1, r24	; 0x01
 
 	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_NO, 0, u16_outputCompare, 0, 0, T1_POLLING);
-    1518:	e9 81       	ldd	r30, Y+1	; 0x01
-    151a:	fa 81       	ldd	r31, Y+2	; 0x02
-    151c:	88 e0       	ldi	r24, 0x08	; 8
-    151e:	60 e0       	ldi	r22, 0x00	; 0
-    1520:	70 e0       	ldi	r23, 0x00	; 0
-    1522:	41 e0       	ldi	r20, 0x01	; 1
-    1524:	20 e0       	ldi	r18, 0x00	; 0
-    1526:	30 e0       	ldi	r19, 0x00	; 0
-    1528:	8f 01       	movw	r16, r30
-    152a:	ee 24       	eor	r14, r14
-    152c:	ff 24       	eor	r15, r15
-    152e:	cc 24       	eor	r12, r12
-    1530:	dd 24       	eor	r13, r13
-    1532:	aa 24       	eor	r10, r10
-    1534:	0e 94 5a 09 	call	0x12b4	; 0x12b4 <timer1Init>
+    14c6:	e9 81       	ldd	r30, Y+1	; 0x01
+    14c8:	fa 81       	ldd	r31, Y+2	; 0x02
+    14ca:	88 e0       	ldi	r24, 0x08	; 8
+    14cc:	60 e0       	ldi	r22, 0x00	; 0
+    14ce:	70 e0       	ldi	r23, 0x00	; 0
+    14d0:	41 e0       	ldi	r20, 0x01	; 1
+    14d2:	20 e0       	ldi	r18, 0x00	; 0
+    14d4:	30 e0       	ldi	r19, 0x00	; 0
+    14d6:	8f 01       	movw	r16, r30
+    14d8:	ee 24       	eor	r14, r14
+    14da:	ff 24       	eor	r15, r15
+    14dc:	cc 24       	eor	r12, r12
+    14de:	dd 24       	eor	r13, r13
+    14e0:	aa 24       	eor	r10, r10
+    14e2:	0e 94 44 09 	call	0x1288	; 0x1288 <timer1Init>
 	timer1Start();
-    1538:	0e 94 e1 09 	call	0x13c2	; 0x13c2 <timer1Start>
+    14e6:	0e 94 cb 09 	call	0x1396	; 0x1396 <timer1Start>
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    153c:	1b 82       	std	Y+3, r1	; 0x03
-    153e:	1c 82       	std	Y+4, r1	; 0x04
-    1540:	1d 82       	std	Y+5, r1	; 0x05
-    1542:	1e 82       	std	Y+6, r1	; 0x06
-    1544:	1f c0       	rjmp	.+62     	; 0x1584 <timer1DelayUs+0xa6>
+    14ea:	1b 82       	std	Y+3, r1	; 0x03
+    14ec:	1c 82       	std	Y+4, r1	; 0x04
+    14ee:	1d 82       	std	Y+5, r1	; 0x05
+    14f0:	1e 82       	std	Y+6, r1	; 0x06
+    14f2:	1f c0       	rjmp	.+62     	; 0x1532 <timer1DelayUs+0xa6>
 	{
 		while(BIT_IS_CLEAR(TIFR, OCF1A));
-    1546:	e8 e5       	ldi	r30, 0x58	; 88
-    1548:	f0 e0       	ldi	r31, 0x00	; 0
-    154a:	80 81       	ld	r24, Z
-    154c:	88 2f       	mov	r24, r24
-    154e:	90 e0       	ldi	r25, 0x00	; 0
-    1550:	80 71       	andi	r24, 0x10	; 16
-    1552:	90 70       	andi	r25, 0x00	; 0
-    1554:	00 97       	sbiw	r24, 0x00	; 0
-    1556:	b9 f3       	breq	.-18     	; 0x1546 <timer1DelayUs+0x68>
+    14f4:	e8 e5       	ldi	r30, 0x58	; 88
+    14f6:	f0 e0       	ldi	r31, 0x00	; 0
+    14f8:	80 81       	ld	r24, Z
+    14fa:	88 2f       	mov	r24, r24
+    14fc:	90 e0       	ldi	r25, 0x00	; 0
+    14fe:	80 71       	andi	r24, 0x10	; 16
+    1500:	90 70       	andi	r25, 0x00	; 0
+    1502:	00 97       	sbiw	r24, 0x00	; 0
+    1504:	b9 f3       	breq	.-18     	; 0x14f4 <timer1DelayUs+0x68>
 		SET_BIT(TIFR, OCF1A);
-    1558:	a8 e5       	ldi	r26, 0x58	; 88
-    155a:	b0 e0       	ldi	r27, 0x00	; 0
-    155c:	e8 e5       	ldi	r30, 0x58	; 88
-    155e:	f0 e0       	ldi	r31, 0x00	; 0
-    1560:	80 81       	ld	r24, Z
-    1562:	80 61       	ori	r24, 0x10	; 16
-    1564:	8c 93       	st	X, r24
+    1506:	a8 e5       	ldi	r26, 0x58	; 88
+    1508:	b0 e0       	ldi	r27, 0x00	; 0
+    150a:	e8 e5       	ldi	r30, 0x58	; 88
+    150c:	f0 e0       	ldi	r31, 0x00	; 0
+    150e:	80 81       	ld	r24, Z
+    1510:	80 61       	ori	r24, 0x10	; 16
+    1512:	8c 93       	st	X, r24
 		TCNT1 = 0;
-    1566:	ec e4       	ldi	r30, 0x4C	; 76
-    1568:	f0 e0       	ldi	r31, 0x00	; 0
-    156a:	11 82       	std	Z+1, r1	; 0x01
-    156c:	10 82       	st	Z, r1
-	uint16_t u16_outputCompare = F_CPU / 1000000;
+    1514:	ec e4       	ldi	r30, 0x4C	; 76
+    1516:	f0 e0       	ldi	r31, 0x00	; 0
+    1518:	11 82       	std	Z+1, r1	; 0x01
+    151a:	10 82       	st	Z, r1
+	uint16_t u16_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, T1_PRESCALER_NO, 0, u16_outputCompare, 0, 0, T1_POLLING);
 	timer1Start();
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    156e:	8b 81       	ldd	r24, Y+3	; 0x03
-    1570:	9c 81       	ldd	r25, Y+4	; 0x04
-    1572:	ad 81       	ldd	r26, Y+5	; 0x05
-    1574:	be 81       	ldd	r27, Y+6	; 0x06
-    1576:	01 96       	adiw	r24, 0x01	; 1
-    1578:	a1 1d       	adc	r26, r1
-    157a:	b1 1d       	adc	r27, r1
-    157c:	8b 83       	std	Y+3, r24	; 0x03
-    157e:	9c 83       	std	Y+4, r25	; 0x04
-    1580:	ad 83       	std	Y+5, r26	; 0x05
-    1582:	be 83       	std	Y+6, r27	; 0x06
-    1584:	2b 81       	ldd	r18, Y+3	; 0x03
-    1586:	3c 81       	ldd	r19, Y+4	; 0x04
-    1588:	4d 81       	ldd	r20, Y+5	; 0x05
-    158a:	5e 81       	ldd	r21, Y+6	; 0x06
-    158c:	8f 81       	ldd	r24, Y+7	; 0x07
-    158e:	98 85       	ldd	r25, Y+8	; 0x08
-    1590:	a9 85       	ldd	r26, Y+9	; 0x09
-    1592:	ba 85       	ldd	r27, Y+10	; 0x0a
-    1594:	28 17       	cp	r18, r24
-    1596:	39 07       	cpc	r19, r25
-    1598:	4a 07       	cpc	r20, r26
-    159a:	5b 07       	cpc	r21, r27
-    159c:	a0 f2       	brcs	.-88     	; 0x1546 <timer1DelayUs+0x68>
+    151c:	8b 81       	ldd	r24, Y+3	; 0x03
+    151e:	9c 81       	ldd	r25, Y+4	; 0x04
+    1520:	ad 81       	ldd	r26, Y+5	; 0x05
+    1522:	be 81       	ldd	r27, Y+6	; 0x06
+    1524:	01 96       	adiw	r24, 0x01	; 1
+    1526:	a1 1d       	adc	r26, r1
+    1528:	b1 1d       	adc	r27, r1
+    152a:	8b 83       	std	Y+3, r24	; 0x03
+    152c:	9c 83       	std	Y+4, r25	; 0x04
+    152e:	ad 83       	std	Y+5, r26	; 0x05
+    1530:	be 83       	std	Y+6, r27	; 0x06
+    1532:	2b 81       	ldd	r18, Y+3	; 0x03
+    1534:	3c 81       	ldd	r19, Y+4	; 0x04
+    1536:	4d 81       	ldd	r20, Y+5	; 0x05
+    1538:	5e 81       	ldd	r21, Y+6	; 0x06
+    153a:	8f 81       	ldd	r24, Y+7	; 0x07
+    153c:	98 85       	ldd	r25, Y+8	; 0x08
+    153e:	a9 85       	ldd	r26, Y+9	; 0x09
+    1540:	ba 85       	ldd	r27, Y+10	; 0x0a
+    1542:	28 17       	cp	r18, r24
+    1544:	39 07       	cpc	r19, r25
+    1546:	4a 07       	cpc	r20, r26
+    1548:	5b 07       	cpc	r21, r27
+    154a:	a0 f2       	brcs	.-88     	; 0x14f4 <timer1DelayUs+0x68>
+	{
 		while(BIT_IS_CLEAR(TIFR, OCF1A));
 		SET_BIT(TIFR, OCF1A);
 		TCNT1 = 0;
 	}
-
-	TCCR1 = (TCCR1 & 0xF8) | (gu8_timer0Timer1PreScaler);
-    159e:	ae e4       	ldi	r26, 0x4E	; 78
-    15a0:	b0 e0       	ldi	r27, 0x00	; 0
-    15a2:	ee e4       	ldi	r30, 0x4E	; 78
-    15a4:	f0 e0       	ldi	r31, 0x00	; 0
-    15a6:	80 81       	ld	r24, Z
-    15a8:	91 81       	ldd	r25, Z+1	; 0x01
-    15aa:	9c 01       	movw	r18, r24
-    15ac:	28 7f       	andi	r18, 0xF8	; 248
-    15ae:	30 70       	andi	r19, 0x00	; 0
-    15b0:	80 91 65 00 	lds	r24, 0x0065
-    15b4:	88 2f       	mov	r24, r24
-    15b6:	90 e0       	ldi	r25, 0x00	; 0
-    15b8:	82 2b       	or	r24, r18
-    15ba:	93 2b       	or	r25, r19
-    15bc:	11 96       	adiw	r26, 0x01	; 1
-    15be:	9c 93       	st	X, r25
-    15c0:	8e 93       	st	-X, r24
 }
-    15c2:	2a 96       	adiw	r28, 0x0a	; 10
-    15c4:	0f b6       	in	r0, 0x3f	; 63
-    15c6:	f8 94       	cli
-    15c8:	de bf       	out	0x3e, r29	; 62
-    15ca:	0f be       	out	0x3f, r0	; 63
-    15cc:	cd bf       	out	0x3d, r28	; 61
-    15ce:	cf 91       	pop	r28
-    15d0:	df 91       	pop	r29
-    15d2:	1f 91       	pop	r17
-    15d4:	0f 91       	pop	r16
-    15d6:	ff 90       	pop	r15
-    15d8:	ef 90       	pop	r14
-    15da:	df 90       	pop	r13
-    15dc:	cf 90       	pop	r12
-    15de:	af 90       	pop	r10
-    15e0:	08 95       	ret
+    154c:	2a 96       	adiw	r28, 0x0a	; 10
+    154e:	0f b6       	in	r0, 0x3f	; 63
+    1550:	f8 94       	cli
+    1552:	de bf       	out	0x3e, r29	; 62
+    1554:	0f be       	out	0x3f, r0	; 63
+    1556:	cd bf       	out	0x3d, r28	; 61
+    1558:	cf 91       	pop	r28
+    155a:	df 91       	pop	r29
+    155c:	1f 91       	pop	r17
+    155e:	0f 91       	pop	r16
+    1560:	ff 90       	pop	r15
+    1562:	ef 90       	pop	r14
+    1564:	df 90       	pop	r13
+    1566:	cf 90       	pop	r12
+    1568:	af 90       	pop	r10
+    156a:	08 95       	ret
 
-000015e2 <timer1SwPWM>:
+0000156c <timer1SwPWM>:
 
 void timer1SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
-    15e2:	df 93       	push	r29
-    15e4:	cf 93       	push	r28
-    15e6:	00 d0       	rcall	.+0      	; 0x15e8 <timer1SwPWM+0x6>
-    15e8:	cd b7       	in	r28, 0x3d	; 61
-    15ea:	de b7       	in	r29, 0x3e	; 62
-    15ec:	89 83       	std	Y+1, r24	; 0x01
-    15ee:	6a 83       	std	Y+2, r22	; 0x02
+    156c:	df 93       	push	r29
+    156e:	cf 93       	push	r28
+    1570:	00 d0       	rcall	.+0      	; 0x1572 <timer1SwPWM+0x6>
+    1572:	cd b7       	in	r28, 0x3d	; 61
+    1574:	de b7       	in	r29, 0x3e	; 62
+    1576:	89 83       	std	Y+1, r24	; 0x01
+    1578:	6a 83       	std	Y+2, r22	; 0x02
 
 }
-    15f0:	0f 90       	pop	r0
-    15f2:	0f 90       	pop	r0
-    15f4:	cf 91       	pop	r28
-    15f6:	df 91       	pop	r29
-    15f8:	08 95       	ret
+    157a:	0f 90       	pop	r0
+    157c:	0f 90       	pop	r0
+    157e:	cf 91       	pop	r28
+    1580:	df 91       	pop	r29
+    1582:	08 95       	ret
 
-000015fa <timer2Init>:
+00001584 <timer2Init>:
 /*
  ********************************************************************************************************************************************************
  */
 
 void timer2Init(En_timer2Mode_t en_mode,En_timer2OC_t en_OC2,En_timer2perscaler_t en_prescal, uint8_t u8_initialValue, uint8_t u8_outputCompare, uint8_t u8_assynchronous, En_timer2Interrupt_t en_interruptMask)
 {
-    15fa:	cf 92       	push	r12
-    15fc:	ef 92       	push	r14
-    15fe:	0f 93       	push	r16
-    1600:	df 93       	push	r29
-    1602:	cf 93       	push	r28
-    1604:	cd b7       	in	r28, 0x3d	; 61
-    1606:	de b7       	in	r29, 0x3e	; 62
-    1608:	27 97       	sbiw	r28, 0x07	; 7
-    160a:	0f b6       	in	r0, 0x3f	; 63
-    160c:	f8 94       	cli
-    160e:	de bf       	out	0x3e, r29	; 62
-    1610:	0f be       	out	0x3f, r0	; 63
-    1612:	cd bf       	out	0x3d, r28	; 61
-    1614:	89 83       	std	Y+1, r24	; 0x01
-    1616:	6a 83       	std	Y+2, r22	; 0x02
-    1618:	4b 83       	std	Y+3, r20	; 0x03
-    161a:	2c 83       	std	Y+4, r18	; 0x04
-    161c:	0d 83       	std	Y+5, r16	; 0x05
-    161e:	ee 82       	std	Y+6, r14	; 0x06
-    1620:	cf 82       	std	Y+7, r12	; 0x07
+    1584:	cf 92       	push	r12
+    1586:	ef 92       	push	r14
+    1588:	0f 93       	push	r16
+    158a:	df 93       	push	r29
+    158c:	cf 93       	push	r28
+    158e:	cd b7       	in	r28, 0x3d	; 61
+    1590:	de b7       	in	r29, 0x3e	; 62
+    1592:	27 97       	sbiw	r28, 0x07	; 7
+    1594:	0f b6       	in	r0, 0x3f	; 63
+    1596:	f8 94       	cli
+    1598:	de bf       	out	0x3e, r29	; 62
+    159a:	0f be       	out	0x3f, r0	; 63
+    159c:	cd bf       	out	0x3d, r28	; 61
+    159e:	89 83       	std	Y+1, r24	; 0x01
+    15a0:	6a 83       	std	Y+2, r22	; 0x02
+    15a2:	4b 83       	std	Y+3, r20	; 0x03
+    15a4:	2c 83       	std	Y+4, r18	; 0x04
+    15a6:	0d 83       	std	Y+5, r16	; 0x05
+    15a8:	ee 82       	std	Y+6, r14	; 0x06
+    15aa:	cf 82       	std	Y+7, r12	; 0x07
 	/* Non-PWM mode */
 	SET_BIT(TCCR2, FOC2);
-    1622:	a5 e4       	ldi	r26, 0x45	; 69
-    1624:	b0 e0       	ldi	r27, 0x00	; 0
-    1626:	e5 e4       	ldi	r30, 0x45	; 69
-    1628:	f0 e0       	ldi	r31, 0x00	; 0
-    162a:	80 81       	ld	r24, Z
-    162c:	80 68       	ori	r24, 0x80	; 128
-    162e:	8c 93       	st	X, r24
+    15ac:	a5 e4       	ldi	r26, 0x45	; 69
+    15ae:	b0 e0       	ldi	r27, 0x00	; 0
+    15b0:	e5 e4       	ldi	r30, 0x45	; 69
+    15b2:	f0 e0       	ldi	r31, 0x00	; 0
+    15b4:	80 81       	ld	r24, Z
+    15b6:	80 68       	ori	r24, 0x80	; 128
+    15b8:	8c 93       	st	X, r24
 
 	/* Set the required operating mode */
 	TCCR2 = (TCCR2 & 0xB7) | (en_mode);
-    1630:	a5 e4       	ldi	r26, 0x45	; 69
-    1632:	b0 e0       	ldi	r27, 0x00	; 0
-    1634:	e5 e4       	ldi	r30, 0x45	; 69
-    1636:	f0 e0       	ldi	r31, 0x00	; 0
-    1638:	80 81       	ld	r24, Z
-    163a:	98 2f       	mov	r25, r24
-    163c:	97 7b       	andi	r25, 0xB7	; 183
-    163e:	89 81       	ldd	r24, Y+1	; 0x01
-    1640:	89 2b       	or	r24, r25
-    1642:	8c 93       	st	X, r24
+    15ba:	a5 e4       	ldi	r26, 0x45	; 69
+    15bc:	b0 e0       	ldi	r27, 0x00	; 0
+    15be:	e5 e4       	ldi	r30, 0x45	; 69
+    15c0:	f0 e0       	ldi	r31, 0x00	; 0
+    15c2:	80 81       	ld	r24, Z
+    15c4:	98 2f       	mov	r25, r24
+    15c6:	97 7b       	andi	r25, 0xB7	; 183
+    15c8:	89 81       	ldd	r24, Y+1	; 0x01
+    15ca:	89 2b       	or	r24, r25
+    15cc:	8c 93       	st	X, r24
 
 	/* Set the compare match output mode */
 	TCCR2 = (TCCR2 & 0xCF) | (en_OC2);
-    1644:	a5 e4       	ldi	r26, 0x45	; 69
-    1646:	b0 e0       	ldi	r27, 0x00	; 0
-    1648:	e5 e4       	ldi	r30, 0x45	; 69
-    164a:	f0 e0       	ldi	r31, 0x00	; 0
-    164c:	80 81       	ld	r24, Z
-    164e:	98 2f       	mov	r25, r24
-    1650:	9f 7c       	andi	r25, 0xCF	; 207
-    1652:	8a 81       	ldd	r24, Y+2	; 0x02
-    1654:	89 2b       	or	r24, r25
-    1656:	8c 93       	st	X, r24
+    15ce:	a5 e4       	ldi	r26, 0x45	; 69
+    15d0:	b0 e0       	ldi	r27, 0x00	; 0
+    15d2:	e5 e4       	ldi	r30, 0x45	; 69
+    15d4:	f0 e0       	ldi	r31, 0x00	; 0
+    15d6:	80 81       	ld	r24, Z
+    15d8:	98 2f       	mov	r25, r24
+    15da:	9f 7c       	andi	r25, 0xCF	; 207
+    15dc:	8a 81       	ldd	r24, Y+2	; 0x02
+    15de:	89 2b       	or	r24, r25
+    15e0:	8c 93       	st	X, r24
 
 	/* Set the pre-scaler */
 	gu8_timer2PreScaler = en_prescal;
-    1658:	8b 81       	ldd	r24, Y+3	; 0x03
-    165a:	80 93 66 00 	sts	0x0066, r24
+    15e2:	8b 81       	ldd	r24, Y+3	; 0x03
+    15e4:	80 93 66 00 	sts	0x0066, r24
 
 	/* Set the timer/counter0 initial value */
 	TCNT2 = u8_initialValue;
-    165e:	e4 e4       	ldi	r30, 0x44	; 68
-    1660:	f0 e0       	ldi	r31, 0x00	; 0
-    1662:	8c 81       	ldd	r24, Y+4	; 0x04
-    1664:	80 83       	st	Z, r24
+    15e8:	e4 e4       	ldi	r30, 0x44	; 68
+    15ea:	f0 e0       	ldi	r31, 0x00	; 0
+    15ec:	8c 81       	ldd	r24, Y+4	; 0x04
+    15ee:	80 83       	st	Z, r24
 
 	/* Set the timer/counter0 CTC mode compare value */
 	OCR2 = u8_outputCompare;
-    1666:	e3 e4       	ldi	r30, 0x43	; 67
-    1668:	f0 e0       	ldi	r31, 0x00	; 0
-    166a:	8d 81       	ldd	r24, Y+5	; 0x05
-    166c:	80 83       	st	Z, r24
+    15f0:	e3 e4       	ldi	r30, 0x43	; 67
+    15f2:	f0 e0       	ldi	r31, 0x00	; 0
+    15f4:	8d 81       	ldd	r24, Y+5	; 0x05
+    15f6:	80 83       	st	Z, r24
 
 	/* Enable the interrupt corresponding to the mode */
 	TIMSK = (TIMSK & 0x3F) | (en_interruptMask);
-    166e:	a9 e5       	ldi	r26, 0x59	; 89
-    1670:	b0 e0       	ldi	r27, 0x00	; 0
-    1672:	e9 e5       	ldi	r30, 0x59	; 89
-    1674:	f0 e0       	ldi	r31, 0x00	; 0
-    1676:	80 81       	ld	r24, Z
-    1678:	98 2f       	mov	r25, r24
-    167a:	9f 73       	andi	r25, 0x3F	; 63
-    167c:	8f 81       	ldd	r24, Y+7	; 0x07
-    167e:	89 2b       	or	r24, r25
-    1680:	8c 93       	st	X, r24
+    15f8:	a9 e5       	ldi	r26, 0x59	; 89
+    15fa:	b0 e0       	ldi	r27, 0x00	; 0
+    15fc:	e9 e5       	ldi	r30, 0x59	; 89
+    15fe:	f0 e0       	ldi	r31, 0x00	; 0
+    1600:	80 81       	ld	r24, Z
+    1602:	98 2f       	mov	r25, r24
+    1604:	9f 73       	andi	r25, 0x3F	; 63
+    1606:	8f 81       	ldd	r24, Y+7	; 0x07
+    1608:	89 2b       	or	r24, r25
+    160a:	8c 93       	st	X, r24
 }
-    1682:	27 96       	adiw	r28, 0x07	; 7
-    1684:	0f b6       	in	r0, 0x3f	; 63
-    1686:	f8 94       	cli
-    1688:	de bf       	out	0x3e, r29	; 62
-    168a:	0f be       	out	0x3f, r0	; 63
-    168c:	cd bf       	out	0x3d, r28	; 61
-    168e:	cf 91       	pop	r28
-    1690:	df 91       	pop	r29
-    1692:	0f 91       	pop	r16
-    1694:	ef 90       	pop	r14
-    1696:	cf 90       	pop	r12
-    1698:	08 95       	ret
+    160c:	27 96       	adiw	r28, 0x07	; 7
+    160e:	0f b6       	in	r0, 0x3f	; 63
+    1610:	f8 94       	cli
+    1612:	de bf       	out	0x3e, r29	; 62
+    1614:	0f be       	out	0x3f, r0	; 63
+    1616:	cd bf       	out	0x3d, r28	; 61
+    1618:	cf 91       	pop	r28
+    161a:	df 91       	pop	r29
+    161c:	0f 91       	pop	r16
+    161e:	ef 90       	pop	r14
+    1620:	cf 90       	pop	r12
+    1622:	08 95       	ret
 
-0000169a <timer2Set>:
+00001624 <timer2Set>:
 
 void timer2Set(uint8_t u8_value)
 {
-    169a:	df 93       	push	r29
-    169c:	cf 93       	push	r28
-    169e:	0f 92       	push	r0
-    16a0:	cd b7       	in	r28, 0x3d	; 61
-    16a2:	de b7       	in	r29, 0x3e	; 62
-    16a4:	89 83       	std	Y+1, r24	; 0x01
+    1624:	df 93       	push	r29
+    1626:	cf 93       	push	r28
+    1628:	0f 92       	push	r0
+    162a:	cd b7       	in	r28, 0x3d	; 61
+    162c:	de b7       	in	r29, 0x3e	; 62
+    162e:	89 83       	std	Y+1, r24	; 0x01
+	/* Set the timer/counter2 custom value */
 	TCNT2 = u8_value;
-    16a6:	e4 e4       	ldi	r30, 0x44	; 68
-    16a8:	f0 e0       	ldi	r31, 0x00	; 0
-    16aa:	89 81       	ldd	r24, Y+1	; 0x01
-    16ac:	80 83       	st	Z, r24
+    1630:	e4 e4       	ldi	r30, 0x44	; 68
+    1632:	f0 e0       	ldi	r31, 0x00	; 0
+    1634:	89 81       	ldd	r24, Y+1	; 0x01
+    1636:	80 83       	st	Z, r24
 }
-    16ae:	0f 90       	pop	r0
-    16b0:	cf 91       	pop	r28
-    16b2:	df 91       	pop	r29
-    16b4:	08 95       	ret
+    1638:	0f 90       	pop	r0
+    163a:	cf 91       	pop	r28
+    163c:	df 91       	pop	r29
+    163e:	08 95       	ret
 
-000016b6 <timer2Read>:
+00001640 <timer2Read>:
 
 uint8_t timer2Read(void)
 {
-    16b6:	df 93       	push	r29
-    16b8:	cf 93       	push	r28
-    16ba:	cd b7       	in	r28, 0x3d	; 61
-    16bc:	de b7       	in	r29, 0x3e	; 62
+    1640:	df 93       	push	r29
+    1642:	cf 93       	push	r28
+    1644:	cd b7       	in	r28, 0x3d	; 61
+    1646:	de b7       	in	r29, 0x3e	; 62
+	/* Read the counter register */
 	return TCNT2;
-    16be:	e4 e4       	ldi	r30, 0x44	; 68
-    16c0:	f0 e0       	ldi	r31, 0x00	; 0
-    16c2:	80 81       	ld	r24, Z
+    1648:	e4 e4       	ldi	r30, 0x44	; 68
+    164a:	f0 e0       	ldi	r31, 0x00	; 0
+    164c:	80 81       	ld	r24, Z
 }
-    16c4:	cf 91       	pop	r28
-    16c6:	df 91       	pop	r29
-    16c8:	08 95       	ret
+    164e:	cf 91       	pop	r28
+    1650:	df 91       	pop	r29
+    1652:	08 95       	ret
 
-000016ca <timer2Start>:
+00001654 <timer2Start>:
 
 void timer2Start(void)
 {
-    16ca:	df 93       	push	r29
-    16cc:	cf 93       	push	r28
-    16ce:	cd b7       	in	r28, 0x3d	; 61
-    16d0:	de b7       	in	r29, 0x3e	; 62
+    1654:	df 93       	push	r29
+    1656:	cf 93       	push	r28
+    1658:	cd b7       	in	r28, 0x3d	; 61
+    165a:	de b7       	in	r29, 0x3e	; 62
+	/* Provide suitable clock to the timer according to the chosen prescaler value */
 	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
-    16d2:	a5 e4       	ldi	r26, 0x45	; 69
-    16d4:	b0 e0       	ldi	r27, 0x00	; 0
-    16d6:	e5 e4       	ldi	r30, 0x45	; 69
-    16d8:	f0 e0       	ldi	r31, 0x00	; 0
-    16da:	80 81       	ld	r24, Z
-    16dc:	98 2f       	mov	r25, r24
-    16de:	98 7f       	andi	r25, 0xF8	; 248
-    16e0:	80 91 66 00 	lds	r24, 0x0066
-    16e4:	89 2b       	or	r24, r25
-    16e6:	8c 93       	st	X, r24
+    165c:	a5 e4       	ldi	r26, 0x45	; 69
+    165e:	b0 e0       	ldi	r27, 0x00	; 0
+    1660:	e5 e4       	ldi	r30, 0x45	; 69
+    1662:	f0 e0       	ldi	r31, 0x00	; 0
+    1664:	80 81       	ld	r24, Z
+    1666:	98 2f       	mov	r25, r24
+    1668:	98 7f       	andi	r25, 0xF8	; 248
+    166a:	80 91 66 00 	lds	r24, 0x0066
+    166e:	89 2b       	or	r24, r25
+    1670:	8c 93       	st	X, r24
+	/* Set the timer/counter0 initial value to zero */
 	TCNT2 = 0;
-    16e8:	e4 e4       	ldi	r30, 0x44	; 68
-    16ea:	f0 e0       	ldi	r31, 0x00	; 0
-    16ec:	10 82       	st	Z, r1
+    1672:	e4 e4       	ldi	r30, 0x44	; 68
+    1674:	f0 e0       	ldi	r31, 0x00	; 0
+    1676:	10 82       	st	Z, r1
 }
-    16ee:	cf 91       	pop	r28
-    16f0:	df 91       	pop	r29
-    16f2:	08 95       	ret
+    1678:	cf 91       	pop	r28
+    167a:	df 91       	pop	r29
+    167c:	08 95       	ret
 
-000016f4 <timer2Stop>:
+0000167e <timer2Stop>:
 
 void timer2Stop(void)
 {
-    16f4:	df 93       	push	r29
-    16f6:	cf 93       	push	r28
-    16f8:	cd b7       	in	r28, 0x3d	; 61
-    16fa:	de b7       	in	r29, 0x3e	; 62
+    167e:	df 93       	push	r29
+    1680:	cf 93       	push	r28
+    1682:	cd b7       	in	r28, 0x3d	; 61
+    1684:	de b7       	in	r29, 0x3e	; 62
+	/* disable the timer clock */
 	TCCR2 &= ~((1 << CS20) | (1 << CS21) | (1 << CS22));
-    16fc:	a5 e4       	ldi	r26, 0x45	; 69
-    16fe:	b0 e0       	ldi	r27, 0x00	; 0
-    1700:	e5 e4       	ldi	r30, 0x45	; 69
-    1702:	f0 e0       	ldi	r31, 0x00	; 0
-    1704:	80 81       	ld	r24, Z
-    1706:	88 7f       	andi	r24, 0xF8	; 248
-    1708:	8c 93       	st	X, r24
+    1686:	a5 e4       	ldi	r26, 0x45	; 69
+    1688:	b0 e0       	ldi	r27, 0x00	; 0
+    168a:	e5 e4       	ldi	r30, 0x45	; 69
+    168c:	f0 e0       	ldi	r31, 0x00	; 0
+    168e:	80 81       	ld	r24, Z
+    1690:	88 7f       	andi	r24, 0xF8	; 248
+    1692:	8c 93       	st	X, r24
+	/* reset the counter value */
 	TCNT2 = 0;
-    170a:	e4 e4       	ldi	r30, 0x44	; 68
-    170c:	f0 e0       	ldi	r31, 0x00	; 0
-    170e:	10 82       	st	Z, r1
+    1694:	e4 e4       	ldi	r30, 0x44	; 68
+    1696:	f0 e0       	ldi	r31, 0x00	; 0
+    1698:	10 82       	st	Z, r1
 }
-    1710:	cf 91       	pop	r28
-    1712:	df 91       	pop	r29
-    1714:	08 95       	ret
+    169a:	cf 91       	pop	r28
+    169c:	df 91       	pop	r29
+    169e:	08 95       	ret
 
-00001716 <timer2DelayMs>:
+000016a0 <timer2DelayMs>:
 
 void timer2DelayMs(uint16_t u16_delay_in_ms)
 {
-    1716:	cf 92       	push	r12
-    1718:	ef 92       	push	r14
-    171a:	0f 93       	push	r16
-    171c:	df 93       	push	r29
-    171e:	cf 93       	push	r28
-    1720:	00 d0       	rcall	.+0      	; 0x1722 <timer2DelayMs+0xc>
-    1722:	00 d0       	rcall	.+0      	; 0x1724 <timer2DelayMs+0xe>
-    1724:	0f 92       	push	r0
-    1726:	cd b7       	in	r28, 0x3d	; 61
-    1728:	de b7       	in	r29, 0x3e	; 62
-    172a:	9d 83       	std	Y+5, r25	; 0x05
-    172c:	8c 83       	std	Y+4, r24	; 0x04
+    16a0:	cf 92       	push	r12
+    16a2:	ef 92       	push	r14
+    16a4:	0f 93       	push	r16
+    16a6:	df 93       	push	r29
+    16a8:	cf 93       	push	r28
+    16aa:	00 d0       	rcall	.+0      	; 0x16ac <timer2DelayMs+0xc>
+    16ac:	00 d0       	rcall	.+0      	; 0x16ae <timer2DelayMs+0xe>
+    16ae:	0f 92       	push	r0
+    16b0:	cd b7       	in	r28, 0x3d	; 61
+    16b2:	de b7       	in	r29, 0x3e	; 62
+    16b4:	9d 83       	std	Y+5, r25	; 0x05
+    16b6:	8c 83       	std	Y+4, r24	; 0x04
 	uint16_t u16_msCounter = 0;
-    172e:	1b 82       	std	Y+3, r1	; 0x03
-    1730:	1a 82       	std	Y+2, r1	; 0x02
-	uint8_t u8_outputCompare = 250;
-    1732:	8a ef       	ldi	r24, 0xFA	; 250
-    1734:	89 83       	std	Y+1, r24	; 0x01
+    16b8:	1b 82       	std	Y+3, r1	; 0x03
+    16ba:	1a 82       	std	Y+2, r1	; 0x02
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
+    16bc:	8a ef       	ldi	r24, 0xFA	; 250
+    16be:	89 83       	std	Y+1, r24	; 0x01
 
-	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, u8_outputCompare, 0, T2_POLLING);
-    1736:	88 e0       	ldi	r24, 0x08	; 8
-    1738:	60 e0       	ldi	r22, 0x00	; 0
-    173a:	44 e0       	ldi	r20, 0x04	; 4
-    173c:	20 e0       	ldi	r18, 0x00	; 0
-    173e:	09 81       	ldd	r16, Y+1	; 0x01
-    1740:	ee 24       	eor	r14, r14
-    1742:	cc 24       	eor	r12, r12
-    1744:	0e 94 fd 0a 	call	0x15fa	; 0x15fa <timer2Init>
+	timer2Init(T2_NORMAL_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, 0, 0, T2_POLLING);
+    16c0:	80 e0       	ldi	r24, 0x00	; 0
+    16c2:	60 e0       	ldi	r22, 0x00	; 0
+    16c4:	44 e0       	ldi	r20, 0x04	; 4
+    16c6:	20 e0       	ldi	r18, 0x00	; 0
+    16c8:	00 e0       	ldi	r16, 0x00	; 0
+    16ca:	ee 24       	eor	r14, r14
+    16cc:	cc 24       	eor	r12, r12
+    16ce:	0e 94 c2 0a 	call	0x1584	; 0x1584 <timer2Init>
 	timer2Start();
-    1748:	0e 94 65 0b 	call	0x16ca	; 0x16ca <timer2Start>
+    16d2:	0e 94 2a 0b 	call	0x1654	; 0x1654 <timer2Start>
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
-    174c:	1b 82       	std	Y+3, r1	; 0x03
-    174e:	1a 82       	std	Y+2, r1	; 0x02
-    1750:	0e c0       	rjmp	.+28     	; 0x176e <timer2DelayMs+0x58>
+    16d6:	1b 82       	std	Y+3, r1	; 0x03
+    16d8:	1a 82       	std	Y+2, r1	; 0x02
+    16da:	0e c0       	rjmp	.+28     	; 0x16f8 <timer2DelayMs+0x58>
 	{
 		while(TCNT2 < u8_outputCompare);
-    1752:	e4 e4       	ldi	r30, 0x44	; 68
-    1754:	f0 e0       	ldi	r31, 0x00	; 0
-    1756:	90 81       	ld	r25, Z
-    1758:	89 81       	ldd	r24, Y+1	; 0x01
-    175a:	98 17       	cp	r25, r24
-    175c:	d0 f3       	brcs	.-12     	; 0x1752 <timer2DelayMs+0x3c>
+    16dc:	e4 e4       	ldi	r30, 0x44	; 68
+    16de:	f0 e0       	ldi	r31, 0x00	; 0
+    16e0:	90 81       	ld	r25, Z
+    16e2:	89 81       	ldd	r24, Y+1	; 0x01
+    16e4:	98 17       	cp	r25, r24
+    16e6:	d0 f3       	brcs	.-12     	; 0x16dc <timer2DelayMs+0x3c>
 		TCNT2 = 0;
-    175e:	e4 e4       	ldi	r30, 0x44	; 68
-    1760:	f0 e0       	ldi	r31, 0x00	; 0
-    1762:	10 82       	st	Z, r1
-	uint8_t u8_outputCompare = 250;
+    16e8:	e4 e4       	ldi	r30, 0x44	; 68
+    16ea:	f0 e0       	ldi	r31, 0x00	; 0
+    16ec:	10 82       	st	Z, r1
+	uint8_t u8_outputCompare = F_CPU / TIMER_MS_DIVISION_FACTOR;
 
-	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, u8_outputCompare, 0, T2_POLLING);
+	timer2Init(T2_NORMAL_MODE, T2_OC2_DIS, T2_PRESCALER_64, 0, 0, 0, T2_POLLING);
 	timer2Start();
 
 	for(u16_msCounter=0 ; u16_msCounter < u16_delay_in_ms ; u16_msCounter++)
-    1764:	8a 81       	ldd	r24, Y+2	; 0x02
-    1766:	9b 81       	ldd	r25, Y+3	; 0x03
-    1768:	01 96       	adiw	r24, 0x01	; 1
-    176a:	9b 83       	std	Y+3, r25	; 0x03
-    176c:	8a 83       	std	Y+2, r24	; 0x02
-    176e:	2a 81       	ldd	r18, Y+2	; 0x02
-    1770:	3b 81       	ldd	r19, Y+3	; 0x03
-    1772:	8c 81       	ldd	r24, Y+4	; 0x04
-    1774:	9d 81       	ldd	r25, Y+5	; 0x05
-    1776:	28 17       	cp	r18, r24
-    1778:	39 07       	cpc	r19, r25
-    177a:	58 f3       	brcs	.-42     	; 0x1752 <timer2DelayMs+0x3c>
+    16ee:	8a 81       	ldd	r24, Y+2	; 0x02
+    16f0:	9b 81       	ldd	r25, Y+3	; 0x03
+    16f2:	01 96       	adiw	r24, 0x01	; 1
+    16f4:	9b 83       	std	Y+3, r25	; 0x03
+    16f6:	8a 83       	std	Y+2, r24	; 0x02
+    16f8:	2a 81       	ldd	r18, Y+2	; 0x02
+    16fa:	3b 81       	ldd	r19, Y+3	; 0x03
+    16fc:	8c 81       	ldd	r24, Y+4	; 0x04
+    16fe:	9d 81       	ldd	r25, Y+5	; 0x05
+    1700:	28 17       	cp	r18, r24
+    1702:	39 07       	cpc	r19, r25
+    1704:	58 f3       	brcs	.-42     	; 0x16dc <timer2DelayMs+0x3c>
 	{
 		while(TCNT2 < u8_outputCompare);
 		TCNT2 = 0;
 	}
-
-	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
-    177c:	a5 e4       	ldi	r26, 0x45	; 69
-    177e:	b0 e0       	ldi	r27, 0x00	; 0
-    1780:	e5 e4       	ldi	r30, 0x45	; 69
-    1782:	f0 e0       	ldi	r31, 0x00	; 0
-    1784:	80 81       	ld	r24, Z
-    1786:	98 2f       	mov	r25, r24
-    1788:	98 7f       	andi	r25, 0xF8	; 248
-    178a:	80 91 66 00 	lds	r24, 0x0066
-    178e:	89 2b       	or	r24, r25
-    1790:	8c 93       	st	X, r24
 }
-    1792:	0f 90       	pop	r0
-    1794:	0f 90       	pop	r0
-    1796:	0f 90       	pop	r0
-    1798:	0f 90       	pop	r0
-    179a:	0f 90       	pop	r0
-    179c:	cf 91       	pop	r28
-    179e:	df 91       	pop	r29
-    17a0:	0f 91       	pop	r16
-    17a2:	ef 90       	pop	r14
-    17a4:	cf 90       	pop	r12
-    17a6:	08 95       	ret
+    1706:	0f 90       	pop	r0
+    1708:	0f 90       	pop	r0
+    170a:	0f 90       	pop	r0
+    170c:	0f 90       	pop	r0
+    170e:	0f 90       	pop	r0
+    1710:	cf 91       	pop	r28
+    1712:	df 91       	pop	r29
+    1714:	0f 91       	pop	r16
+    1716:	ef 90       	pop	r14
+    1718:	cf 90       	pop	r12
+    171a:	08 95       	ret
 
-000017a8 <timer2DelayUs>:
+0000171c <timer2DelayUs>:
 
 void timer2DelayUs(uint32_t u32_delay_in_us)
 {
-    17a8:	cf 92       	push	r12
-    17aa:	ef 92       	push	r14
-    17ac:	0f 93       	push	r16
-    17ae:	df 93       	push	r29
-    17b0:	cf 93       	push	r28
-    17b2:	cd b7       	in	r28, 0x3d	; 61
-    17b4:	de b7       	in	r29, 0x3e	; 62
-    17b6:	29 97       	sbiw	r28, 0x09	; 9
-    17b8:	0f b6       	in	r0, 0x3f	; 63
-    17ba:	f8 94       	cli
-    17bc:	de bf       	out	0x3e, r29	; 62
-    17be:	0f be       	out	0x3f, r0	; 63
-    17c0:	cd bf       	out	0x3d, r28	; 61
-    17c2:	6e 83       	std	Y+6, r22	; 0x06
-    17c4:	7f 83       	std	Y+7, r23	; 0x07
-    17c6:	88 87       	std	Y+8, r24	; 0x08
-    17c8:	99 87       	std	Y+9, r25	; 0x09
+    171c:	cf 92       	push	r12
+    171e:	ef 92       	push	r14
+    1720:	0f 93       	push	r16
+    1722:	df 93       	push	r29
+    1724:	cf 93       	push	r28
+    1726:	cd b7       	in	r28, 0x3d	; 61
+    1728:	de b7       	in	r29, 0x3e	; 62
+    172a:	29 97       	sbiw	r28, 0x09	; 9
+    172c:	0f b6       	in	r0, 0x3f	; 63
+    172e:	f8 94       	cli
+    1730:	de bf       	out	0x3e, r29	; 62
+    1732:	0f be       	out	0x3f, r0	; 63
+    1734:	cd bf       	out	0x3d, r28	; 61
+    1736:	6e 83       	std	Y+6, r22	; 0x06
+    1738:	7f 83       	std	Y+7, r23	; 0x07
+    173a:	88 87       	std	Y+8, r24	; 0x08
+    173c:	99 87       	std	Y+9, r25	; 0x09
 	uint32_t u32_usCounter = 0;
-    17ca:	1a 82       	std	Y+2, r1	; 0x02
-    17cc:	1b 82       	std	Y+3, r1	; 0x03
-    17ce:	1c 82       	std	Y+4, r1	; 0x04
-    17d0:	1d 82       	std	Y+5, r1	; 0x05
-	uint8_t u8_outputCompare = F_CPU / 1000000;
-    17d2:	80 e1       	ldi	r24, 0x10	; 16
-    17d4:	89 83       	std	Y+1, r24	; 0x01
+    173e:	1a 82       	std	Y+2, r1	; 0x02
+    1740:	1b 82       	std	Y+3, r1	; 0x03
+    1742:	1c 82       	std	Y+4, r1	; 0x04
+    1744:	1d 82       	std	Y+5, r1	; 0x05
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
+    1746:	80 e1       	ldi	r24, 0x10	; 16
+    1748:	89 83       	std	Y+1, r24	; 0x01
 
 	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_NO, 0, u8_outputCompare, 0, T2_POLLING);
-    17d6:	88 e0       	ldi	r24, 0x08	; 8
-    17d8:	60 e0       	ldi	r22, 0x00	; 0
-    17da:	41 e0       	ldi	r20, 0x01	; 1
-    17dc:	20 e0       	ldi	r18, 0x00	; 0
-    17de:	09 81       	ldd	r16, Y+1	; 0x01
-    17e0:	ee 24       	eor	r14, r14
-    17e2:	cc 24       	eor	r12, r12
-    17e4:	0e 94 fd 0a 	call	0x15fa	; 0x15fa <timer2Init>
+    174a:	88 e0       	ldi	r24, 0x08	; 8
+    174c:	60 e0       	ldi	r22, 0x00	; 0
+    174e:	41 e0       	ldi	r20, 0x01	; 1
+    1750:	20 e0       	ldi	r18, 0x00	; 0
+    1752:	09 81       	ldd	r16, Y+1	; 0x01
+    1754:	ee 24       	eor	r14, r14
+    1756:	cc 24       	eor	r12, r12
+    1758:	0e 94 c2 0a 	call	0x1584	; 0x1584 <timer2Init>
 	timer2Start();
-    17e8:	0e 94 65 0b 	call	0x16ca	; 0x16ca <timer2Start>
+    175c:	0e 94 2a 0b 	call	0x1654	; 0x1654 <timer2Start>
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    17ec:	1a 82       	std	Y+2, r1	; 0x02
-    17ee:	1b 82       	std	Y+3, r1	; 0x03
-    17f0:	1c 82       	std	Y+4, r1	; 0x04
-    17f2:	1d 82       	std	Y+5, r1	; 0x05
-    17f4:	1a c0       	rjmp	.+52     	; 0x182a <timer2DelayUs+0x82>
+    1760:	1a 82       	std	Y+2, r1	; 0x02
+    1762:	1b 82       	std	Y+3, r1	; 0x03
+    1764:	1c 82       	std	Y+4, r1	; 0x04
+    1766:	1d 82       	std	Y+5, r1	; 0x05
+    1768:	1a c0       	rjmp	.+52     	; 0x179e <timer2DelayUs+0x82>
 	{
 		while(BIT_IS_CLEAR(TIFR, OCF2));
-    17f6:	e8 e5       	ldi	r30, 0x58	; 88
-    17f8:	f0 e0       	ldi	r31, 0x00	; 0
-    17fa:	80 81       	ld	r24, Z
-    17fc:	88 23       	and	r24, r24
-    17fe:	dc f7       	brge	.-10     	; 0x17f6 <timer2DelayUs+0x4e>
+    176a:	e8 e5       	ldi	r30, 0x58	; 88
+    176c:	f0 e0       	ldi	r31, 0x00	; 0
+    176e:	80 81       	ld	r24, Z
+    1770:	88 23       	and	r24, r24
+    1772:	dc f7       	brge	.-10     	; 0x176a <timer2DelayUs+0x4e>
 		SET_BIT(TIFR, OCF2);
-    1800:	a8 e5       	ldi	r26, 0x58	; 88
-    1802:	b0 e0       	ldi	r27, 0x00	; 0
-    1804:	e8 e5       	ldi	r30, 0x58	; 88
-    1806:	f0 e0       	ldi	r31, 0x00	; 0
-    1808:	80 81       	ld	r24, Z
-    180a:	80 68       	ori	r24, 0x80	; 128
-    180c:	8c 93       	st	X, r24
+    1774:	a8 e5       	ldi	r26, 0x58	; 88
+    1776:	b0 e0       	ldi	r27, 0x00	; 0
+    1778:	e8 e5       	ldi	r30, 0x58	; 88
+    177a:	f0 e0       	ldi	r31, 0x00	; 0
+    177c:	80 81       	ld	r24, Z
+    177e:	80 68       	ori	r24, 0x80	; 128
+    1780:	8c 93       	st	X, r24
 		TCNT2 = 0;
-    180e:	e4 e4       	ldi	r30, 0x44	; 68
-    1810:	f0 e0       	ldi	r31, 0x00	; 0
-    1812:	10 82       	st	Z, r1
-	uint8_t u8_outputCompare = F_CPU / 1000000;
+    1782:	e4 e4       	ldi	r30, 0x44	; 68
+    1784:	f0 e0       	ldi	r31, 0x00	; 0
+    1786:	10 82       	st	Z, r1
+	uint8_t u8_outputCompare = F_CPU / TIMER_US_DIVISION_FACTOR;
 
 	timer2Init(T2_COMP_MODE, T2_OC2_DIS, T2_PRESCALER_NO, 0, u8_outputCompare, 0, T2_POLLING);
 	timer2Start();
 
 	for(u32_usCounter=0 ; u32_usCounter < u32_delay_in_us ; u32_usCounter++)
-    1814:	8a 81       	ldd	r24, Y+2	; 0x02
-    1816:	9b 81       	ldd	r25, Y+3	; 0x03
-    1818:	ac 81       	ldd	r26, Y+4	; 0x04
-    181a:	bd 81       	ldd	r27, Y+5	; 0x05
-    181c:	01 96       	adiw	r24, 0x01	; 1
-    181e:	a1 1d       	adc	r26, r1
-    1820:	b1 1d       	adc	r27, r1
-    1822:	8a 83       	std	Y+2, r24	; 0x02
-    1824:	9b 83       	std	Y+3, r25	; 0x03
-    1826:	ac 83       	std	Y+4, r26	; 0x04
-    1828:	bd 83       	std	Y+5, r27	; 0x05
-    182a:	2a 81       	ldd	r18, Y+2	; 0x02
-    182c:	3b 81       	ldd	r19, Y+3	; 0x03
-    182e:	4c 81       	ldd	r20, Y+4	; 0x04
-    1830:	5d 81       	ldd	r21, Y+5	; 0x05
-    1832:	8e 81       	ldd	r24, Y+6	; 0x06
-    1834:	9f 81       	ldd	r25, Y+7	; 0x07
-    1836:	a8 85       	ldd	r26, Y+8	; 0x08
-    1838:	b9 85       	ldd	r27, Y+9	; 0x09
-    183a:	28 17       	cp	r18, r24
-    183c:	39 07       	cpc	r19, r25
-    183e:	4a 07       	cpc	r20, r26
-    1840:	5b 07       	cpc	r21, r27
-    1842:	c8 f2       	brcs	.-78     	; 0x17f6 <timer2DelayUs+0x4e>
+    1788:	8a 81       	ldd	r24, Y+2	; 0x02
+    178a:	9b 81       	ldd	r25, Y+3	; 0x03
+    178c:	ac 81       	ldd	r26, Y+4	; 0x04
+    178e:	bd 81       	ldd	r27, Y+5	; 0x05
+    1790:	01 96       	adiw	r24, 0x01	; 1
+    1792:	a1 1d       	adc	r26, r1
+    1794:	b1 1d       	adc	r27, r1
+    1796:	8a 83       	std	Y+2, r24	; 0x02
+    1798:	9b 83       	std	Y+3, r25	; 0x03
+    179a:	ac 83       	std	Y+4, r26	; 0x04
+    179c:	bd 83       	std	Y+5, r27	; 0x05
+    179e:	2a 81       	ldd	r18, Y+2	; 0x02
+    17a0:	3b 81       	ldd	r19, Y+3	; 0x03
+    17a2:	4c 81       	ldd	r20, Y+4	; 0x04
+    17a4:	5d 81       	ldd	r21, Y+5	; 0x05
+    17a6:	8e 81       	ldd	r24, Y+6	; 0x06
+    17a8:	9f 81       	ldd	r25, Y+7	; 0x07
+    17aa:	a8 85       	ldd	r26, Y+8	; 0x08
+    17ac:	b9 85       	ldd	r27, Y+9	; 0x09
+    17ae:	28 17       	cp	r18, r24
+    17b0:	39 07       	cpc	r19, r25
+    17b2:	4a 07       	cpc	r20, r26
+    17b4:	5b 07       	cpc	r21, r27
+    17b6:	c8 f2       	brcs	.-78     	; 0x176a <timer2DelayUs+0x4e>
+	{
 		while(BIT_IS_CLEAR(TIFR, OCF2));
 		SET_BIT(TIFR, OCF2);
 		TCNT2 = 0;
 	}
-
-	TCCR2 = (TCCR2 & 0xF8) | (gu8_timer2PreScaler);
-    1844:	a5 e4       	ldi	r26, 0x45	; 69
-    1846:	b0 e0       	ldi	r27, 0x00	; 0
-    1848:	e5 e4       	ldi	r30, 0x45	; 69
-    184a:	f0 e0       	ldi	r31, 0x00	; 0
-    184c:	80 81       	ld	r24, Z
-    184e:	98 2f       	mov	r25, r24
-    1850:	98 7f       	andi	r25, 0xF8	; 248
-    1852:	80 91 66 00 	lds	r24, 0x0066
-    1856:	89 2b       	or	r24, r25
-    1858:	8c 93       	st	X, r24
 }
-    185a:	29 96       	adiw	r28, 0x09	; 9
-    185c:	0f b6       	in	r0, 0x3f	; 63
-    185e:	f8 94       	cli
-    1860:	de bf       	out	0x3e, r29	; 62
-    1862:	0f be       	out	0x3f, r0	; 63
-    1864:	cd bf       	out	0x3d, r28	; 61
-    1866:	cf 91       	pop	r28
-    1868:	df 91       	pop	r29
-    186a:	0f 91       	pop	r16
-    186c:	ef 90       	pop	r14
-    186e:	cf 90       	pop	r12
-    1870:	08 95       	ret
+    17b8:	29 96       	adiw	r28, 0x09	; 9
+    17ba:	0f b6       	in	r0, 0x3f	; 63
+    17bc:	f8 94       	cli
+    17be:	de bf       	out	0x3e, r29	; 62
+    17c0:	0f be       	out	0x3f, r0	; 63
+    17c2:	cd bf       	out	0x3d, r28	; 61
+    17c4:	cf 91       	pop	r28
+    17c6:	df 91       	pop	r29
+    17c8:	0f 91       	pop	r16
+    17ca:	ef 90       	pop	r14
+    17cc:	cf 90       	pop	r12
+    17ce:	08 95       	ret
 
-00001872 <timer2SwPWM>:
+000017d0 <timer2SwPWM>:
 
 void timer2SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
-    1872:	df 93       	push	r29
-    1874:	cf 93       	push	r28
-    1876:	00 d0       	rcall	.+0      	; 0x1878 <timer2SwPWM+0x6>
-    1878:	cd b7       	in	r28, 0x3d	; 61
-    187a:	de b7       	in	r29, 0x3e	; 62
-    187c:	89 83       	std	Y+1, r24	; 0x01
-    187e:	6a 83       	std	Y+2, r22	; 0x02
+    17d0:	df 93       	push	r29
+    17d2:	cf 93       	push	r28
+    17d4:	00 d0       	rcall	.+0      	; 0x17d6 <timer2SwPWM+0x6>
+    17d6:	cd b7       	in	r28, 0x3d	; 61
+    17d8:	de b7       	in	r29, 0x3e	; 62
+    17da:	89 83       	std	Y+1, r24	; 0x01
+    17dc:	6a 83       	std	Y+2, r22	; 0x02
 
 }
-    1880:	0f 90       	pop	r0
-    1882:	0f 90       	pop	r0
-    1884:	cf 91       	pop	r28
-    1886:	df 91       	pop	r29
-    1888:	08 95       	ret
+    17de:	0f 90       	pop	r0
+    17e0:	0f 90       	pop	r0
+    17e2:	cf 91       	pop	r28
+    17e4:	df 91       	pop	r29
+    17e6:	08 95       	ret
 
-0000188a <__udivmodqi4>:
-    188a:	99 1b       	sub	r25, r25
-    188c:	79 e0       	ldi	r23, 0x09	; 9
-    188e:	04 c0       	rjmp	.+8      	; 0x1898 <__udivmodqi4_ep>
+000017e8 <__udivmodqi4>:
+    17e8:	99 1b       	sub	r25, r25
+    17ea:	79 e0       	ldi	r23, 0x09	; 9
+    17ec:	04 c0       	rjmp	.+8      	; 0x17f6 <__udivmodqi4_ep>
 
-00001890 <__udivmodqi4_loop>:
-    1890:	99 1f       	adc	r25, r25
-    1892:	96 17       	cp	r25, r22
-    1894:	08 f0       	brcs	.+2      	; 0x1898 <__udivmodqi4_ep>
-    1896:	96 1b       	sub	r25, r22
+000017ee <__udivmodqi4_loop>:
+    17ee:	99 1f       	adc	r25, r25
+    17f0:	96 17       	cp	r25, r22
+    17f2:	08 f0       	brcs	.+2      	; 0x17f6 <__udivmodqi4_ep>
+    17f4:	96 1b       	sub	r25, r22
 
-00001898 <__udivmodqi4_ep>:
-    1898:	88 1f       	adc	r24, r24
-    189a:	7a 95       	dec	r23
-    189c:	c9 f7       	brne	.-14     	; 0x1890 <__udivmodqi4_loop>
-    189e:	80 95       	com	r24
-    18a0:	08 95       	ret
+000017f6 <__udivmodqi4_ep>:
+    17f6:	88 1f       	adc	r24, r24
+    17f8:	7a 95       	dec	r23
+    17fa:	c9 f7       	brne	.-14     	; 0x17ee <__udivmodqi4_loop>
+    17fc:	80 95       	com	r24
+    17fe:	08 95       	ret
 
-000018a2 <__udivmodsi4>:
-    18a2:	a1 e2       	ldi	r26, 0x21	; 33
-    18a4:	1a 2e       	mov	r1, r26
-    18a6:	aa 1b       	sub	r26, r26
-    18a8:	bb 1b       	sub	r27, r27
-    18aa:	fd 01       	movw	r30, r26
-    18ac:	0d c0       	rjmp	.+26     	; 0x18c8 <__udivmodsi4_ep>
+00001800 <__udivmodsi4>:
+    1800:	a1 e2       	ldi	r26, 0x21	; 33
+    1802:	1a 2e       	mov	r1, r26
+    1804:	aa 1b       	sub	r26, r26
+    1806:	bb 1b       	sub	r27, r27
+    1808:	fd 01       	movw	r30, r26
+    180a:	0d c0       	rjmp	.+26     	; 0x1826 <__udivmodsi4_ep>
 
-000018ae <__udivmodsi4_loop>:
-    18ae:	aa 1f       	adc	r26, r26
-    18b0:	bb 1f       	adc	r27, r27
-    18b2:	ee 1f       	adc	r30, r30
-    18b4:	ff 1f       	adc	r31, r31
-    18b6:	a2 17       	cp	r26, r18
-    18b8:	b3 07       	cpc	r27, r19
-    18ba:	e4 07       	cpc	r30, r20
-    18bc:	f5 07       	cpc	r31, r21
-    18be:	20 f0       	brcs	.+8      	; 0x18c8 <__udivmodsi4_ep>
-    18c0:	a2 1b       	sub	r26, r18
-    18c2:	b3 0b       	sbc	r27, r19
-    18c4:	e4 0b       	sbc	r30, r20
-    18c6:	f5 0b       	sbc	r31, r21
+0000180c <__udivmodsi4_loop>:
+    180c:	aa 1f       	adc	r26, r26
+    180e:	bb 1f       	adc	r27, r27
+    1810:	ee 1f       	adc	r30, r30
+    1812:	ff 1f       	adc	r31, r31
+    1814:	a2 17       	cp	r26, r18
+    1816:	b3 07       	cpc	r27, r19
+    1818:	e4 07       	cpc	r30, r20
+    181a:	f5 07       	cpc	r31, r21
+    181c:	20 f0       	brcs	.+8      	; 0x1826 <__udivmodsi4_ep>
+    181e:	a2 1b       	sub	r26, r18
+    1820:	b3 0b       	sbc	r27, r19
+    1822:	e4 0b       	sbc	r30, r20
+    1824:	f5 0b       	sbc	r31, r21
 
-000018c8 <__udivmodsi4_ep>:
-    18c8:	66 1f       	adc	r22, r22
-    18ca:	77 1f       	adc	r23, r23
-    18cc:	88 1f       	adc	r24, r24
-    18ce:	99 1f       	adc	r25, r25
-    18d0:	1a 94       	dec	r1
-    18d2:	69 f7       	brne	.-38     	; 0x18ae <__udivmodsi4_loop>
-    18d4:	60 95       	com	r22
-    18d6:	70 95       	com	r23
-    18d8:	80 95       	com	r24
-    18da:	90 95       	com	r25
-    18dc:	9b 01       	movw	r18, r22
-    18de:	ac 01       	movw	r20, r24
-    18e0:	bd 01       	movw	r22, r26
-    18e2:	cf 01       	movw	r24, r30
-    18e4:	08 95       	ret
+00001826 <__udivmodsi4_ep>:
+    1826:	66 1f       	adc	r22, r22
+    1828:	77 1f       	adc	r23, r23
+    182a:	88 1f       	adc	r24, r24
+    182c:	99 1f       	adc	r25, r25
+    182e:	1a 94       	dec	r1
+    1830:	69 f7       	brne	.-38     	; 0x180c <__udivmodsi4_loop>
+    1832:	60 95       	com	r22
+    1834:	70 95       	com	r23
+    1836:	80 95       	com	r24
+    1838:	90 95       	com	r25
+    183a:	9b 01       	movw	r18, r22
+    183c:	ac 01       	movw	r20, r24
+    183e:	bd 01       	movw	r22, r26
+    1840:	cf 01       	movw	r24, r30
+    1842:	08 95       	ret
 
-000018e6 <_exit>:
-    18e6:	f8 94       	cli
+00001844 <_exit>:
+    1844:	f8 94       	cli
 
-000018e8 <__stop_program>:
-    18e8:	ff cf       	rjmp	.-2      	; 0x18e8 <__stop_program>
+00001846 <__stop_program>:
+    1846:	ff cf       	rjmp	.-2      	; 0x1846 <__stop_program>

@@ -8,6 +8,8 @@
 #ifndef INTERRUPT_H_
 #define INTERRUPT_H_
 
+/*- INCLUDES -----------------------------------------------*/
+
 #include "registers.h"
 
 #define EXTERNAL_INTERRUPT0					__vector_1
@@ -45,6 +47,7 @@
 #define sei()  __asm__ __volatile__ ("sei" ::)
 #define cli()  __asm__ __volatile__ ("cli" ::)
 
+/*- INTERRUPT APIs PROTOTYPES (DECLARATION) ----------------*/
 
 void EXTERNAL_INTERRUPT0 (void) __attribute__ ((signal, interrupt));
 void EXTERNAL_INTERRUPT1 (void) __attribute__ ((signal, interrupt));

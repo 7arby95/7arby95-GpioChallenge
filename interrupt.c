@@ -5,13 +5,16 @@
  *      Author: Youssef Harby
  */
 
+/*- INCLUDES -----------------------------------------------*/
 
 #include "interrupt.h"
 #include "led.h"
 #include "timers.h"
 
-/* A global variable to manipulate when interrupts occur */
-volatile uint16_t gu16_global_interrupt_variable = 0;
+/* Global variables to manipulate when interrupts occur */
+volatile static uint16_t gu16_global_interrupt_variable = 0;
+
+/*- INTERRUPT APIs IMPLEMENTATION --------------------------*/
 
 void EXTERNAL_INTERRUPT0 (void)
 {
