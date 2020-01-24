@@ -115,8 +115,6 @@ void timer0Stop(void)
 {
 	/* disable the timer clock */
 	TCCR0 &= ~((1 << CS00) | (1 << CS01) | (1 << CS02));
-	/* reset the counter value */
-	TCNT0 = 0;
 }
 
 void timer0DelayMs(uint16_t u16_delay_in_ms)
@@ -208,8 +206,6 @@ void timer1Stop(void)
 {
 	/* disable the timer clock */
 	TCCR1B &= ~((1 << CS10) | (1 << CS11) | (1 << CS12));
-	/* reset the counter value */
-	TCNT1 = 0;
 }
 
 void timer1DelayMs(uint16_t u16_delay_in_ms)
@@ -300,8 +296,6 @@ void timer2Stop(void)
 {
 	/* disable the timer clock */
 	TCCR2 &= ~((1 << CS20) | (1 << CS21) | (1 << CS22));
-	/* reset the counter value */
-	TCNT2 = 0;
 }
 
 void timer2DelayMs(uint16_t u16_delay_in_ms)
