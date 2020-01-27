@@ -156,7 +156,7 @@ int main(void)
 	{
 		if(gu8_completionFlag == 1)
 		{
-			softwareDelayMs(2200);
+			softwareDelayMs(500);
 			MotorDC_Dir(MOT_1, STOP);
 			MotorDC_Dir(MOT_2, STOP);
 		}

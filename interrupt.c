@@ -43,7 +43,7 @@ void TIMER0_CTC_MODE_INTERRUPT (void)
 	/* A global interrupt variable used for controlling the motor speed every time the duty cycle changes */
 	gu16_globalInterruptVariable++;
 	
-	if(gu16_globalInterruptVariable % 100 == (gu8_dutyCycle/3))
+	if(gu16_globalInterruptVariable % 100 == gu8_dutyCycle)
 	{
 		gpioPinWrite(GPIOD, BIT2, LOW);
 		if(gu8_flag != 2)
@@ -68,7 +68,7 @@ void TIMER0_CTC_MODE_INTERRUPT (void)
 
 	gu16_delayCounter++;
 
-	if(gu16_delayCounter == 540)
+	if(gu16_delayCounter == 650)
 	{
 		if(gu8_flag == 0)
 			gu8_dutyCycle++;
@@ -86,7 +86,7 @@ void TIMER0_CTC_MODE_INTERRUPT (void)
 	else if(gu8_dutyCycle <= 0 && gu8_flag == 1)
 	{
 		gu8_flag = 2;
-		gu8_dutyCycle = 60;
+		gu8_dutyCycle = 20;
 		gpioPinWrite(GPIOD, BIT6, LOW);
 	}
 }
@@ -107,7 +107,7 @@ void TIMER1_CTC_A_MODE_INTERRUPT (void)
 
 gu16_globalInterruptVariable++;
 
-if(gu16_globalInterruptVariable % 100 == (gu8_dutyCycle/3))
+if(gu16_globalInterruptVariable % 100 == gu8_dutyCycle)
 {
 	gpioPinWrite(GPIOD, BIT2, LOW);
 	if(gu8_flag != 2)
@@ -150,7 +150,7 @@ if(gu8_dutyCycle >= 100 && gu8_flag == 0)
 else if(gu8_dutyCycle <= 0 && gu8_flag == 1)
 {
 	gu8_flag = 2;
-	gu8_dutyCycle = 60;
+	gu8_dutyCycle = 20;
 	gpioPinWrite(GPIOD, BIT6, LOW);
 }
 }
