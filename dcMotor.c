@@ -9,6 +9,9 @@
 
 #include "dcMotor.h"
 #include "dcMotorConfig.h"
+#include "timers.h"
+
+#define MOTOR_FREQUENCY 200
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 
@@ -33,9 +36,9 @@ void MotorDC_Init(En_motorType_t en_motor_number)
 
 void MotorDC_Dir(En_motorType_t en_motor_number, En_motorDir_t en_motor_dir)
 {
-	uint8_t motorGpio;
-	uint8_t motorBitA;
-	uint8_t motorBitB;
+	uint8_t motorGpio = 0;
+	uint8_t motorBitA = 0;
+	uint8_t motorBitB = 0;
 	
 	switch(en_motor_number)
 	{
@@ -50,11 +53,21 @@ void MotorDC_Dir(En_motorType_t en_motor_number, En_motorDir_t en_motor_dir)
 			motorBitB = MOTOR_OUT_2B_BIT;
 			break;
 	}
+	
 	switch(en_motor_dir)
 	{
 		case STOP:
 		gpioPinWrite(motorGpio, motorBitA, LOW);
 		gpioPinWrite(motorGpio, motorBitB, LOW);
+		switch(en_motor_number)
+		{
+			case MOT_1:
+				gpioPinWrite(motorGpio, MOTOR_EN_1_BIT, LOW);
+				break;
+			case MOT_2:
+				gpioPinWrite(motorGpio, MOTOR_EN_2_BIT, LOW);
+				break;
+		}
 		break;
 		
 		case FORWARD:
@@ -71,7 +84,7 @@ void MotorDC_Dir(En_motorType_t en_motor_number, En_motorDir_t en_motor_dir)
 
 void MotorDC_Speed_PollingWithT0(uint8_t u8_motor_speed)
 {
-	
+	timer0SwPWM(u8_motor_speed, MOTOR_FREQUENCY);
 }
 
 void MotorDC_Speed_HwPWM(uint8_t u8_motor_speed)

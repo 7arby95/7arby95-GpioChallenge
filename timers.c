@@ -155,10 +155,13 @@ void timer0DelayUs(uint32_t u32_delay_in_us)
 
 void timer0SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
+	/* Two variables to hold the values of output compare and prescaler */
 	uint8_t u8_outputCompare, u8_prescaler;
 
+	/* Enable global interrupt */
 	sei();
-
+	
+	/* If condition to determine the right equation to calculate prescaler and output compare values */
 	if(u8_frequency <= 80)
 	{
 		u8_prescaler = T0_PRESCALER_64;
@@ -172,8 +175,11 @@ void timer0SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 		u8_prescaler = T0_PRESCALER_NO;
 		u8_outputCompare = (F_CPU / (1UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
 	}
-
+	
+	/* Initialize the timer depending on the previously calculated values */
 	timer0Init(T0_COMP_MODE, T0_OC0_DIS, u8_prescaler, 0, u8_outputCompare, T0_INTERRUPT_CMP);
+	
+	/* Provide the clock to the timer */
 	timer0Start();
 }
 
@@ -265,7 +271,26 @@ void timer1DelayUs(uint32_t u32_delay_in_us)
 
 void timer1SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
+	uint8_t u8_outputCompare, u8_prescaler;
 
+	sei();
+
+	if(u8_frequency <= 80)
+	{
+		u8_prescaler = T0_PRESCALER_64;
+		u8_outputCompare = (F_CPU / (64UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else if(u8_frequency <= 625)
+	{
+		u8_prescaler = T0_PRESCALER_8;
+		u8_outputCompare = (F_CPU / (8UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else
+	{
+		u8_prescaler = T0_PRESCALER_NO;
+		u8_outputCompare = (F_CPU / (1UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}
+
+	timer1Init(T1_COMP_MODE_OCR1A_TOP, T1_OC1_DIS, u8_prescaler, 0, u8_outputCompare, 0, 0, T1_INTERRUPT_CMP_1A);
+	timer1Start();
 }
 
 /*
@@ -355,5 +380,24 @@ void timer2DelayUs(uint32_t u32_delay_in_us)
 
 void timer2SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
+	uint8_t u8_outputCompare, u8_prescaler;
 
+	sei();
+
+	if(u8_frequency <= 80)
+	{
+		u8_prescaler = T0_PRESCALER_64;
+		u8_outputCompare = (F_CPU / (64UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else if(u8_frequency <= 625)
+	{
+		u8_prescaler = T0_PRESCALER_8;
+		u8_outputCompare = (F_CPU / (8UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else
+	{
+		u8_prescaler = T0_PRESCALER_NO;
+		u8_outputCompare = (F_CPU / (1UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}
+
+	timer2Init(T2_COMP_MODE, T2_OC2_DIS, u8_prescaler, 0, u8_outputCompare, 0, T2_INTERRUPT_CMP);
+	timer2Start();
 }

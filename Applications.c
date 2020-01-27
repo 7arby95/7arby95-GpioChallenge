@@ -14,17 +14,20 @@
 #include "sevenSeg.h"
 #include "timers.h"
 #include "interrupt.h"
+#include "dcMotor.h"
 
-volatile uint8_t lastflag = 0;
+volatile uint8_t gu8_completionFlag = 0;
 volatile uint8_t gu8_dutyCycle = 0;
 
 /*- ENUMS --------------------------------------------------*/
 
+/*
 typedef enum En_GpioReq9State_t{
 	GO,
 	STOP,
 	GET_READY
 }En_GpioReq9State_t;
+*/
 
 /*- APIs PROTOTYPES ----------------------------------------*/
 
@@ -34,6 +37,7 @@ void GPIO_REQ9(void);
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 
+/*
 void GPIO_REQ7(void)
 {
 	uint8_t u8_countUpCounter = 0;
@@ -63,7 +67,9 @@ void GPIO_REQ7(void)
 		}
 	}
 }
+*/
 
+/*
 void GPIO_REQ8(void)
 {
 	uint8_t u8_appCounter = 0, u8_delayDivider = 20;
@@ -98,7 +104,9 @@ void GPIO_REQ8(void)
 		}
 	}
 }
+*/
 
+/*
 void GPIO_REQ9(void)
 {
 	uint8_t u8_currentState = GO;
@@ -133,26 +141,24 @@ void GPIO_REQ9(void)
 		softwareDelayMs(1000);
 	}
 }
+*/
 
 int main(void)
 {
-	gpioPinDirection(GPIOD, BIT2 | BIT3 | BIT4, OUTPUT);
-	gpioPinDirection(GPIOD, BIT5 | BIT6 | BIT7, OUTPUT);
-
-	gpioPinWrite(GPIOD, BIT4, HIGH);
-	gpioPinWrite(GPIOD, BIT5, HIGH);
-
+	MotorDC_Init(MOT_1);
+	MotorDC_Init(MOT_2);
+	
 	gu8_dutyCycle = 0;
 
-	timer0SwPWM(gu8_dutyCycle, 200);
+	MotorDC_Speed_PollingWithT0(gu8_dutyCycle);
 
 	while(1)
 	{
-		if(lastflag == 1)
+		if(gu8_completionFlag == 1)
 		{
 			softwareDelayMs(2200);
-			gpioPinWrite(GPIOD, BIT4, LOW);
-			gpioPinWrite(GPIOD, BIT5, LOW);
+			MotorDC_Dir(MOT_1, STOP);
+			MotorDC_Dir(MOT_2, STOP);
 		}
 	}
 }
