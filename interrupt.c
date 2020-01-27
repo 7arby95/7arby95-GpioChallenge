@@ -10,9 +10,16 @@
 #include "interrupt.h"
 #include "led.h"
 #include "timers.h"
+#include "softwareDelay.h"
+
+#define F_CPU 16000000UL
 
 /* Global variables to manipulate when interrupts occur */
-volatile static uint16_t gu16_global_interrupt_variable = 0;
+volatile static uint16_t gu16_globalInterruptVariable = 0;
+extern uint8_t gu8_dutyCycle;
+volatile static uint16_t gu16_test = 0;
+volatile static uint16_t gu8_flag = 0;
+extern uint8_t lastflag;
 
 /*- INTERRUPT APIs IMPLEMENTATION --------------------------*/
 
@@ -33,7 +40,55 @@ void EXTERNAL_INTERRUPT2 (void)
 
 void TIMER0_CTC_MODE_INTERRUPT (void)
 {
+	// testing motor control :-
+	gu16_globalInterruptVariable++;
 
+	if(gu16_globalInterruptVariable % 100 == (gu8_dutyCycle/3))
+	{
+		gpioPinWrite(GPIOD, BIT2, LOW);
+		if(gu8_flag != 2)
+			gpioPinWrite(GPIOD, BIT6, LOW);
+		else
+			gpioPinWrite(GPIOD, BIT7, LOW);
+	}else if(gu16_globalInterruptVariable % 100 == 0)
+	{
+		gpioPinWrite(GPIOD, BIT2, HIGH);
+		if(gu8_flag != 2)
+			gpioPinWrite(GPIOD, BIT6, HIGH);
+		else
+			gpioPinWrite(GPIOD, BIT7, HIGH);
+			
+		gu16_globalInterruptVariable = 0;
+	}
+
+	if(lastflag == 1)
+	{
+		cli();
+	}
+
+	gu16_test++;
+
+	if(gu16_test == 540)
+	{
+		if(gu8_flag == 0)
+			gu8_dutyCycle++;
+		else if(gu8_flag == 1)
+			gu8_dutyCycle--;
+		else if(gu8_flag == 2)
+			lastflag = 1;
+		gu16_test = 0;
+	}
+
+	if(gu8_dutyCycle >= 100 && gu8_flag == 0)
+	{
+		gu8_flag = 1;
+	}
+	else if(gu8_dutyCycle <= 0 && gu8_flag == 1)
+	{
+		gu8_flag = 2;
+		gu8_dutyCycle = 60;
+		gpioPinWrite(GPIOD, BIT6, LOW);
+	}
 }
 
 void TIMER0_OVF_MODE_INTERRUPT (void)
@@ -64,22 +119,22 @@ void TIMER1_OVF_MODE_INTERRUPT (void)
 
 void TIMER2_CTC_MODE_INTERRUPT (void)
 {
-//	global_variable++;
-//	if(global_variable == 125)
+//	gu16_globalInterruptVariable++;
+//	if(gu16_globalInterruptVariable == 125)
 //	{
 //		Led_Toggle(LED_0);
-//		global_variable = 0;
+//		gu16_globalInterruptVariable = 0;
 //	}
 }
 
 void TIMER2_OVF_MODE_INTERRUPT (void)
 {
-//	global_variable++;
+//	gu16_globalInterruptVariable++;
 //	timer2Set(6);
-//	if(global_variable == 250)
+//	if(gu16_globalInterruptVariable == 250)
 //	{
 //		Led_Toggle(LED_0);
-//		global_variable = 0;
+//		gu16_globalInterruptVariable = 0;
 //	}
 }
 

@@ -8,6 +8,9 @@
 /*- INCLUDES -----------------------------------------------*/
 
 #include "timers.h"
+#include "interrupt.h"
+
+#define F_CPU 16000000UL
 
 /* Register TCCR0 bit definitions */
 #define FOC0 		7
@@ -58,6 +61,8 @@
 
 #define TIMER_MS_DIVISION_FACTOR		64000
 #define TIMER_US_DIVISION_FACTOR		1000000
+
+#define SW_PWM_DUTY_CYCLE_RESOLUTION	100
 
 /*- GLOBAL STATIC VARIABLES --------------------------------*/
 
@@ -150,7 +155,26 @@ void timer0DelayUs(uint32_t u32_delay_in_us)
 
 void timer0SwPWM(uint8_t u8_dutyCycle,uint8_t u8_frequency)
 {
+	uint8_t u8_outputCompare, u8_prescaler;
 
+	sei();
+
+	if(u8_frequency <= 80)
+	{
+		u8_prescaler = T0_PRESCALER_64;
+		u8_outputCompare = (F_CPU / (64UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else if(u8_frequency <= 625)
+	{
+		u8_prescaler = T0_PRESCALER_8;
+		u8_outputCompare = (F_CPU / (8UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}else
+	{
+		u8_prescaler = T0_PRESCALER_NO;
+		u8_outputCompare = (F_CPU / (1UL * SW_PWM_DUTY_CYCLE_RESOLUTION * u8_frequency));
+	}
+
+	timer0Init(T0_COMP_MODE, T0_OC0_DIS, u8_prescaler, 0, u8_outputCompare, T0_INTERRUPT_CMP);
+	timer0Start();
 }
 
 /*

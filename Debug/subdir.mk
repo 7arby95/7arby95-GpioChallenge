@@ -5,6 +5,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Applications.c \
+../dcMotor.c \
 ../gpio.c \
 ../interrupt.c \
 ../led.c \
@@ -15,6 +16,7 @@ C_SRCS += \
 
 OBJS += \
 ./Applications.o \
+./dcMotor.o \
 ./gpio.o \
 ./interrupt.o \
 ./led.o \
@@ -25,6 +27,7 @@ OBJS += \
 
 C_DEPS += \
 ./Applications.d \
+./dcMotor.d \
 ./gpio.d \
 ./interrupt.d \
 ./led.d \

@@ -15,6 +15,9 @@
 #include "timers.h"
 #include "interrupt.h"
 
+volatile uint8_t lastflag = 0;
+volatile uint8_t gu8_dutyCycle = 0;
+
 /*- ENUMS --------------------------------------------------*/
 
 typedef enum En_GpioReq9State_t{
@@ -22,6 +25,12 @@ typedef enum En_GpioReq9State_t{
 	STOP,
 	GET_READY
 }En_GpioReq9State_t;
+
+/*- APIs PROTOTYPES ----------------------------------------*/
+
+void GPIO_REQ7(void);
+void GPIO_REQ8(void);
+void GPIO_REQ9(void);
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 
@@ -127,9 +136,23 @@ void GPIO_REQ9(void)
 
 int main(void)
 {
+	gpioPinDirection(GPIOD, BIT2 | BIT3 | BIT4, OUTPUT);
+	gpioPinDirection(GPIOD, BIT5 | BIT6 | BIT7, OUTPUT);
+
+	gpioPinWrite(GPIOD, BIT4, HIGH);
+	gpioPinWrite(GPIOD, BIT5, HIGH);
+
+	gu8_dutyCycle = 0;
+
+	timer0SwPWM(gu8_dutyCycle, 200);
 
 	while(1)
 	{
-
+		if(lastflag == 1)
+		{
+			softwareDelayMs(2200);
+			gpioPinWrite(GPIOD, BIT4, LOW);
+			gpioPinWrite(GPIOD, BIT5, LOW);
+		}
 	}
 }
