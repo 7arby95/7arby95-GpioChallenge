@@ -11,6 +11,7 @@
 #include "led.h"
 #include "timers.h"
 #include "softwareDelay.h"
+#include "SwICU.h"
 
 #define F_CPU 16000000UL
 
@@ -18,8 +19,12 @@
 volatile static uint16_t gu16_globalInterruptVariable = 0;
 volatile static uint16_t gu16_delayCounter = 0;
 volatile static uint16_t gu8_flag = 0;
+
 extern uint8_t gu8_dutyCycle;
 extern uint8_t gu8_completionFlag;
+
+extern uint8_t gu8_swIcuRead;
+extern uint8_t gu8_swIcuFlag;
 
 /*- INTERRUPT APIs IMPLEMENTATION --------------------------*/
 
@@ -35,7 +40,18 @@ void EXTERNAL_INTERRUPT1 (void)
 
 void EXTERNAL_INTERRUPT2 (void)
 {
-
+	if(BIT_IS_SET(MCUCSR, 6))
+	{
+		SwICU_Start();
+		SwICU_SetCfgEdge(SwICU_EdgeFalling);
+	}
+	else if(BIT_IS_CLEAR(MCUCSR, 6))
+	{
+		SwICU_Read(&gu8_swIcuRead);
+		SwICU_SetCfgEdge(SwICU_EdgeRising);
+		SwICU_Stop();
+		gu8_swIcuFlag = 1;
+	}
 }
 
 void TIMER0_CTC_MODE_INTERRUPT (void)

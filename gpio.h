@@ -11,6 +11,8 @@
 #include "std_types.h"
 #include "registers.h"
 
+#define F_CPU 16000000UL
+
 #define GPIOA	0
 #define GPIOB	1
 #define GPIOC	2

@@ -5,6 +5,8 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Applications.c \
+../HwPWM.c \
+../SwICU.c \
 ../dcMotor.c \
 ../gpio.c \
 ../interrupt.c \
@@ -16,6 +18,8 @@ C_SRCS += \
 
 OBJS += \
 ./Applications.o \
+./HwPWM.o \
+./SwICU.o \
 ./dcMotor.o \
 ./gpio.o \
 ./interrupt.o \
@@ -27,6 +31,8 @@ OBJS += \
 
 C_DEPS += \
 ./Applications.d \
+./HwPWM.d \
+./SwICU.d \
 ./dcMotor.d \
 ./gpio.d \
 ./interrupt.d \
