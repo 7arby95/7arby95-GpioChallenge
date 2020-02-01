@@ -18,8 +18,12 @@
 #include "SwICU.h"
 #include "HwPWM.h"
 
+/*- LOCAL MACROS -------------------------------------------*/
+
 #define MOT_FREQ			100
-#define OBSTACLE_DISTANCE	10
+#define OBSTACLE_DISTANCE	15
+
+/*- FUNCTION-LIKE MACROS -----------------------------------*/
 
 #define	WAVE_SEND(); { \
 	gpioPinWrite(GPIOD, BIT0, HIGH); \
@@ -27,71 +31,94 @@
 	gpioPinWrite(GPIOD, BIT0, LOW); \
 }
 
+/*- GLOBAL EXTERN VARIABLES --------------------------------*/
+
 volatile uint8_t gu8_completionFlag = 0;
 volatile uint8_t gu8_dutyCycle = 0;
 
 extern uint8_t gu8_swIcuRead;
 extern uint8_t gu8_swIcuFlag;
 
-/*		ICU 4 leds application
+
+/* ICU 4 leds application */
+
+/*
 int main(void)
 {
-	uint8_t u8_swIcuVariable = 0;
+	/ * A variable to store the distance between the ultrasonic sensor and the obstacle * /
+	uint8_t u8_swIcuDistance = 0;
 	
+	/ * Initialize the four leds to represent the current distance between the sensor and the obstacle * /
 	Led_Init(LED_0);
 	Led_Init(LED_1);
 	Led_Init(LED_2);
 	Led_Init(LED_3);
 	
+	/ * Initialize the Software ICU module * /
 	SwICU_Init(SwICU_EdgeRising);
 	
 	while(1)
 	{
+		/ * A software delay of 200 milliseconds to avoid leds flickering * /
 		softwareDelayMs(200);
 		
+		/ * When the previous operation is done * /
 		if(gu8_swIcuFlag)
 		{
-			u8_swIcuVariable = gu8_swIcuRead * 0.544;
+			/ * An equation to calculate the distance * /
+			u8_swIcuDistance = gu8_swIcuRead * 0.544;
 			
-			gpioPinWrite(GPIOD, BIT0, HIGH);
-			timer2DelayMs(1);
-			gpioPinWrite(GPIOD, BIT0, LOW);
+			/ * Send the trigger signal each time the previous wave is read * /
+			WAVE_SEND();
 			
+			/ * clear the flag when the trigger signal is sent * /
 			gu8_swIcuFlag = 0;
 		}
 		
-		PORTB_DATA = (PORTB_DATA & 0x0F) | (u8_swIcuVariable << 4);
+		/ * Displays the distance on the leds as binary * /
+		PORTB_DATA = (PORTB_DATA & 0x0F) | (u8_swIcuDistance << 4);
 	}
 }
 */
+
+
 
 /* HwPWM and SwICU application (stop in case of an obstacle ahead) */
 
 int main(void)
 {
+	/* A variable to store the distance between the ultrasonic sensor and the obstacle */
 	uint8_t u8_swIcuDistance = 0;
+	/* A variable to store the value of the duty cycle at which the motor will operate */
 	uint8_t u8_dutyCycle = 0;
 	
+	/* Initialization of the two motors along with their initial direction */
 	MotorDC_Init(MOT_1);
 	MotorDC_Init(MOT_2);
 	MotorDC_Dir(MOT_1, FORWARD);
 	MotorDC_Dir(MOT_2, FORWARD);
 	
+	/* Initialization of the ICU driver with detecting the rising edge as the first detection case */
 	SwICU_Init(SwICU_EdgeRising);
 
+	/* Sets the duty cycle to the required value */
 	u8_dutyCycle = 20;
-
+	
+	/* Initializes the PWM signal at a suitable frequency and duty cycle */
 	HwPWMInit();
 	HwPWMSetDuty(u8_dutyCycle, MOT_FREQ);
 
 	while(1)
 	{
-		softwareDelayMs(100);
-
+		softwareDelayMs(50);
+		
+		/* When the previous operation is done */
 		if(gu8_swIcuFlag)
 		{
+			/* An equation to calculate the distance */
 			u8_swIcuDistance = gu8_swIcuRead * 0.544;
 			
+			/* If condition to stop the car in case of an obstacle ahead */
 			if(u8_swIcuDistance <= OBSTACLE_DISTANCE)
 			{
 				MotorDC_Dir(MOT_1, STOP);
@@ -102,8 +129,10 @@ int main(void)
 				MotorDC_Dir(MOT_2, FORWARD);
 			}
 			
+			/* Send the trigger signal each time the previous wave is read */
 			WAVE_SEND();
 
+			/* clear the flag when the trigger signal is sent */
 			gu8_swIcuFlag = 0;
 		}
 	}

@@ -1,13 +1,15 @@
 /*
- * CFile1.c
+ * HwPWM.c
  *
  * Created: 1/30/2020 10:31:30 AM
  *  Author: Youssef Harby
- */ 
+ */
+
+/*- INCLUDES ------------------------------------------------*/
 
 #include "HwPWM.h"
 
-/* Registers Definitions */
+/*- LOCAL MACROS -------------------------------------------*/
 
 #define WGM10		0
 #define WGM11		1
@@ -26,6 +28,8 @@
 #define ICES1		6
 #define ICNC1		7
 
+
+/*- APIs IMPLEMENTATION ------------------------------------*/
 
 void HwPWMInit(void)
 {
@@ -58,6 +62,7 @@ void HwPWMInit(void)
 
 void HwPWMSetDuty(uint8_t a_u8_duty, uint32_t a_u32_frequency)
 {
+	/* if condition to decide the prescaler and the ICR1 register content according to it */
 	if(a_u32_frequency >= 245)
 	{
 		ICR1 = F_CPU / (1UL * a_u32_frequency);
@@ -71,8 +76,8 @@ void HwPWMSetDuty(uint8_t a_u8_duty, uint32_t a_u32_frequency)
 		/* set clock for the timer */
 		TCCR1B |= T1_PRESCALER_8;
 	}
-
+	
+	/* set the value of OCR1A:B which decides the duty cycle of the motor */
 	OCR1A = a_u8_duty * (ICR1 / 100);
 	OCR1B = a_u8_duty * (ICR1 / 100);
-	
 }

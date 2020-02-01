@@ -11,6 +11,8 @@
 #include "dcMotorConfig.h"
 #include "timers.h"
 
+/*- LOCAL MACROS -------------------------------------------*/
+
 #define MOTOR_FREQUENCY 200
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
