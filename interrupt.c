@@ -40,16 +40,24 @@ void EXTERNAL_INTERRUPT1 (void)
 
 void EXTERNAL_INTERRUPT2 (void)
 {
+	/* In case of rising edge detection */
 	if(BIT_IS_SET(MCUCSR, 6))
 	{
+		/* Start timer counter */
 		SwICU_Start();
+		/* Change edge detection to falling edge detection */
 		SwICU_SetCfgEdge(SwICU_EdgeFalling);
 	}
+	/* In case of falling edge detection */
 	else if(BIT_IS_CLEAR(MCUCSR, 6))
 	{
+		/* Read the current timer counter value */
 		SwICU_Read(&gu8_swIcuRead);
+		/* Change edge detection to rising edge detection */
 		SwICU_SetCfgEdge(SwICU_EdgeRising);
+		/* Stop the timer counter */
 		SwICU_Stop();
+		/* Set a flag to represent that the current operation is done */
 		gu8_swIcuFlag = 1;
 	}
 }
