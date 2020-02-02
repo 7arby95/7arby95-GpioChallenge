@@ -42,44 +42,43 @@ extern uint8_t gu8_swIcuFlag;
 
 /* ICU 4 leds application */
 
-/*
-int main(void)
-{
-	/ * A variable to store the distance between the ultrasonic sensor and the obstacle * /
-	uint8_t u8_swIcuDistance = 0;
-	
-	/ * Initialize the four leds to represent the current distance between the sensor and the obstacle * /
-	Led_Init(LED_0);
-	Led_Init(LED_1);
-	Led_Init(LED_2);
-	Led_Init(LED_3);
-	
-	/ * Initialize the Software ICU module * /
-	SwICU_Init(SwICU_EdgeRising);
-	
-	while(1)
-	{
-		/ * A software delay of 200 milliseconds to avoid leds flickering * /
-		softwareDelayMs(200);
-		
-		/ * When the previous operation is done * /
-		if(gu8_swIcuFlag)
-		{
-			/ * An equation to calculate the distance * /
-			u8_swIcuDistance = gu8_swIcuRead * 0.544;
-			
-			/ * Send the trigger signal each time the previous wave is read * /
-			WAVE_SEND();
-			
-			/ * clear the flag when the trigger signal is sent * /
-			gu8_swIcuFlag = 0;
-		}
-		
-		/ * Displays the distance on the leds as binary * /
-		PORTB_DATA = (PORTB_DATA & 0x0F) | (u8_swIcuDistance << 4);
-	}
-}
-*/
+
+// int main(void)
+// {
+// 	/* A variable to store the distance between the ultrasonic sensor and the obstacle */
+// 	uint8_t u8_swIcuDistance = 0;
+// 	
+// 	/* Initialize the four leds to represent the current distance between the sensor and the obstacle */
+// 	Led_Init(LED_0);
+// 	Led_Init(LED_1);
+// 	Led_Init(LED_2);
+// 	Led_Init(LED_3);
+// 	
+// 	/* Initialize the Software ICU module */
+// 	SwICU_Init(SwICU_EdgeRising);
+// 	
+// 	while(1)
+// 	{
+// 		/* A software delay of 200 milliseconds to avoid leds flickering */
+// 		softwareDelayMs(200);
+// 		
+// 		/* When the previous operation is done */
+// 		if(gu8_swIcuFlag)
+// 		{
+// 			/* An equation to calculate the distance */
+// 			u8_swIcuDistance = gu8_swIcuRead * 0.544;
+// 			
+// 			/* Send the trigger signal each time the previous wave is read */
+// 			WAVE_SEND();
+// 			
+// 			/* clear the flag when the trigger signal is sent */
+// 			gu8_swIcuFlag = 0;
+// 		}
+// 		
+// 		/* Displays the distance on the leds as binary */
+// 		PORTB_DATA = (PORTB_DATA & 0x0F) | (u8_swIcuDistance << 4);
+// 	}
+// }
 
 
 

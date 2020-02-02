@@ -162,7 +162,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x2de0
+.text           0x00000000     0x2f7e
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
                 0x00000000                __vectors
@@ -264,260 +264,260 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text          0x00000be0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clz.o)
                 0x00000be0                . = ALIGN (0x2)
  *(.text.*)
- .text.main     0x00000be0       0xd2 ./Applications.o
+ .text.main     0x00000be0       0xc2 ./Applications.o
                 0x00000be0                main
  .text.HwPWMInit
-                0x00000cb2       0xc8 ./HwPWM.o
-                0x00000cb2                HwPWMInit
+                0x00000ca2       0xc8 ./HwPWM.o
+                0x00000ca2                HwPWMInit
  .text.HwPWMSetDuty
-                0x00000d7a      0x156 ./HwPWM.o
-                0x00000d7a                HwPWMSetDuty
+                0x00000d6a      0x156 ./HwPWM.o
+                0x00000d6a                HwPWMSetDuty
  .text.SwICU_Init
-                0x00000ed0       0x64 ./SwICU.o
-                0x00000ed0                SwICU_Init
+                0x00000ec0       0x64 ./SwICU.o
+                0x00000ec0                SwICU_Init
  .text.SwICU_GetCfgEdge
-                0x00000f34       0x10 ./SwICU.o
-                0x00000f34                SwICU_GetCfgEdge
+                0x00000f24       0x10 ./SwICU.o
+                0x00000f24                SwICU_GetCfgEdge
  .text.SwICU_SetCfgEdge
-                0x00000f44       0x28 ./SwICU.o
-                0x00000f44                SwICU_SetCfgEdge
+                0x00000f34       0x28 ./SwICU.o
+                0x00000f34                SwICU_SetCfgEdge
  .text.SwICU_Read
-                0x00000f6c       0x22 ./SwICU.o
-                0x00000f6c                SwICU_Read
+                0x00000f5c       0x22 ./SwICU.o
+                0x00000f5c                SwICU_Read
  .text.SwICU_Stop
-                0x00000f8e       0x12 ./SwICU.o
-                0x00000f8e                SwICU_Stop
+                0x00000f7e       0x12 ./SwICU.o
+                0x00000f7e                SwICU_Stop
  .text.SwICU_Start
-                0x00000fa0       0x12 ./SwICU.o
-                0x00000fa0                SwICU_Start
+                0x00000f90       0x12 ./SwICU.o
+                0x00000f90                SwICU_Start
  .text.SwICU_Enable
-                0x00000fb2        0xe ./SwICU.o
-                0x00000fb2                SwICU_Enable
+                0x00000fa2        0xe ./SwICU.o
+                0x00000fa2                SwICU_Enable
  .text.SwICU_Disable
-                0x00000fc0        0xe ./SwICU.o
-                0x00000fc0                SwICU_Disable
+                0x00000fb0        0xe ./SwICU.o
+                0x00000fb0                SwICU_Disable
  .text.MotorDC_Init
-                0x00000fce       0x8a ./dcMotor.o
-                0x00000fce                MotorDC_Init
+                0x00000fbe       0x8a ./dcMotor.o
+                0x00000fbe                MotorDC_Init
  .text.MotorDC_Dir
-                0x00001058      0x102 ./dcMotor.o
-                0x00001058                MotorDC_Dir
+                0x00001048      0x102 ./dcMotor.o
+                0x00001048                MotorDC_Dir
  .text.MotorDC_Speed_PollingWithT0
-                0x0000115a       0x1c ./dcMotor.o
-                0x0000115a                MotorDC_Speed_PollingWithT0
+                0x0000114a       0x1c ./dcMotor.o
+                0x0000114a                MotorDC_Speed_PollingWithT0
  .text.MotorDC_Speed_HwPWM
-                0x00001176       0x14 ./dcMotor.o
-                0x00001176                MotorDC_Speed_HwPWM
+                0x00001166       0x14 ./dcMotor.o
+                0x00001166                MotorDC_Speed_HwPWM
  .text.gpioPortDirection
-                0x0000118a       0x82 ./gpio.o
-                0x0000118a                gpioPortDirection
+                0x0000117a       0x82 ./gpio.o
+                0x0000117a                gpioPortDirection
  .text.gpioPortWrite
-                0x0000120c       0x82 ./gpio.o
-                0x0000120c                gpioPortWrite
+                0x000011fc       0x82 ./gpio.o
+                0x000011fc                gpioPortWrite
  .text.gpioPortToggle
-                0x0000128e       0x96 ./gpio.o
-                0x0000128e                gpioPortToggle
+                0x0000127e       0x96 ./gpio.o
+                0x0000127e                gpioPortToggle
  .text.gpioPortRead
-                0x00001324       0x88 ./gpio.o
-                0x00001324                gpioPortRead
+                0x00001314       0x88 ./gpio.o
+                0x00001314                gpioPortRead
  .text.gpioPinDirection
-                0x000013ac       0xd8 ./gpio.o
-                0x000013ac                gpioPinDirection
+                0x0000139c       0xd8 ./gpio.o
+                0x0000139c                gpioPinDirection
  .text.gpioPinWrite
-                0x00001484       0xd8 ./gpio.o
-                0x00001484                gpioPinWrite
+                0x00001474       0xd8 ./gpio.o
+                0x00001474                gpioPinWrite
  .text.gpioPinToggle
-                0x0000155c       0xa2 ./gpio.o
-                0x0000155c                gpioPinToggle
+                0x0000154c       0xa2 ./gpio.o
+                0x0000154c                gpioPinToggle
  .text.gpioPinRead
-                0x000015fe       0xde ./gpio.o
-                0x000015fe                gpioPinRead
+                0x000015ee       0xde ./gpio.o
+                0x000015ee                gpioPinRead
  .text.__vector_1
-                0x000016dc       0x22 ./interrupt.o
-                0x000016dc                __vector_1
+                0x000016cc       0x22 ./interrupt.o
+                0x000016cc                __vector_1
  .text.__vector_2
-                0x000016fe       0x22 ./interrupt.o
-                0x000016fe                __vector_2
+                0x000016ee       0x22 ./interrupt.o
+                0x000016ee                __vector_2
  .text.__vector_3
-                0x00001720       0x9a ./interrupt.o
-                0x00001720                __vector_3
+                0x00001710       0x9a ./interrupt.o
+                0x00001710                __vector_3
  .text.__vector_10
-                0x000017ba      0x1d0 ./interrupt.o
-                0x000017ba                __vector_10
+                0x000017aa      0x1d0 ./interrupt.o
+                0x000017aa                __vector_10
  .text.__vector_11
-                0x0000198a       0x22 ./interrupt.o
-                0x0000198a                __vector_11
+                0x0000197a       0x22 ./interrupt.o
+                0x0000197a                __vector_11
  .text.__vector_6
-                0x000019ac       0x22 ./interrupt.o
-                0x000019ac                __vector_6
+                0x0000199c       0x22 ./interrupt.o
+                0x0000199c                __vector_6
  .text.__vector_7
-                0x000019ce       0x22 ./interrupt.o
-                0x000019ce                __vector_7
+                0x000019be      0x1d0 ./interrupt.o
+                0x000019be                __vector_7
  .text.__vector_8
-                0x000019f0       0x22 ./interrupt.o
-                0x000019f0                __vector_8
+                0x00001b8e       0x22 ./interrupt.o
+                0x00001b8e                __vector_8
  .text.__vector_9
-                0x00001a12       0x22 ./interrupt.o
-                0x00001a12                __vector_9
+                0x00001bb0       0x22 ./interrupt.o
+                0x00001bb0                __vector_9
  .text.__vector_4
-                0x00001a34      0x1d8 ./interrupt.o
-                0x00001a34                __vector_4
+                0x00001bd2      0x1d8 ./interrupt.o
+                0x00001bd2                __vector_4
  .text.__vector_5
-                0x00001c0c       0x22 ./interrupt.o
-                0x00001c0c                __vector_5
+                0x00001daa       0x22 ./interrupt.o
+                0x00001daa                __vector_5
  .text.__vector_12
-                0x00001c2e       0x22 ./interrupt.o
-                0x00001c2e                __vector_12
+                0x00001dcc       0x22 ./interrupt.o
+                0x00001dcc                __vector_12
  .text.__vector_13
-                0x00001c50       0x22 ./interrupt.o
-                0x00001c50                __vector_13
+                0x00001dee       0x22 ./interrupt.o
+                0x00001dee                __vector_13
  .text.__vector_14
-                0x00001c72       0x22 ./interrupt.o
-                0x00001c72                __vector_14
+                0x00001e10       0x22 ./interrupt.o
+                0x00001e10                __vector_14
  .text.__vector_15
-                0x00001c94       0x22 ./interrupt.o
-                0x00001c94                __vector_15
+                0x00001e32       0x22 ./interrupt.o
+                0x00001e32                __vector_15
  .text.__vector_16
-                0x00001cb6       0x22 ./interrupt.o
-                0x00001cb6                __vector_16
+                0x00001e54       0x22 ./interrupt.o
+                0x00001e54                __vector_16
  .text.__vector_17
-                0x00001cd8       0x22 ./interrupt.o
-                0x00001cd8                __vector_17
+                0x00001e76       0x22 ./interrupt.o
+                0x00001e76                __vector_17
  .text.__vector_18
-                0x00001cfa       0x22 ./interrupt.o
-                0x00001cfa                __vector_18
+                0x00001e98       0x22 ./interrupt.o
+                0x00001e98                __vector_18
  .text.__vector_19
-                0x00001d1c       0x22 ./interrupt.o
-                0x00001d1c                __vector_19
+                0x00001eba       0x22 ./interrupt.o
+                0x00001eba                __vector_19
  .text.__vector_20
-                0x00001d3e       0x22 ./interrupt.o
-                0x00001d3e                __vector_20
+                0x00001edc       0x22 ./interrupt.o
+                0x00001edc                __vector_20
  .text.Led_Init
-                0x00001d60       0x86 ./led.o
-                0x00001d60                Led_Init
- .text.Led_On   0x00001de6       0x86 ./led.o
-                0x00001de6                Led_On
- .text.Led_Off  0x00001e6c       0x86 ./led.o
-                0x00001e6c                Led_Off
+                0x00001efe       0x86 ./led.o
+                0x00001efe                Led_Init
+ .text.Led_On   0x00001f84       0x86 ./led.o
+                0x00001f84                Led_On
+ .text.Led_Off  0x0000200a       0x86 ./led.o
+                0x0000200a                Led_Off
  .text.Led_Toggle
-                0x00001ef2       0x7e ./led.o
-                0x00001ef2                Led_Toggle
+                0x00002090       0x7e ./led.o
+                0x00002090                Led_Toggle
  .text.pushButtonInit
-                0x00001f70       0x4e ./pushButton.o
-                0x00001f70                pushButtonInit
+                0x0000210e       0x4e ./pushButton.o
+                0x0000210e                pushButtonInit
  .text.pushButtonUpdate
-                0x00001fbe        0xe ./pushButton.o
-                0x00001fbe                pushButtonUpdate
+                0x0000215c        0xe ./pushButton.o
+                0x0000215c                pushButtonUpdate
  .text.pushButtonGetStatus
-                0x00001fcc       0xd0 ./pushButton.o
-                0x00001fcc                pushButtonGetStatus
+                0x0000216a       0xd0 ./pushButton.o
+                0x0000216a                pushButtonGetStatus
  .text.sevenSegInit
-                0x0000209c       0x96 ./sevenSeg.o
-                0x0000209c                sevenSegInit
+                0x0000223a       0x96 ./sevenSeg.o
+                0x0000223a                sevenSegInit
  .text.sevenSegEnable
-                0x00002132       0x5a ./sevenSeg.o
-                0x00002132                sevenSegEnable
+                0x000022d0       0x5a ./sevenSeg.o
+                0x000022d0                sevenSegEnable
  .text.sevenSegDisable
-                0x0000218c       0x56 ./sevenSeg.o
-                0x0000218c                sevenSegDisable
+                0x0000232a       0x56 ./sevenSeg.o
+                0x0000232a                sevenSegDisable
  .text.sevenSegWrite
-                0x000021e2       0x6a ./sevenSeg.o
-                0x000021e2                sevenSegWrite
+                0x00002380       0x6a ./sevenSeg.o
+                0x00002380                sevenSegWrite
  .text.softwareDelayMs
-                0x0000224c       0xb2 ./softwareDelay.o
-                0x0000224c                softwareDelayMs
+                0x000023ea       0xb2 ./softwareDelay.o
+                0x000023ea                softwareDelayMs
  .text.timer0Init
-                0x000022fe       0x94 ./timers.o
-                0x000022fe                timer0Init
+                0x0000249c       0x94 ./timers.o
+                0x0000249c                timer0Init
  .text.timer0Set
-                0x00002392       0x1c ./timers.o
-                0x00002392                timer0Set
+                0x00002530       0x1c ./timers.o
+                0x00002530                timer0Set
  .text.timer0Read
-                0x000023ae       0x14 ./timers.o
-                0x000023ae                timer0Read
+                0x0000254c       0x14 ./timers.o
+                0x0000254c                timer0Read
  .text.timer0Start
-                0x000023c2       0x2a ./timers.o
-                0x000023c2                timer0Start
+                0x00002560       0x2a ./timers.o
+                0x00002560                timer0Start
  .text.timer0Stop
-                0x000023ec       0x1c ./timers.o
-                0x000023ec                timer0Stop
+                0x0000258a       0x1c ./timers.o
+                0x0000258a                timer0Stop
  .text.timer0DelayMs
-                0x00002408       0x76 ./timers.o
-                0x00002408                timer0DelayMs
+                0x000025a6       0x76 ./timers.o
+                0x000025a6                timer0DelayMs
  .text.timer0DelayUs
-                0x0000247e       0xb6 ./timers.o
-                0x0000247e                timer0DelayUs
+                0x0000261c       0xb6 ./timers.o
+                0x0000261c                timer0DelayUs
  .text.timer0SwPWM
-                0x00002534       0xb8 ./timers.o
-                0x00002534                timer0SwPWM
+                0x000026d2       0xb8 ./timers.o
+                0x000026d2                timer0SwPWM
  .text.timer1Init
-                0x000025ec       0xd4 ./timers.o
-                0x000025ec                timer1Init
+                0x0000278a       0xd4 ./timers.o
+                0x0000278a                timer1Init
  .text.timer1Set
-                0x000026c0       0x24 ./timers.o
-                0x000026c0                timer1Set
+                0x0000285e       0x24 ./timers.o
+                0x0000285e                timer1Set
  .text.timer1Read
-                0x000026e4       0x16 ./timers.o
-                0x000026e4                timer1Read
+                0x00002882       0x16 ./timers.o
+                0x00002882                timer1Read
  .text.timer1Start
-                0x000026fa       0x2c ./timers.o
-                0x000026fa                timer1Start
+                0x00002898       0x2c ./timers.o
+                0x00002898                timer1Start
  .text.timer1Stop
-                0x00002726       0x1c ./timers.o
-                0x00002726                timer1Stop
+                0x000028c4       0x1c ./timers.o
+                0x000028c4                timer1Stop
  .text.timer1DelayMs
-                0x00002742       0xa6 ./timers.o
-                0x00002742                timer1DelayMs
+                0x000028e0       0xa6 ./timers.o
+                0x000028e0                timer1DelayMs
  .text.timer1DelayUs
-                0x000027e8       0xe0 ./timers.o
-                0x000027e8                timer1DelayUs
+                0x00002986       0xe0 ./timers.o
+                0x00002986                timer1DelayUs
  .text.timer1SwPWM
-                0x000028c8       0xde ./timers.o
-                0x000028c8                timer1SwPWM
+                0x00002a66       0xde ./timers.o
+                0x00002a66                timer1SwPWM
  .text.timer2Init
-                0x000029a6       0xa0 ./timers.o
-                0x000029a6                timer2Init
+                0x00002b44       0xa0 ./timers.o
+                0x00002b44                timer2Init
  .text.timer2Set
-                0x00002a46       0x1c ./timers.o
-                0x00002a46                timer2Set
+                0x00002be4       0x1c ./timers.o
+                0x00002be4                timer2Set
  .text.timer2Read
-                0x00002a62       0x14 ./timers.o
-                0x00002a62                timer2Read
+                0x00002c00       0x14 ./timers.o
+                0x00002c00                timer2Read
  .text.timer2Start
-                0x00002a76       0x2a ./timers.o
-                0x00002a76                timer2Start
+                0x00002c14       0x2a ./timers.o
+                0x00002c14                timer2Start
  .text.timer2Stop
-                0x00002aa0       0x1c ./timers.o
-                0x00002aa0                timer2Stop
+                0x00002c3e       0x1c ./timers.o
+                0x00002c3e                timer2Stop
  .text.timer2DelayMs
-                0x00002abc       0x7c ./timers.o
-                0x00002abc                timer2DelayMs
+                0x00002c5a       0x7c ./timers.o
+                0x00002c5a                timer2DelayMs
  .text.timer2DelayUs
-                0x00002b38       0xb4 ./timers.o
-                0x00002b38                timer2DelayUs
+                0x00002cd6       0xb4 ./timers.o
+                0x00002cd6                timer2DelayUs
  .text.timer2SwPWM
-                0x00002bec       0xc0 ./timers.o
-                0x00002bec                timer2SwPWM
- .text.libgcc   0x00002cac       0x3e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
-                0x00002cac                __mulsi3
- .text.libgcc   0x00002cea       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
-                0x00002cea                __udivmodqi4
- .text.libgcc   0x00002d02       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
-                0x00002d02                __udivmodhi4
- .text.libgcc   0x00002d2a       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x00002d2a                __udivmodsi4
- .text.libgcc   0x00002d6e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00002d6e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x00002d6e        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x00002d6e       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x00002d6e                __prologue_saves__
- .text.libgcc   0x00002da6       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x00002da6                __epilogue_restores__
-                0x00002ddc                . = ALIGN (0x2)
+                0x00002d8a       0xc0 ./timers.o
+                0x00002d8a                timer2SwPWM
+ .text.libgcc   0x00002e4a       0x3e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                0x00002e4a                __mulsi3
+ .text.libgcc   0x00002e88       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+                0x00002e88                __udivmodqi4
+ .text.libgcc   0x00002ea0       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x00002ea0                __udivmodhi4
+ .text.libgcc   0x00002ec8       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x00002ec8                __udivmodsi4
+ .text.libgcc   0x00002f0c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00002f0c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00002f0c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00002f0c       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00002f0c                __prologue_saves__
+ .text.libgcc   0x00002f44       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x00002f44                __epilogue_restores__
+                0x00002f7a                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00002ddc        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00002ddc                exit
-                0x00002ddc                _exit
+ .fini9         0x00002f7a        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00002f7a                exit
+                0x00002f7a                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -536,11 +536,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00002ddc        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00002f7a        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00002de0                _etext = .
+                0x00002f7e                _etext = .
 
-.data           0x00800060      0x10a load address 0x00002de0
+.data           0x00800060      0x10a load address 0x00002f7e
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
@@ -651,8 +651,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00800176        0x1 ./timers.o
  *(COMMON)
                 0x00800177                PROVIDE (__bss_end, .)
-                0x00002de0                __data_load_start = LOADADDR (.data)
-                0x00002eea                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00002f7e                __data_load_start = LOADADDR (.data)
+                0x00003088                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800177        0x0
                 0x00800177                PROVIDE (__noinit_start, .)
@@ -677,28 +677,28 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .signature
  *(.signature*)
 
-.stab           0x00000000     0x31f8
+.stab           0x00000000     0x3318
  *(.stab)
- .stab          0x00000000      0x51c ./Applications.o
- .stab          0x0000051c      0x294 ./HwPWM.o
+ .stab          0x00000000      0x4e0 ./Applications.o
+ .stab          0x000004e0      0x294 ./HwPWM.o
                                 0x474 (size before relaxing)
- .stab          0x000007b0      0x30c ./SwICU.o
+ .stab          0x00000774      0x30c ./SwICU.o
                                 0x51c (size before relaxing)
- .stab          0x00000abc      0x384 ./dcMotor.o
+ .stab          0x00000a80      0x384 ./dcMotor.o
                                 0x5ac (size before relaxing)
- .stab          0x00000e40      0x570 ./gpio.o
+ .stab          0x00000e04      0x570 ./gpio.o
                                 0x624 (size before relaxing)
- .stab          0x000013b0      0x738 ./interrupt.o
-                                0x978 (size before relaxing)
- .stab          0x00001ae8      0x2ac ./led.o
+ .stab          0x00001374      0x894 ./interrupt.o
+                                0xad4 (size before relaxing)
+ .stab          0x00001c08      0x2ac ./led.o
                                 0x384 (size before relaxing)
- .stab          0x00001d94      0x294 ./pushButton.o
+ .stab          0x00001eb4      0x294 ./pushButton.o
                                 0x384 (size before relaxing)
- .stab          0x00002028      0x318 ./sevenSeg.o
+ .stab          0x00002148      0x318 ./sevenSeg.o
                                 0x3f0 (size before relaxing)
- .stab          0x00002340      0x18c ./softwareDelay.o
+ .stab          0x00002460      0x18c ./softwareDelay.o
                                 0x228 (size before relaxing)
- .stab          0x000024cc      0xd2c ./timers.o
+ .stab          0x000025ec      0xd2c ./timers.o
                                 0xf18 (size before relaxing)
 
 .stabstr        0x00000000     0x1984
