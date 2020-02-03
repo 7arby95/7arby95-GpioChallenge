@@ -21,7 +21,7 @@
 /*- LOCAL MACROS -------------------------------------------*/
 
 #define MOT_FREQ			100
-#define OBSTACLE_DISTANCE	15
+#define OBSTACLE_DISTANCE	20
 
 /*- FUNCTION-LIKE MACROS -----------------------------------*/
 
@@ -30,6 +30,14 @@
 	timer2DelayMs(1); \
 	gpioPinWrite(GPIOD, BIT0, LOW); \
 }
+
+/*- ENUMS --------------------------------------------------*/
+
+typedef enum En_GpioReq9State_t{
+	GO,
+	STOP1,
+	GET_READY
+}En_GpioReq9State_t;
 
 /*- GLOBAL EXTERN VARIABLES --------------------------------*/
 
@@ -42,9 +50,9 @@ extern uint8_t gu8_swIcuFlag;
 
 /* ICU 4 leds application */
 
-
 // int main(void)
 // {
+// 	
 // 	/* A variable to store the distance between the ultrasonic sensor and the obstacle */
 // 	uint8_t u8_swIcuDistance = 0;
 // 	
@@ -66,7 +74,7 @@ extern uint8_t gu8_swIcuFlag;
 // 		if(gu8_swIcuFlag)
 // 		{
 // 			/* An equation to calculate the distance */
-// 			u8_swIcuDistance = gu8_swIcuRead * 0.544;
+// 			u8_swIcuDistance = gu8_swIcuRead * 0.272;
 // 			
 // 			/* Send the trigger signal each time the previous wave is read */
 // 			WAVE_SEND();
@@ -101,7 +109,7 @@ int main(void)
 	SwICU_Init(SwICU_EdgeRising);
 
 	/* Sets the duty cycle to the required value */
-	u8_dutyCycle = 20;
+	u8_dutyCycle = 50;
 	
 	/* Initializes the PWM signal at a suitable frequency and duty cycle */
 	HwPWMInit();
@@ -115,7 +123,7 @@ int main(void)
 		if(gu8_swIcuFlag)
 		{
 			/* An equation to calculate the distance */
-			u8_swIcuDistance = gu8_swIcuRead * 0.544;
+			u8_swIcuDistance = gu8_swIcuRead * 0.272;
 			
 			/* If condition to stop the car in case of an obstacle ahead */
 			if(u8_swIcuDistance <= OBSTACLE_DISTANCE)
@@ -137,15 +145,6 @@ int main(void)
 	}
 }
 
-/*- ENUMS --------------------------------------------------*/
-
-/*
-typedef enum En_GpioReq9State_t{
-	GO,
-	STOP,
-	GET_READY
-}En_GpioReq9State_t;
-*/
 
 /*- APIs PROTOTYPES ----------------------------------------*/
 
@@ -155,127 +154,126 @@ typedef enum En_GpioReq9State_t{
 
 /*- APIs IMPLEMENTATION ------------------------------------*/
 
-/*
-void GPIO_REQ7(void)
-{
-	uint8_t u8_countUpCounter = 0;
-	uint32_t u32_delayCounter = 0;
 
-	sevenSegInit(SEG_0);
-	sevenSegInit(SEG_1);
+// void GPIO_REQ7(void)
+// {
+// 	uint8_t u8_countUpCounter = 0;
+// 	uint32_t u32_delayCounter = 0;
+// 
+// 	sevenSegInit(SEG_0);
+// 	sevenSegInit(SEG_1);
+// 
+// 	while(1)
+// 	{
+// 		while(u8_countUpCounter <= 99)
+// 		{
+// 			sevenSegEnable(SEG_0);
+// 			sevenSegWrite(SEG_0, ((u8_countUpCounter / 10) % 10));
+// 			softwareDelayMs(1);
+// 			sevenSegDisable(SEG_0);
+// 
+// 			sevenSegEnable(SEG_1);
+// 			sevenSegWrite(SEG_1, (u8_countUpCounter % 10));
+// 			softwareDelayMs(1);
+// 			sevenSegDisable(SEG_1);
+// 
+// 			u32_delayCounter++;
+// 
+// 			if(u32_delayCounter % 469 == 0)
+// 				u8_countUpCounter++;
+// 		}
+// 	}
+// }
 
-	while(1)
-	{
-		while(u8_countUpCounter <= 99)
-		{
-			sevenSegEnable(SEG_0);
-			sevenSegWrite(SEG_0, ((u8_countUpCounter / 10) % 10));
-			softwareDelayMs(1);
-			sevenSegDisable(SEG_0);
 
-			sevenSegEnable(SEG_1);
-			sevenSegWrite(SEG_1, (u8_countUpCounter % 10));
-			softwareDelayMs(1);
-			sevenSegDisable(SEG_1);
+// void GPIO_REQ8(void)
+// {
+// 	uint8_t u8_appCounter = 0, u8_delayDivider = 20;
+// 
+// 	Led_Init(LED_1);
+// 	pushButtonInit(BTN_1);
+// 
+// 	while(1)
+// 	{
+// 		u8_delayDivider = 20;
+// 		if(pushButtonGetStatus(BTN_1) == Pressed)
+// 		{
+// 			while(pushButtonGetStatus(BTN_1) != Released);
+// 			u8_appCounter++;
+// 			while(u8_appCounter > 0)
+// 			{
+// 				Led_On(LED_1);
+// 				while(u8_delayDivider > 0)
+// 				{
+// 					softwareDelayMs(49);
+// 					if(pushButtonGetStatus(BTN_1) == Pressed)
+// 					{
+// 						softwareDelayMs(300);
+// 						u8_delayDivider += 14;
+// 					}
+// 					u8_delayDivider--;
+// 				}
+// 				Led_Off(LED_1);
+// 				u8_appCounter--;
+// 			}
+// 			break;
+// 		}
+// 	}
+// }
 
-			u32_delayCounter++;
 
-			if(u32_delayCounter % 469 == 0)
-				u8_countUpCounter++;
-		}
-	}
-}
-*/
 
-/*
-void GPIO_REQ8(void)
-{
-	uint8_t u8_appCounter = 0, u8_delayDivider = 20;
+// void GPIO_REQ9(void)
+// {
+// 	uint8_t u8_currentState = GO;
+// 
+// 	Led_Init(LED_1);
+// 	Led_Init(LED_2);
+// 	Led_Init(LED_3);
+// 
+// 	while(1)
+// 	{
+// 		switch(u8_currentState)
+// 		{
+// 		case GO:
+// 			Led_On(LED_1);
+// 			Led_Off(LED_2);
+// 			Led_Off(LED_3);
+// 			u8_currentState = STOP1;
+// 			break;
+// 		case STOP1:
+// 			Led_Off(LED_1);
+// 			Led_On(LED_2);
+// 			Led_Off(LED_3);
+// 			u8_currentState = GET_READY;
+// 			break;
+// 		case GET_READY:
+// 			Led_Off(LED_1);
+// 			Led_Off(LED_2);
+// 			Led_On(LED_3);
+// 			u8_currentState = GO;
+// 			break;
+// 		}
+// 		softwareDelayMs(1000);
+// 	}
+// }
 
-	Led_Init(LED_1);
-	pushButtonInit(BTN_1);
 
-	while(1)
-	{
-		u8_delayDivider = 20;
-		if(pushButtonGetStatus(BTN_1) == Pressed)
-		{
-			while(pushButtonGetStatus(BTN_1) != Released);
-			u8_appCounter++;
-			while(u8_appCounter > 0)
-			{
-				Led_On(LED_1);
-				while(u8_delayDivider > 0)
-				{
-					softwareDelayMs(49);
-					if(pushButtonGetStatus(BTN_1) == Pressed)
-					{
-						softwareDelayMs(300);
-						u8_delayDivider += 14;
-					}
-					u8_delayDivider--;
-				}
-				Led_Off(LED_1);
-				u8_appCounter--;
-			}
-			break;
-		}
-	}
-}
-*/
-
-/*
-void GPIO_REQ9(void)
-{
-	uint8_t u8_currentState = GO;
-
-	Led_Init(LED_1);
-	Led_Init(LED_2);
-	Led_Init(LED_3);
-
-	while(1)
-	{
-		switch(u8_currentState)
-		{
-		case GO:
-			Led_On(LED_1);
-			Led_Off(LED_2);
-			Led_Off(LED_3);
-			u8_currentState = STOP;
-			break;
-		case STOP:
-			Led_Off(LED_1);
-			Led_On(LED_2);
-			Led_Off(LED_3);
-			u8_currentState = GET_READY;
-			break;
-		case GET_READY:
-			Led_Off(LED_1);
-			Led_Off(LED_2);
-			Led_On(LED_3);
-			u8_currentState = GO;
-			break;
-		}
-		softwareDelayMs(1000);
-	}
-}
-*/
-
-/*
- * MotorDC_Init(MOT_1);
-	MotorDC_Init(MOT_2);
-	
-	gu8_dutyCycle = 0;
-
-	MotorDC_Speed_PollingWithT0(gu8_dutyCycle);
-
-	while(1)
-	{
-		if(gu8_completionFlag == 1)
-		{
-			softwareDelayMs(500);
-			MotorDC_Dir(MOT_1, STOP);
-			MotorDC_Dir(MOT_2, STOP);
-		}
-	}
- */
+// int main(void){
+// 	MotorDC_Init(MOT_1);
+// 	MotorDC_Init(MOT_2);
+// 	
+// 	gu8_dutyCycle = 0;
+// 
+// 	MotorDC_Speed_PollingWithT0(gu8_dutyCycle);
+// 
+// 	while(1)
+// 	{
+// 		if(gu8_completionFlag == 1)
+// 		{
+// 			softwareDelayMs(500);
+// 			MotorDC_Dir(MOT_1, STOP);
+// 			MotorDC_Dir(MOT_2, STOP);
+// 		}
+// 	}
+// }
